@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SU7 Ultra 详情</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #444;
+            color: darkred;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .main-content {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            background-color: #fff;
+        }
+
+        .car-display {
+            width: 60%;
+            text-align: center;
+        }
+
+        .car-display img {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .product-options {
+            width: 35%;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .product-options h2 {
+            text-align: center;
+            color: #444;
+        }
+
+        .color-selection, .wheels-selection, .interior-selection {
+            margin: 20px 0;
+        }
+
+        .option-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .color-selection div, .wheels-selection div, .interior-selection div {
+            display: inline-block;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .color-selection img, .wheels-selection img, .interior-selection img {
+            width: 60px;
+            height: 40px;
+            border-radius: 5px;
+            border: 2px solid transparent;
+        }
+
+        .color-selection img:hover, .wheels-selection img:hover, .interior-selection img:hover {
+            border-color: #ff6700;
+        }
+
+        .price {
+            font-size: 24px;
+            color: #ff6700;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .cta-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #ff6700;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 30px;
+        }
+
+        .cta-btn:hover {
+            background-color: #f25600;
+        }
+
+        /* 返回按钮的样式 */
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #444;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>小米 SU7 Ultra 详情</h1>
+</div>
+
+<div class="main-content">
+    <!-- 左侧车身展示 -->
+    <div class="car-display">
+        <img src="前.png" alt="前视角" id="car-display"> <!-- 默认显示前视角 -->
+        <div>
+            <button onclick="changeView('front')">前视角</button>
+            <button onclick="changeView('side')">侧视角</button>
+            <button onclick="changeView('rear')">后视角</button>
+        </div>
+    </div>
+
+    <!-- 右侧选项展示 -->
+    <div class="product-options">
+        <h2>选择你的配置</h2>
+
+        <!-- 车身颜色选择 -->
+        <div class="color-selection">
+            <div>
+                <img src="黄.png" alt="闪电黄" onclick="selectColor('yellow')">
+                <p>闪电黄</p>
+            </div>
+            <div>
+                <img src="白.png" alt="珍珠白" onclick="selectColor('white')">
+                <p>珍珠白</p>
+            </div>
+            <div>
+                <img src="银.png" alt="太空银" onclick="selectColor('gray')">
+                <p>太空银</p>
+            </div>
+            <div>
+                <img src="绿.png" alt="霓虹绿" onclick="selectColor('green')">
+                <p>霓虹绿</p>
+            </div>
+        </div>
+
+        <!-- 车轮选择 -->
+        <div class="wheels-selection">
+            <div>
+                <img src="轮毂1.png" alt="轮毂1" onclick="selectWheels('wheel1')">
+                <p>轮毂1</p>
+            </div>
+            <div>
+                <img src="轮毂2.png" alt="轮毂2" onclick="selectWheels('wheel2')">
+                <p>轮毂2</p>
+            </div>
+        </div>
+
+        <!-- 内饰选择 -->
+        <div class="interior-selection">
+            <div>
+                <img src="内饰1.png" alt="内饰1" onclick="selectInterior('interior1')">
+                <p>内饰1</p>
+            </div>
+            <div>
+                <img src="内饰2.png" alt="内饰2" onclick="selectInterior('interior2')">
+                <p>内饰2</p>
+            </div>
+        </div>
+
+        <!-- 显示价格 -->
+        <div class="price">
+            ¥538,900 <span style="text-decoration: line-through; color: #999;">¥596,900</span>
+        </div>
+
+        <!-- 购买按钮 -->
+        <a href="#" class="cta-btn">立即购买</a>
+
+        <!-- 返回按钮 -->
+        <a href="javascript:window.history.back();" class="back-btn">返回上一页</a>
+    </div>
+</div>
+
+<script>
+    function changeView(view) {
+        var carDisplay = document.getElementById('car-display');
+        if (view === 'front') {
+            carDisplay.src = '前.png'; // 替换为前视图图片路径
+        } else if (view === 'side') {
+            carDisplay.src = '侧.png'; // 替换为侧视图图片路径
+        } else if (view === 'rear') {
+            carDisplay.src = '后.png'; // 替换为后视图图片路径
+        }
+    }
+
+    function selectColor(color) {
+        console.log('选择颜色: ' + color);
+        // 在此更新显示的车身颜色
+    }
+
+    function selectWheels(wheel) {
+        console.log('选择车轮: ' + wheel);
+        // 在此更新显示的车轮
+    }
+
+    function selectInterior(interior) {
+        console.log('选择内饰: ' + interior);
+        // 在此更新显示的内饰
+    }
+</script>
+
+</body>
+</html>
