@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>换装游戏 - 没米商城</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* 渐变背景 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: #444;
+            color: darkred;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 2;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header a {
+            color: lightblue;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        #gameContainer {
+            margin-top: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        #canvasContainer {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #gameCanvas {
+            border: 2px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        #controls {
+            margin-left: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+
+        .category {
+            margin-bottom: 20px;
+        }
+
+        .category h3 {
+            margin: 0 0 10px;
+            color: #444;
+            font-size: 18px;
+        }
+
+        .option-btn {
+            background-color: #ff8c94;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: #ff6b6b;
+            transform: scale(1.05);
+        }
+
+        #randomButton, #saveButton {
+            background-color: #6b7280;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        #randomButton:hover, #saveButton:hover {
+            background-color: #4b5563;
+        }
+
+        #savedOutfits {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #savedOutfits h3 {
+            color: #444;
+            font-size: 18px;
+        }
+
+        .saved-outfit {
+            width: 100px;
+            height: 150px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <a href="index.html">返回首页</a>
+    <a href="account.html">账号管理</a>
+</div>
+
+<div id="gameContainer">
+    <div id="canvasContainer">
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+    </div>
+    <div id="controls">
+        <div class="category">
+            <h3>衣服</h3>
+            <button class="option-btn" data-type="clothes" data-id="0">休闲装</button>
+            <button class="option-btn" data-type="clothes" data-id="1">礼服</button>
+            <button class="option-btn" data-type="clothes" data-id="2">运动装</button>
+        </div>
+        <div class="category">
+            <h3>发型</h3>
+            <button class="option-btn" data-type="hair" data-id="0">短发</button>
+            <button class="option-btn" data-type="hair" data-id="1">长卷发</button>
+            <button class="option-btn" data-type="hair" data-id="2">马尾</button>
+        </div>
+        <div class="category">
+            <h3>配饰</h3>
+            <button class="option-btn" data-type="accessory" data-id="0">无</button>
+            <button class="option-btn" data-type="accessory" data-id="1">项链</button>
+            <button class="option-btn" data-type="accessory" data-id="2">帽子</button>
+        </div>
+        <button id="randomButton">随机搭配</button>
+        <button id="saveButton">保存搭配</button>
+    </div>
+</div>
+<div id="savedOutfits">
+    <h3>已保存的搭配</h3>
+    <div id="savedOutfitsList"></div>
+</div>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const savedOutfitsList = document.getElementById('savedOutfitsList');
+
+    // 角色基础图像和服饰数据
+    const character = {
+        base: new Image(),
+        clothes: null,
+        hair: null,
+        accessory: null
+    };
+    character.base.src = 'base-character.png'; // 假设的基础角色图像
+
+    const items = {
+        clothes: [
+            { id: 0, src: 'clothes-casual.png', name: '休闲装' },
+            { id: 1, src: 'clothes-dress.png', name: '礼服' },
+            { id: 2, src: 'clothes-sport.png', name: '运动装' }
+        ],
+        hair: [
+            { id: 0, src: 'hair-short.png', name: '短发' },
+            { id: 1, src: 'hair-long.png', name: '长卷发' },
+            { id: 2, src: 'hair-ponytail.png', name: '马尾' }
+        ],
+        accessory: [
+            { id: 0, src: null, name: '无' },
+            { id: 1, src: 'accessory-necklace.png', name: '项链' },
+            { id: 2, src: 'accessory-hat.png', name: '帽子' }
+        ]
+    };
+
+    // 初始化角色状态
+    let currentOutfit = {
+        clothes: 0,
+        hair: 0,
+        accessory: 0
+    };
+
+    // 加载图像
+    function loadImage(type, id) {
+        const item = items[type].find(i => i.id === id);
+        if (item && item.src) {
+            const img = new Image();
+            img.src = item.src;
+            return img;
+        }
+        return null;
+    }
+
+    // 更新角色外观
+    function updateCharacter() {
+        character.clothes = loadImage('clothes', currentOutfit.clothes);
+        character.hair = loadImage('hair', currentOutfit.hair);
+        character.accessory = loadImage('accessory', currentOutfit.accessory);
+        drawCharacter();
+    }
+
+    // 绘制角色
+    function drawCharacter() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (character.base.complete) {
+            ctx.drawImage(character.base, 0, 0, canvas.width, canvas.height);
+        }
+        if (character.clothes && character.clothes.complete) {
+            ctx.drawImage(character.clothes, 0, 0, canvas.width, canvas.height);
+        }
+        if (character.hair && character.hair.complete) {
+            ctx.drawImage(character.hair, 0, 0, canvas.width, canvas.height);
+        }
+        if (character.accessory && character.accessory.complete) {
+            ctx.drawImage(character.accessory, 0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    // 处理按钮点击
+    document.querySelectorAll('.option-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const type = button.dataset.type;
+            const id = parseInt(button.dataset.id);
+            currentOutfit[type] = id;
+            updateCharacter();
+        });
+    });
+
+    // 随机搭配
+    document.getElementById('randomButton').addEventListener('click', () => {
+        currentOutfit.clothes = Math.floor(Math.random() * items.clothes.length);
+        currentOutfit.hair = Math.floor(Math.random() * items.hair.length);
+        currentOutfit.accessory = Math.floor(Math.random() * items.accessory.length);
+        updateCharacter();
+    });
+
+    // 保存搭配
+    document.getElementById('saveButton').addEventListener('click', () => {
+        const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits') || '[]');
+        const outfitData = canvas.toDataURL(); // 将当前画布转为图片
+        savedOutfits.push(outfitData);
+        localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
+        displaySavedOutfits();
+    });
+
+    // 显示已保存的搭配
+    function displaySavedOutfits() {
+        const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits') || '[]');
+        savedOutfitsList.innerHTML = '';
+        savedOutfits.forEach(outfit => {
+            const img = document.createElement('img');
+            img.src = outfit;
+            img.className = 'saved-outfit';
+            savedOutfitsList.appendChild(img);
+        });
+    }
+
+    // 初始化
+    character.base.onload = () => {
+        updateCharacter();
+    };
+    displaySavedOutfits();
+</script>
+</body>
+</html>
