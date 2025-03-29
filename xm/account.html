@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账号管理 - 没米商城</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #444;
+            color: darkred;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .header a {
+            color: lightblue;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .main-content {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-group input:disabled {
+            background-color: #f5f5f5;
+            color: #666;
+        }
+
+        .avatar-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .avatar-upload {
+            display: block;
+            margin: 0 auto;
+            padding: 8px 15px;
+            background-color: #ff6700;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .avatar-upload:hover {
+            background-color: #f25600;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #ff6700;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background-color: #f25600;
+        }
+
+        .logout-btn {
+            background-color: #444;
+        }
+
+        .logout-btn:hover {
+            background-color: #555;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            color: #ff6700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html">没米官网</a>
+    <a href="#">没米商城</a>
+    <a href="product-detail.html">机米汽车</a>
+    <a href="orders.html">我的订单</a>
+</div>
+
+<div class="main-content">
+    <h2>账号管理</h2>
+    <form id="accountForm">
+        <div class="avatar-container">
+            <img id="avatarPreview" class="avatar-preview" src="" alt="用户头像">
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+            <button type="button" class="avatar-upload" id="uploadAvatarBtn">上传头像</button>
+        </div>
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" id="username" disabled>
+        </div>
+        <div class="form-group">
+            <label for="email">电子邮箱</label>
+            <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">新密码（留空则不修改）</label>
+            <input type="password" id="password" placeholder="输入新密码">
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">确认新密码</label>
+            <input type="password" id="confirmPassword" placeholder="再次输入新密码">
+        </div>
+        <button type="submit" class="btn">保存修改</button>
+        <button type="button" class="btn logout-btn" id="logoutBtn">退出登录</button>
+    </form>
+    <a href="index.html" class="back-btn">返回首页</a>
+</div>
+
+<script>
+    // 获取当前登录用户
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) {
+        alert("请先登录！");
+        window.location.href = "index.html";
+    }
+
+    // 初始化表单
+    function loadUserData() {
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const user = users.find(u => u.username === currentUser);
+        const avatarPreview = document.getElementById("avatarPreview");
+        if (user) {
+            document.getElementById("username").value = user.username;
+            document.getElementById("email").value = user.email;
+            // 加载头像如果存在
+            if (user.avatar) {
+                avatarPreview.src = user.avatar;
+            } else {
+                avatarPreview.src = "default-avatar.png"; // 可以设置默认头像
+            }
+        }
+    }
+
+    // 头像上传处理
+    document.getElementById("uploadAvatarBtn").onclick = function() {
+        document.getElementById("avatarInput").click();
+    };
+
+    document.getElementById("avatarInput").onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById("avatarPreview").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    // 保存修改
+    document.getElementById("accountForm").onsubmit = function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const avatar = document.getElementById("avatarPreview").src;
+
+        if (password && password !== confirmPassword) {
+            alert("两次输入的密码不匹配！");
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem("users") || "[]");
+        const userIndex = users.findIndex(u => u.username === currentUser);
+        if (userIndex !== -1) {
+            users[userIndex].email = email;
+            users[userIndex].avatar = avatar; // 保存头像数据
+            if (password) {
+                users[userIndex].password = password; // 注意：实际应用中应加密
+            }
+            localStorage.setItem("users", JSON.stringify(users));
+            alert("修改成功！");
+            window.location.href = "index.html";
+        }
+    };
+
+    // 退出登录
+    document.getElementById("logoutBtn").onclick = function() {
+        localStorage.removeItem("currentUser");
+        alert("已退出登录！");
+        window.location.href = "index.html";
+    };
+
+    // 页面加载时初始化
+    window.onload = function() {
+        loadUserData();
+    };
+</script>
+
+</body>
+</html>
