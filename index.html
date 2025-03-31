@@ -242,7 +242,7 @@
 
 <!-- 新增：背景音乐元素 -->
 <audio id="backgroundMusic" loop>
-    <source src="上春山.mp3" type="audio/mpeg">
+    <source src="Whiplash.mp3" type="audio/mpeg">
     你的浏览器不支持音频元素。
 </audio>
 
@@ -500,9 +500,9 @@
             isPlaying = true;
             musicBtn.textContent = '暂停音乐';
         }).catch(() => {
-            isPlaying = false;
+            // isPlaying = false;
             musicBtn.textContent = '播放音乐';
-            console.log('自动播放失败，等待用户交互');
+            // console.log('自动播放失败，等待用户交互');/
         });
     }
 </script>
