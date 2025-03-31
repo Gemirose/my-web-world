@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUPER Ultra</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #444;
+            color: darkred;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header a {
+            color: lightblue;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .main-content {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: lightseagreen;
+            z-index: 0;
+        }
+
+        .hero-text h1 {
+            font-size: 56px;
+            margin: 0 0 0 20px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .hero-text p {
+            font-size: 26px;
+            margin: 0 0 30px 0;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        }
+
+        .cta-link {
+            color: white;
+            text-decoration: underline;
+            font-size: 18px;
+            display: inline-block;
+            padding: 8px 20px;
+            border: 1px solid white;
+            border-radius: 4px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 3;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 350px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #555;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #ff6700;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #f25600;
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .switch-form a {
+            color: #ff6700;
+            text-decoration: none;
+        }
+
+        .user-welcome {
+            color: white;
+            display: none;
+            position: relative;
+        }
+
+        .avatar-header {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-left: 10px;
+            background-color: #f0f0f0;
+        }
+
+        /* 新增：欢迎消息样式 */
+        .welcome-message {
+            position: absolute;
+            top: 70px; /* 位于头部导航栏下方 */
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .welcome-message.show {
+            opacity: 1;
+        }
+
+        /* 新增：音乐控制按钮样式 */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 3;
+        }
+
+        .music-btn {
+            background-color: #ff6700;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .music-btn:hover {
+            background-color: #f25600;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <a href="#">没米官网</a>
+    <a href="#">没米商城</a>
+    <a href="#">机米汽车</a>
+    <a href="racing.html">赛车游戏</a>
+    <a href="#">ToT</a>
+    <a href="#">没品</a>
+    <a href="orders.html">我的订单</a>
+    <a href="#">0个人爱开放平台</a>
+    <a href="dressup.html">换装游戏</a> <!-- 修改 -->
+    <a href="game.html">射击游戏</a> <!-- 新增 -->
+    <a href="account.html">账号管理</a>
+    <a href="#" id="loginBtn">登录</a>
+    <a href="#" id="registerBtn">注册</a>
+    <span id="userWelcome" class="user-welcome">
+        欢迎，<a href="account.html" id="username"></a>！
+        <img id="headerAvatar" class="avatar-header" src="" alt="用户头像">
+        <a href="#" id="logoutBtn">退出</a>
+    </span>
+</div>
+
+<div class="main-content">
+    <img src="zhaopian.jpg" alt="pingu" class="car-image">
+    <div class="hero-text">
+        <h1>SUPER pingu🐧</h1>
+        <p>遥遥领先的强大</p>
+        <a href="product-detail.html" class="cta-link">了解详情</a>
+    </div>
+    <!-- 新增：欢迎消息区域 -->
+    <div id="welcomeMessage" class="welcome-message"></div>
+</div>
+
+<!-- 新增：背景音乐元素 -->
+<audio id="backgroundMusic" loop>
+    <source src="Whiplash.mp3" type="audio/mpeg">
+    你的浏览器不支持音频元素。
+</audio>
+
+<!-- 新增：音乐控制按钮 -->
+<div class="music-control">
+    <button id="musicBtn" class="music-btn">暂停音乐</button>
+</div>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeLogin">×</span>
+        <h2>登录</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginUsername">用户名</label>
+                <input type="text" id="loginUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">密码</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn">登录</button>
+        </form>
+        <div class="switch-form">
+            还没有账号？<a href="#" id="switchToRegister">立即注册</a>
+        </div>
+    </div>
+</div>
+
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeRegister">×</span>
+        <h2>注册</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="registerUsername">用户名</label>
+                <input type="text" id="registerUsername" required>
+            </div>
+            <div class="form-group">
+                <label for="registerEmail">电子邮箱</label>
+                <input type="email" id="registerEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">密码</label>
+                <input type="password" id="registerPassword" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">确认密码</label>
+                <input type="password" id="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn">注册</button>
+        </form>
+        <div class="switch-form">
+            已有账号？<a href="#" id="switchToLogin">立即登录</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const loginModal = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const closeLogin = document.getElementById('closeLogin');
+    const closeRegister = document.getElementById('closeRegister');
+    const switchToRegister = document.getElementById('switchToRegister');
+    const switchToLogin = document.getElementById('switchToLogin');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const userWelcome = document.getElementById('userWelcome');
+    const usernameSpan = document.getElementById('username');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const headerAvatar = document.getElementById('headerAvatar');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+
+    // 新增：音乐控制相关变量
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false;
+
+    loginBtn.onclick = function() {
+        loginModal.style.display = 'block';
+    }
+
+    registerBtn.onclick = function() {
+        registerModal.style.display = 'block';
+    }
+
+    closeLogin.onclick = function() {
+        loginModal.style.display = 'none';
+    }
+
+    closeRegister.onclick = function() {
+        registerModal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == loginModal) {
+            loginModal.style.display = 'none';
+        }
+        if (event.target == registerModal) {
+            registerModal.style.display = 'none';
+        }
+    }
+
+    switchToRegister.onclick = function(e) {
+        e.preventDefault();
+        loginModal.style.display = 'none';
+        registerModal.style.display = 'block';
+    }
+
+    switchToLogin.onclick = function(e) {
+        e.preventDefault();
+        registerModal.style.display = 'none';
+        loginModal.style.display = 'block';
+    }
+
+    registerForm.onsubmit = function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('registerUsername').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert('两次输入的密码不匹配');
+            return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.some(user => user.username === username)) {
+            alert('用户名已被使用');
+            return;
+        }
+
+        const newUser = {
+            username,
+            email,
+            password
+        };
+
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        alert('注册成功！请登录');
+        registerForm.reset();
+        registerModal.style.display = 'none';
+        loginModal.style.display = 'block';
+    }
+
+    // 打字机效果函数
+    function typeWriter(text, element, speed = 100) {
+        element.textContent = '';
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                setTimeout(() => {
+                    element.classList.remove('show');
+                    setTimeout(() => element.textContent = '', 500); // 清空并隐藏
+                }, 2000); // 显示2秒后消失
+            }
+        }
+        element.classList.add('show');
+        type();
+    }
+
+    loginForm.onsubmit = function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            alert('登录成功！');
+            loginForm.reset();
+            loginModal.style.display = 'none';
+
+            usernameSpan.textContent = username;
+            loadUserAvatar(username);
+            loginBtn.style.display = 'none';
+            registerBtn.style.display = 'none';
+            userWelcome.style.display = 'inline';
+
+            // 显示个性化欢迎消息
+            const welcomeText = `欢迎回来，${username}！`;
+            typeWriter(welcomeText, welcomeMessage);
+
+            localStorage.setItem('currentUser', username);
+        } else {
+            alert('用户名或密码不正确');
+        }
+    }
+
+    logoutBtn.onclick = function(e) {
+        e.preventDefault();
+
+        localStorage.removeItem('currentUser');
+
+        loginBtn.style.display = 'inline';
+        registerBtn.style.display = 'inline';
+        userWelcome.style.display = 'none';
+        headerAvatar.src = '';
+        welcomeMessage.textContent = ''; // 清空欢迎消息
+    }
+
+    function loadUserAvatar(username) {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.username === username);
+        if (user && user.avatar) {
+            headerAvatar.src = user.avatar;
+        } else {
+            headerAvatar.src = 'default-avatar.png';
+        }
+    }
+
+    // 新增：背景音乐控制
+    function toggleMusic() {
+        if (isPlaying) {
+            backgroundMusic.pause();
+            musicBtn.textContent = '播放音乐';
+        } else {
+            backgroundMusic.play().catch(() => {
+                console.log('自动播放被阻止，需要用户交互');
+            });
+            musicBtn.textContent = '暂停音乐';
+        }
+        isPlaying = !isPlaying;
+    }
+
+    musicBtn.onclick = toggleMusic;
+
+    window.onload = function() {
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            usernameSpan.textContent = currentUser;
+            loadUserAvatar(currentUser);
+            loginBtn.style.display = 'none';
+            registerBtn.style.display = 'none';
+            userWelcome.style.display = 'inline';
+            // 页面加载时显示欢迎消息
+            const welcomeText = `欢迎回来，${currentUser}！`;
+            typeWriter(welcomeText, welcomeMessage);
+        }
+
+        // 页面加载时尝试播放音乐
+        backgroundMusic.play().then(() => {
+            isPlaying = true;
+            musicBtn.textContent = '暂停音乐';
+        }).catch(() => {
+            // isPlaying = false;
+            musicBtn.textContent = '播放音乐';
+            // console.log('自动播放失败，等待用户交互');/
+        });
+    }
+</script>
+</body>
+</html>
