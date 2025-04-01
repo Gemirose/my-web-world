@@ -8,22 +8,29 @@
         body {
             margin: 0;
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
         }
 
         .header {
-            background-color: #444;
-            color: darkred;
-            padding: 10px 0;
+            background-color: #333;
+            color: #fff;
+            padding: 12px 0;
             text-align: center;
             position: relative;
             z-index: 2;
         }
 
         .header a {
-            color: lightblue;
+            color: #87CEEB;
             margin: 0 15px;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .header a:hover {
+            color: #ff6700;
         }
 
         .main-content {
@@ -35,10 +42,11 @@
         .car-image {
             width: 100%;
             height: 100%;
-            object-fit: fill;
-            position: relative;
+            object-fit: cover;
+            position: absolute;
             top: 0;
             left: 0;
+            z-index: 1;
         }
 
         .hero-text {
@@ -47,134 +55,47 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            color: lightseagreen;
-            z-index: 0;
+            color: #fff;
+            z-index: 2;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
         }
 
         .hero-text h1 {
             font-size: 56px;
-            margin: 0 0 0 20px;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            letter-spacing: 4px;
+            margin-bottom: 20px;
         }
 
         .hero-text p {
             font-size: 26px;
-            margin: 0 0 30px 0;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
         }
 
         .cta-link {
-            color: white;
+            color: #fff;
             text-decoration: underline;
             font-size: 18px;
             display: inline-block;
-            padding: 8px 20px;
-            border: 1px solid white;
+            padding: 10px 20px;
+            border: 2px solid #fff;
             border-radius: 4px;
+            transition: all 0.3s ease;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 3;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 20px;
-            border-radius: 5px;
-            width: 350px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .close {
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: #555;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .btn {
+        .cta-link:hover {
             background-color: #ff6700;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
+            border-color: #ff6700;
         }
 
-        .btn:hover {
-            background-color: #f25600;
-        }
-
-        .switch-form {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        .switch-form a {
-            color: #ff6700;
-            text-decoration: none;
-        }
-
-        .user-welcome {
-            color: white;
-            display: none;
-            position: relative;
-        }
-
-        .avatar-header {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            vertical-align: middle;
-            margin-left: 10px;
-            background-color: #f0f0f0;
-        }
-
-        /* 新增：欢迎消息样式 */
         .welcome-message {
             position: absolute;
-            top: 70px; /* 位于头部导航栏下方 */
+            top: 70px;
             left: 50%;
             transform: translateX(-50%);
-            color: white;
+            color: #fff;
             font-size: 24px;
             text-align: center;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-            z-index: 1;
+            z-index: 2;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
         }
@@ -183,7 +104,6 @@
             opacity: 1;
         }
 
-        /* 新增：音乐控制按钮样式 */
         .music-control {
             position: fixed;
             bottom: 20px;
@@ -193,13 +113,13 @@
 
         .music-btn {
             background-color: #ff6700;
-            color: white;
+            color: #fff;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 20px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 14px;
-            transition: background-color 0.2s;
+            transition: background-color 0.3s ease;
         }
 
         .music-btn:hover {
@@ -217,8 +137,8 @@
     <a href="#">没品</a>
     <a href="orders.html">我的订单</a>
     <a href="#">0个人爱开放平台</a>
-    <a href="dressup.html">换装游戏</a> <!-- 修改 -->
-    <a href="game.html">射击游戏</a> <!-- 新增 -->
+    <a href="dressup.html">换装游戏</a>
+    <a href="game.html">射击游戏</a>
     <a href="account.html">账号管理</a>
     <a href="#" id="loginBtn">登录</a>
     <a href="#" id="registerBtn">注册</a>
@@ -236,17 +156,14 @@
         <p>遥遥领先的强大</p>
         <a href="product-detail.html" class="cta-link">了解详情</a>
     </div>
-    <!-- 新增：欢迎消息区域 -->
     <div id="welcomeMessage" class="welcome-message"></div>
 </div>
 
-<!-- 新增：背景音乐元素 -->
 <audio id="backgroundMusic" loop>
     <source src="Whiplash.mp3" type="audio/mpeg">
     你的浏览器不支持音频元素。
 </audio>
 
-<!-- 新增：音乐控制按钮 -->
 <div class="music-control">
     <button id="musicBtn" class="music-btn">暂停音乐</button>
 </div>
@@ -318,83 +235,25 @@
     const headerAvatar = document.getElementById('headerAvatar');
     const welcomeMessage = document.getElementById('welcomeMessage');
 
-    // 新增：音乐控制相关变量
     const backgroundMusic = document.getElementById('backgroundMusic');
     const musicBtn = document.getElementById('musicBtn');
     let isPlaying = false;
 
-    loginBtn.onclick = function() {
-        loginModal.style.display = 'block';
-    }
-
-    registerBtn.onclick = function() {
-        registerModal.style.display = 'block';
-    }
-
-    closeLogin.onclick = function() {
-        loginModal.style.display = 'none';
-    }
-
-    closeRegister.onclick = function() {
-        registerModal.style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-        if (event.target == loginModal) {
-            loginModal.style.display = 'none';
+    function toggleMusic() {
+        if (isPlaying) {
+            backgroundMusic.pause();
+            musicBtn.textContent = '播放音乐';
+        } else {
+            backgroundMusic.play().catch(() => {
+                console.log('自动播放被阻止');
+            });
+            musicBtn.textContent = '暂停音乐';
         }
-        if (event.target == registerModal) {
-            registerModal.style.display = 'none';
-        }
+        isPlaying = !isPlaying;
     }
 
-    switchToRegister.onclick = function(e) {
-        e.preventDefault();
-        loginModal.style.display = 'none';
-        registerModal.style.display = 'block';
-    }
+    musicBtn.onclick = toggleMusic;
 
-    switchToLogin.onclick = function(e) {
-        e.preventDefault();
-        registerModal.style.display = 'none';
-        loginModal.style.display = 'block';
-    }
-
-    registerForm.onsubmit = function(e) {
-        e.preventDefault();
-
-        const username = document.getElementById('registerUsername').value;
-        const email = document.getElementById('registerEmail').value;
-        const password = document.getElementById('registerPassword').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        if (password !== confirmPassword) {
-            alert('两次输入的密码不匹配');
-            return;
-        }
-
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (users.some(user => user.username === username)) {
-            alert('用户名已被使用');
-            return;
-        }
-
-        const newUser = {
-            username,
-            email,
-            password
-        };
-
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-
-        alert('注册成功！请登录');
-        registerForm.reset();
-        registerModal.style.display = 'none';
-        loginModal.style.display = 'block';
-    }
-
-    // 打字机效果函数
     function typeWriter(text, element, speed = 100) {
         element.textContent = '';
         let i = 0;
@@ -406,104 +265,124 @@
             } else {
                 setTimeout(() => {
                     element.classList.remove('show');
-                    setTimeout(() => element.textContent = '', 500); // 清空并隐藏
-                }, 2000); // 显示2秒后消失
+                    setTimeout(() => element.textContent = '', 500);
+                }, 2000);
             }
         }
         element.classList.add('show');
         type();
     }
 
-    loginForm.onsubmit = function(e) {
+    // 打开/关闭模态框
+    loginBtn.onclick = () => loginModal.style.display = 'block';
+    registerBtn.onclick = () => registerModal.style.display = 'block';
+    closeLogin.onclick = () => loginModal.style.display = 'none';
+    closeRegister.onclick = () => registerModal.style.display = 'none';
+    switchToRegister.onclick = (e) => {
+        e.preventDefault();
+        loginModal.style.display = 'none';
+        registerModal.style.display = 'block';
+    };
+    switchToLogin.onclick = (e) => {
+        e.preventDefault();
+        registerModal.style.display = 'none';
+        loginModal.style.display = 'block';
+    };
+
+    // 注册用户
+    registerForm.onsubmit = function (e) {
         e.preventDefault();
 
-        const username = document.getElementById('loginUsername').value;
+        const username = document.getElementById('registerUsername').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert('两次输入的密码不一致！');
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+
+        if (users.find(u => u.username === username)) {
+            alert('该用户名已存在，请更换一个！');
+            return;
+        }
+
+        users.push({ username, email, password });
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('注册成功，请登录！');
+
+        registerForm.reset();
+        registerModal.style.display = 'none';
+        loginModal.style.display = 'block';
+    };
+
+    // 登录用户
+    loginForm.onsubmit = function (e) {
+        e.preventDefault();
+
+        const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value;
 
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const user = users.find(u => u.username === username && u.password === password);
 
-        if (user) {
-            alert('登录成功！');
-            loginForm.reset();
-            loginModal.style.display = 'none';
-
-            usernameSpan.textContent = username;
-            loadUserAvatar(username);
-            loginBtn.style.display = 'none';
-            registerBtn.style.display = 'none';
-            userWelcome.style.display = 'inline';
-
-            // 显示个性化欢迎消息
-            const welcomeText = `欢迎回来，${username}！`;
-            typeWriter(welcomeText, welcomeMessage);
-
-            localStorage.setItem('currentUser', username);
-        } else {
-            alert('用户名或密码不正确');
+        if (!user) {
+            alert('用户名或密码错误！');
+            return;
         }
+
+        localStorage.setItem('currentUser', username);
+        loginForm.reset();
+        loginModal.style.display = 'none';
+
+        updateUIAfterLogin(username);
+    };
+
+    // 更新 UI
+    function updateUIAfterLogin(username) {
+        usernameSpan.textContent = username;
+        headerAvatar.src = 'default-avatar.png';
+        loginBtn.style.display = 'none';
+        registerBtn.style.display = 'none';
+        userWelcome.style.display = 'inline';
+
+        typeWriter(`欢迎回来，${username}！`, welcomeMessage);
     }
 
-    logoutBtn.onclick = function(e) {
+    // 登出
+    logoutBtn.onclick = function (e) {
         e.preventDefault();
-
         localStorage.removeItem('currentUser');
 
+        userWelcome.style.display = 'none';
         loginBtn.style.display = 'inline';
         registerBtn.style.display = 'inline';
-        userWelcome.style.display = 'none';
         headerAvatar.src = '';
-        welcomeMessage.textContent = ''; // 清空欢迎消息
-    }
+        welcomeMessage.textContent = '';
+    };
 
-    function loadUserAvatar(username) {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.username === username);
-        if (user && user.avatar) {
-            headerAvatar.src = user.avatar;
-        } else {
-            headerAvatar.src = 'default-avatar.png';
-        }
-    }
-
-    // 新增：背景音乐控制
-    function toggleMusic() {
-        if (isPlaying) {
-            backgroundMusic.pause();
-            musicBtn.textContent = '播放音乐';
-        } else {
-            backgroundMusic.play().catch(() => {
-                console.log('自动播放被阻止，需要用户交互');
-            });
-            musicBtn.textContent = '暂停音乐';
-        }
-        isPlaying = !isPlaying;
-    }
-
-    musicBtn.onclick = toggleMusic;
-
-    window.onload = function() {
+    // 自动登录处理
+    window.onload = function () {
         const currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
-            usernameSpan.textContent = currentUser;
-            loadUserAvatar(currentUser);
-            loginBtn.style.display = 'none';
-            registerBtn.style.display = 'none';
-            userWelcome.style.display = 'inline';
-            // 页面加载时显示欢迎消息
-            const welcomeText = `欢迎回来，${currentUser}！`;
-            typeWriter(welcomeText, welcomeMessage);
+            updateUIAfterLogin(currentUser);
         }
 
-        // 页面加载时尝试播放音乐
         backgroundMusic.play().then(() => {
             isPlaying = true;
             musicBtn.textContent = '暂停音乐';
         }).catch(() => {
-            // isPlaying = false;
             musicBtn.textContent = '播放音乐';
-            // console.log('自动播放失败，等待用户交互');/
         });
+    };
+
+    // 关闭模态点击背景
+    window.onclick = function (event) {
+        if (event.target === loginModal) loginModal.style.display = 'none';
+        if (event.target === registerModal) registerModal.style.display = 'none';
     }
 </script>
 </body>
