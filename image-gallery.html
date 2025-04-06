@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片展示 - SUPER Pingu</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none; /* 默认隐藏所有图片 */
+        }
+
+        .gallery-image.active {
+            display: block; /* 只显示当前激活的图片 */
+        }
+
+        .nav-buttons {
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background-color: #ff6700;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .nav-btn:hover {
+            background-color: #f25600;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #ff6700;
+            text-decoration: none;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">返回首页</a>
+    <div class="gallery-container">
+        <!-- 图片库 -->
+        <img src="puma坐肉.png" alt="图片1" class="gallery-image active">
+        <img src="puma站肉.png" alt="图片2" class="gallery-image">
+        <img src="下楼梯肉.png" alt="图片3" class="gallery-image">
+        <img src="对镜半身肉.jpg" alt="图片4" class="gallery-image">
+        <img src="对镜肉.png" alt="图片5" class="gallery-image">
+        <img src="石头全景肉.png" alt="图片6" class="gallery-image">
+        <img src="石头嘟嘴肉.png" alt="图片7" class="gallery-image">
+        <img src="石头歪头肉.png" alt="图片8" class="gallery-image">
+        <img src="石头闭眼肉.png" alt="图片9" class="gallery-image">
+        <img src="车里肉.jpg" alt="图片10" class="gallery-image">
+        <img src="深圳快闪.jpg" alt="图片11" class="gallery-image">
+        <img src="素颜肉.png " alt="图片12" class="gallery-image">
+
+
+        <!-- 导航按钮 -->
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn">上一张</button>
+            <button class="nav-btn" id="nextBtn">下一张</button>
+        </div>
+    </div>
+
+    <script>
+        const images = document.querySelectorAll('.gallery-image');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+
+        // 显示指定索引的图片
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.classList.toggle('active', i === index);
+            });
+        }
+
+        // 下一张图片
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length; // 循环到第一张
+            showImage(currentIndex);
+        }
+
+        // 上一张图片
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length; // 循环到最后一张
+            showImage(currentIndex);
+        }
+
+        // 按钮事件
+        nextBtn.onclick = nextImage;
+        prevBtn.onclick = prevImage;
+
+        // 自动播放
+        function startAutoPlay() {
+            setInterval(nextImage, 60000); // 每60秒切换一次
+        }
+
+        // 初始化
+        showImage(currentIndex);
+        startAutoPlay(); // 启动自动播放
+    </script>
+</body>
+</html>

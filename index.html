@@ -13,11 +13,12 @@
         }
 
         .header {
-            background-color: #333;
-            color: white;
-            padding: 15px 0;
+            background-color: #444;
+            color: #ffffff;
+            padding: 10px 0;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
         }
 
         .header a {
@@ -212,12 +213,63 @@
             background-color: #f25600;
         }
 
-        @media (max-width: 768px) {
-            .hero-text h1 { font-size: 48px; }
-            .hero-text p { font-size: 20px; }
-            .cta-link { padding: 10px 25px; font-size: 16px; }
-            .modal-content { width: 90%; }
-            .header a { font-size: 14px; }
+        /* 新增 ToT 弹窗样式 */
+        .tot-modal {
+            display: none;
+            position: fixed;
+            z-index: 4;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .tot-modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .tot-section {
+            display: inline-block;
+            width: 45%;
+            vertical-align: top;
+        }
+
+        .tot-section img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .tot-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .tot-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .close-tot {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-tot:hover {
+            color: #555;
         }
     </style>
 </head>
@@ -227,8 +279,8 @@
     <a href="#">没米商城</a>
     <a href="#">机米汽车</a>
     <a href="racing.html">赛车游戏</a>
-    <a href="#">ToT</a>
-    <a href="#">没品</a>
+    <a href="#" id="totBtn">ToT</a>
+    <a href="image-gallery.html">没品</a>
     <a href="orders.html">我的订单</a>
     <a href="#">0个人爱开放平台</a>
     <a href="dressup.html">换装游戏</a>
@@ -312,15 +364,35 @@
     </div>
 </div>
 
+<!-- ToT 弹窗 -->
+<div id="totModal" class="tot-modal">
+    <div class="tot-modal-content">
+        <span class="close-tot" id="closeTot">×</span>
+        <div class="tot-section">
+            <img src="rosie.jpg " alt="YouTube Logo">
+            <button class="tot-btn" id="youtubeBtn">跳转油管</button>
+        </div>
+        <div class="tot-section">
+            <img src="rosie.jpg " alt="Baidu Logo">
+            <button class="tot-btn" id="localVideoBtn">本地视频</button>
+        </div>
+    </div>
+</div>
+
 <script>
     const loginModal = document.getElementById('loginModal');
     const registerModal = document.getElementById('registerModal');
+    const totModal = document.getElementById('totModal');
     const loginBtn = document.getElementById('loginBtn');
     const registerBtn = document.getElementById('registerBtn');
+    const totBtn = document.getElementById('totBtn');
     const closeLogin = document.getElementById('closeLogin');
     const closeRegister = document.getElementById('closeRegister');
+    const closeTot = document.getElementById('closeTot');
     const switchToRegister = document.getElementById('switchToRegister');
     const switchToLogin = document.getElementById('switchToLogin');
+    const youtubeBtn = document.getElementById('youtubeBtn');
+    const localVideoBtn = document.getElementById('localVideoBtn');
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
     const userWelcome = document.getElementById('userWelcome');
@@ -332,16 +404,26 @@
     const musicBtn = document.getElementById('musicBtn');
     let isPlaying = false;
 
-    loginBtn.onclick = () => loginModal.style.display = 'flex';
-    registerBtn.onclick = () => registerModal.style.display = 'flex';
-    closeLogin.onclick = () => loginModal.style.display = 'none';
-    closeRegister.onclick = () => registerModal.style.display = 'none';
-    window.onclick = (e) => {
-        if (e.target == loginModal) loginModal.style.display = 'none';
-        if (e.target == registerModal) registerModal.style.display = 'none';
-    };
-    switchToRegister.onclick = (e) => { e.preventDefault(); loginModal.style.display = 'none'; registerModal.style.display = 'flex'; };
-    switchToLogin.onclick = (e) => { e.preventDefault(); registerModal.style.display = 'none'; loginModal.style.display = 'flex'; };
+    // 点击“ToT”按钮显示弹窗
+    totBtn.onclick = function(e) {
+        e.preventDefault();
+        totModal.style.display = 'block';
+    }
+
+    // 关闭 ToT 弹窗
+    closeTot.onclick = function() {
+        totModal.style.display = 'none';
+    }
+
+    // 跳转到 YouTube
+    youtubeBtn.onclick = function() {
+        window.location.href = 'https://www.youtube.com/@roses_are_rosie';
+    }
+
+    // 跳转到本地视频页面
+    localVideoBtn.onclick = function() {
+        window.location.href = 'local-video.html';
+    }
 
     registerForm.onsubmit = (e) => {
         e.preventDefault();
