@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SN7 Ultra 详情</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #444;
+            color: darkred;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .main-content {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            background-color: #fff;
+        }
+
+        .car-display {
+            width: 60%;
+            text-align: center;
+        }
+
+        .car-display img {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .product-options {
+            width: 35%;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .product-options h2 {
+            text-align: center;
+            color: #444;
+        }
+
+        .color-selection, .wheels-selection, .interior-selection {
+            margin: 20px 0;
+        }
+
+        .option-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .color-selection div, .wheels-selection div, .interior-selection div {
+            display: inline-block;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .color-selection img, .wheels-selection img, .interior-selection img {
+            width: 60px;
+            height: 40px;
+            border-radius: 5px;
+            border: 2px solid transparent;
+        }
+
+        .color-selection img:hover, .wheels-selection img:hover, .interior-selection img:hover {
+            border-color: #ff6700;
+        }
+
+        .selected {
+            border-color: #ff6700;
+        }
+
+        .price {
+            font-size: 24px;
+            color: #ff6700;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .cta-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #ff6700;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 30px;
+        }
+
+        .cta-btn:hover {
+            background-color: #f25600;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #444;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>SUPER Ultra 详情</h1>
+    <a href="index.html">返回首页</a>
+    <a href="orders.html">我的订单</a>
+    <a href="account.html">账号管理</a>
+</div>
+
+<div class="main-content">
+    <!-- 左侧车身展示 -->
+    <div class="car-display">
+        <img src="前.png" alt="前视角" id="car-display">
+        <div>
+            <button onclick="changeView('front')">前视角</button>
+            <button onclick="changeView('side')">侧视角</button>
+            <button onclick="changeView('rear')">后视角</button>
+        </div>
+    </div>
+
+    <!-- 右侧选项展示 -->
+    <div class="product-options">
+        <h2>选择你的配置</h2>
+
+        <!-- 车身颜色选择 -->
+        <div class="color-selection">
+            <div class="option-title">车身颜色</div>
+            <div>
+                <img src="黄.png" alt="雷电黄" onclick="selectColor('yellow', this)">
+                <p>雷电黄</p>
+            </div>
+            <div>
+                <img src="白.png" alt="贝母白" onclick="selectColor('white', this)">
+                <p>贝母白</p>
+            </div>
+            <div>
+                <img src="银.png" alt="陨石银" onclick="selectColor('gray', this)">
+                <p>陨石银</p>
+            </div>
+            <div>
+                <img src="绿.png" alt="苍林绿" onclick="selectColor('green', this)">
+                <p>苍林绿</p>
+            </div>
+        </div>
+
+        <!-- 车轮选择 -->
+        <div class="wheels-selection">
+            <div class="option-title">车轮类型</div>
+            <div>
+                <img src="轮毂1.png" alt="黑色锻造轮毂" onclick="selectWheels('wheel1', this)">
+                <p>黑色锻造轮毂</p>
+            </div>
+            <div>
+                <img src="轮毂2.png" alt="金边锻造轮毂" onclick="selectWheels('wheel2', this)">
+                <p>金边锻造轮毂</p>
+            </div>
+        </div>
+
+        <!-- 内饰选择 -->
+        <div class="interior-selection">
+            <div class="option-title">内饰类型</div>
+            <div>
+                <img src="内饰1.png" alt="黄中带黑" onclick="selectInterior('interior1', this)">
+                <p>黄中带黑</p>
+            </div>
+            <div>
+                <img src="内饰2.png" alt="黑中带黄" onclick="selectInterior('interior2', this)">
+                <p>黑中带黄</p>
+            </div>
+        </div>
+
+        <!-- 显示价格 -->
+        <div class="price" id="price-display">
+            ¥538,900 <span style="text-decoration: line-through; color: #999;">¥596,900</span>
+        </div>
+
+        <!-- 贷款购买按钮 -->
+        <a href="#" class="cta-btn" onclick="saveOrder(event)">立即贷款购买</a>
+
+        <!-- 返回按钮 -->
+        <a href="javascript:window.history.back();" class="back-btn">返回</a>
+    </div>
+</div>
+
+<script>
+    // 商品数据结构
+    const productData = {
+        id: 1,
+        name: "SUPER Ultra",
+        basePrice: 538900,
+        originalPrice: 596900,
+        stock: 100,
+        images: {
+            front: "前.png",
+            side: "侧.png",
+            rear: "后.png"
+        },
+        options: {
+            colors: [
+                { id: "yellow", name: "雷电黄", image: "黄.png", additionalPrice: 0 },
+                { id: "white", name: "贝母白", image: "白.png", additionalPrice: 0 },
+                { id: "gray", name: "陨石银", image: "银.png", additionalPrice: 0 },
+                { id: "green", name: "苍林绿", image: "绿.png", additionalPrice: 0 }
+            ],
+            wheels: [
+                { id: "wheel1", name: "黑色锻造轮毂", image: "轮毂1.png", additionalPrice: 0 },
+                { id: "wheel2", name: "金边锻造轮毂", image: "轮毂2.png", additionalPrice: 5000 }
+            ],
+            interiors: [
+                { id: "interior1", name: "黄中带黑", image: "内饰1.png", additionalPrice: 0 },
+                { id: "interior2", name: "黑中带黄", image: "内饰2.png", additionalPrice: 3000 }
+            ]
+        }
+    };
+
+    // 初始化 localStorage
+    function initDatabase() {
+        if (!localStorage.getItem("products")) {
+            localStorage.setItem("products", JSON.stringify([productData]));
+        }
+        if (!localStorage.getItem("orders")) {
+            localStorage.setItem("orders", JSON.stringify([]));
+        }
+    }
+
+    // 当前用户选择
+    let selectedConfig = {
+        color: null,
+        wheel: null,
+        interior: null
+    };
+
+    // 切换视角
+    function changeView(view) {
+        const carDisplay = document.getElementById("car-display");
+        carDisplay.src = productData.images[view];
+    }
+
+    // 选择颜色
+    function selectColor(colorId, element) {
+        selectedConfig.color = colorId;
+        updateSelection(".color-selection img", element);
+        updatePrice();
+    }
+
+    // 选择车轮
+    function selectWheels(wheelId, element) {
+        selectedConfig.wheel = wheelId;
+        updateSelection(".wheels-selection img", element);
+        updatePrice();
+    }
+
+    // 选择内饰
+    function selectInterior(interiorId, element) {
+        selectedConfig.interior = interiorId;
+        updateSelection(".interior-selection img", element);
+        updatePrice();
+    }
+
+    // 更新选中状态
+    function updateSelection(selector, selectedElement) {
+        document.querySelectorAll(selector).forEach(img => img.classList.remove("selected"));
+        selectedElement.classList.add("selected");
+    }
+
+    // 更新价格
+    function updatePrice() {
+        let totalPrice = productData.basePrice;
+        const colors = productData.options.colors;
+        const wheels = productData.options.wheels;
+        const interiors = productData.options.interiors;
+
+        if (selectedConfig.color) {
+            totalPrice += colors.find(c => c.id === selectedConfig.color).additionalPrice;
+        }
+        if (selectedConfig.wheel) {
+            totalPrice += wheels.find(w => w.id === selectedConfig.wheel).additionalPrice;
+        }
+        if (selectedConfig.interior) {
+            totalPrice += interiors.find(i => i.id === selectedConfig.interior).additionalPrice;
+        }
+
+        document.getElementById("price-display").innerHTML =
+            `¥${totalPrice.toLocaleString()} <span style="text-decoration: line-through; color: #999;">¥${productData.originalPrice.toLocaleString()}</span>`;
+    }
+
+    // 保存订单
+    function saveOrder(event) {
+        event.preventDefault();
+        if (!localStorage.getItem("currentUser")) {
+            alert("请先登录！");
+            window.location.href = "index.html";
+            return;
+        }
+
+        if (!selectedConfig.color || !selectedConfig.wheel || !selectedConfig.interior) {
+            alert("请完成所有配置选择！");
+            return;
+        }
+
+        const order = {
+            productId: productData.id,
+            config: { ...selectedConfig },
+            totalPrice: parseInt(document.getElementById("price-display").textContent.split(" ")[0].replace("¥", "").replace(",", "")),
+            timestamp: new Date().toISOString()
+        };
+
+        const orders = JSON.parse(localStorage.getItem("orders"));
+        orders.push(order);
+        localStorage.setItem("orders", JSON.stringify(orders));
+
+        alert("订单已保存！即将跳转到订单页面。");
+        window.location.href = "orders.html"; // 跳转到订单页面
+    }
+
+    // 页面加载时初始化
+    window.onload = function() {
+        initDatabase();
+    };
+</script>
+
+</body>
+</html>
