@@ -9,21 +9,45 @@
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #f0f2f5;
+            line-height: 1.6;
         }
 
         .header {
-            background-color: #444;
-            color: darkred;
-            padding: 10px 0;
+            background: linear-gradient(90deg, #333, #555);
+            color: #fff;
+            padding: 15px 0;
             text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .header a {
+            color: #ff6700;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .header a:hover {
+            color: #fff;
         }
 
         .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
             padding: 20px;
             display: flex;
-            justify-content: space-between;
+            gap: 30px;
             background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
         .car-display {
@@ -34,40 +58,75 @@
         .car-display img {
             width: 100%;
             max-width: 600px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .car-display img:hover {
+            transform: scale(1.02);
+        }
+
+        .car-display button {
+            margin: 10px 5px;
+            padding: 8px 16px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .car-display button:hover {
+            background-color: #ff6700;
+            color: #fff;
+            border-color: #ff6700;
         }
 
         .product-options {
             width: 35%;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
+            padding: 25px;
+            background-color: #fafafa;
+            border-radius: 12px;
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.03);
         }
 
         .product-options h2 {
             text-align: center;
-            color: #444;
+            color: #333;
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 25px;
         }
 
         .color-selection, .wheels-selection, .interior-selection {
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         .option-title {
             font-size: 18px;
-            margin-bottom: 10px;
+            color: #555;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
 
         .color-selection div, .wheels-selection div, .interior-selection div {
             display: inline-block;
-            margin: 5px;
+            margin: 8px;
+            text-align: center;
             cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .color-selection div:hover, .wheels-selection div:hover, .interior-selection div:hover {
+            transform: translateY(-2px);
         }
 
         .color-selection img, .wheels-selection img, .interior-selection img {
-            width: 60px;
-            height: 40px;
-            border-radius: 5px;
+            width: 70px;
+            height: 50px;
+            border-radius: 6px;
             border: 2px solid transparent;
+            object-fit: cover;
         }
 
         .color-selection img:hover, .wheels-selection img:hover, .interior-selection img:hover {
@@ -76,45 +135,62 @@
 
         .selected {
             border-color: #ff6700;
+            box-shadow: 0 0 8px rgba(255, 103, 0, 0.3);
+        }
+
+        .color-selection p, .wheels-selection p, .interior-selection p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #666;
         }
 
         .price {
-            font-size: 24px;
+            font-size: 26px;
             color: #ff6700;
-            margin: 20px 0;
+            margin: 30px 0;
             text-align: center;
+            font-weight: bold;
+        }
+
+        .price span {
+            font-size: 18px;
+            color: #999;
+            font-weight: normal;
         }
 
         .cta-btn {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             background-color: #ff6700;
-            color: white;
+            color: #fff;
             font-size: 18px;
             text-align: center;
-            border-radius: 5px;
+            border-radius: 8px;
             text-decoration: none;
-            margin-top: 30px;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .cta-btn:hover {
-            background-color: #f25600;
+            background-color: #e65c00;
+            transform: translateY(-2px);
         }
 
         .back-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #444;
-            color: white;
+            display: block;
+            width: 120px;
+            margin: 20px auto 0;
+            padding: 10px;
+            background-color: #666;
+            color: #fff;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
+            border-radius: 8px;
             text-align: center;
+            transition: background-color 0.3s;
         }
 
         .back-btn:hover {
-            background-color: #555;
+            background-color: #888;
         }
     </style>
 </head>
@@ -191,7 +267,7 @@
 
         <!-- 显示价格 -->
         <div class="price" id="price-display">
-            ¥538,900 <span style="text-decoration: line-through; color: #999;">¥596,900</span>
+            ¥538,900 <span>¥596,900</span>
         </div>
 
         <!-- 贷款购买按钮 -->
@@ -203,7 +279,7 @@
 </div>
 
 <script>
-    // 商品数据结构
+    // 原有的 JavaScript 代码保持不变
     const productData = {
         id: 1,
         name: "SUPER Ultra",
@@ -233,7 +309,6 @@
         }
     };
 
-    // 初始化 localStorage
     function initDatabase() {
         if (!localStorage.getItem("products")) {
             localStorage.setItem("products", JSON.stringify([productData]));
@@ -243,47 +318,40 @@
         }
     }
 
-    // 当前用户选择
     let selectedConfig = {
         color: null,
         wheel: null,
         interior: null
     };
 
-    // 切换视角
     function changeView(view) {
         const carDisplay = document.getElementById("car-display");
         carDisplay.src = productData.images[view];
     }
 
-    // 选择颜色
     function selectColor(colorId, element) {
         selectedConfig.color = colorId;
         updateSelection(".color-selection img", element);
         updatePrice();
     }
 
-    // 选择车轮
     function selectWheels(wheelId, element) {
         selectedConfig.wheel = wheelId;
         updateSelection(".wheels-selection img", element);
         updatePrice();
     }
 
-    // 选择内饰
     function selectInterior(interiorId, element) {
         selectedConfig.interior = interiorId;
         updateSelection(".interior-selection img", element);
         updatePrice();
     }
 
-    // 更新选中状态
     function updateSelection(selector, selectedElement) {
         document.querySelectorAll(selector).forEach(img => img.classList.remove("selected"));
         selectedElement.classList.add("selected");
     }
 
-    // 更新价格
     function updatePrice() {
         let totalPrice = productData.basePrice;
         const colors = productData.options.colors;
@@ -301,10 +369,9 @@
         }
 
         document.getElementById("price-display").innerHTML =
-            `¥${totalPrice.toLocaleString()} <span style="text-decoration: line-through; color: #999;">¥${productData.originalPrice.toLocaleString()}</span>`;
+            `¥${totalPrice.toLocaleString()} <span>¥${productData.originalPrice.toLocaleString()}</span>`;
     }
 
-    // 保存订单
     function saveOrder(event) {
         event.preventDefault();
         if (!localStorage.getItem("currentUser")) {
@@ -330,10 +397,9 @@
         localStorage.setItem("orders", JSON.stringify(orders));
 
         alert("订单已保存！即将跳转到订单页面。");
-        window.location.href = "orders.html"; // 跳转到订单页面
+        window.location.href = "orders.html";
     }
 
-    // 页面加载时初始化
     window.onload = function() {
         initDatabase();
     };
