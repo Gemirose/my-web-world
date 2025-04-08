@@ -380,6 +380,7 @@
 </div>
 
 <script>
+    // 获取 DOM 元素
     const loginModal = document.getElementById('loginModal');
     const registerModal = document.getElementById('registerModal');
     const totModal = document.getElementById('totModal');
@@ -404,28 +405,64 @@
     const musicBtn = document.getElementById('musicBtn');
     let isPlaying = false;
 
-    // 点击“ToT”按钮显示弹窗
-    totBtn.onclick = function(e) {
-        e.preventDefault();
-        totModal.style.display = 'block';
+    // --- 新增：登录/注册弹窗控制 ---
+    // 点击“登录”按钮显示登录弹窗
+    loginBtn.onclick = function(e) {
+        e.preventDefault(); // 阻止链接默认行为
+        loginModal.style.display = 'flex'; // 使用 flex 以便垂直居中
     }
 
-    // 关闭 ToT 弹窗
+    // 点击“注册”按钮显示注册弹窗
+    registerBtn.onclick = function(e) {
+        e.preventDefault(); // 阻止链接默认行为
+        registerModal.style.display = 'flex'; // 使用 flex 以便垂直居中
+    }
+
+    // 点击登录弹窗的关闭按钮
+    closeLogin.onclick = function() {
+        loginModal.style.display = 'none';
+    }
+
+    // 点击注册弹窗的关闭按钮
+    closeRegister.onclick = function() {
+        registerModal.style.display = 'none';
+    }
+
+    // 点击登录弹窗中的“立即注册”链接
+    switchToRegister.onclick = function(e) {
+        e.preventDefault(); // 阻止链接默认行为
+        loginModal.style.display = 'none';
+        registerModal.style.display = 'flex';
+    }
+
+    // 点击注册弹窗中的“立即登录”链接
+    switchToLogin.onclick = function(e) {
+        e.preventDefault(); // 阻止链接默认行为
+        registerModal.style.display = 'none';
+        loginModal.style.display = 'flex';
+    }
+    // --- 登录/注册弹窗控制结束 ---
+
+    // --- ToT 弹窗逻辑 (保持不变) ---
+    totBtn.onclick = function(e) {
+        e.preventDefault();
+        totModal.style.display = 'block'; // ToT 弹窗使用 block 即可
+    }
+
     closeTot.onclick = function() {
         totModal.style.display = 'none';
     }
 
-    // 跳转到 YouTube
     youtubeBtn.onclick = function() {
         window.location.href = 'https://www.youtube.com/@roses_are_rosie';
     }
 
-    // 跳转到本地视频页面
     localVideoBtn.onclick = function() {
         window.location.href = 'local-video.html';
     }
+    // --- ToT 弹窗逻辑结束 ---
 
-    // 注册表单提交事件
+    // --- 注册表单提交逻辑 (保持不变) ---
     registerForm.onsubmit = (e) => {
         e.preventDefault();
         const username = document.getElementById('registerUsername').value.trim();
@@ -433,7 +470,6 @@
         const password = document.getElementById('registerPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
 
-        // 验证表单字段
         if (!username || !email || !password || !confirmPassword) {
             return alert('请填写所有字段');
         }
@@ -444,29 +480,26 @@
 
         const users = JSON.parse(localStorage.getItem('users') || '[]');
 
-        // 检查用户名是否已存在
         if (users.some(user => user.username === username)) {
             return alert('用户名已被使用');
         }
 
-        // 添加新用户到localStorage
-        const newUser = { username, email, password, avatar: 'default-avatar.png' };  // 默认头像
+        const newUser = { username, email, password, avatar: 'default-avatar.png' };
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
 
         alert('注册成功！请登录');
         registerForm.reset();
         registerModal.style.display = 'none';
-        loginModal.style.display = 'flex';  // 注册后显示登录框
+        loginModal.style.display = 'flex'; // 注册成功后显示登录框
     };
 
-    // 登录表单提交事件
+    // --- 登录表单提交逻辑 (保持不变) ---
     loginForm.onsubmit = (e) => {
         e.preventDefault();
         const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value;
 
-        // 验证表单字段
         if (!username || !password) {
             return alert('请填写用户名和密码');
         }
@@ -477,39 +510,41 @@
         if (user) {
             alert('登录成功！');
             loginForm.reset();
-            loginModal.style.display = 'none';
+            loginModal.style.display = 'none'; // 登录成功后关闭弹窗
             usernameSpan.textContent = username;
             loadUserAvatar(username);
 
             loginBtn.style.display = 'none';
             registerBtn.style.display = 'none';
             userWelcome.style.display = 'inline';
-            localStorage.setItem('currentUser', username);  // 保存当前登录用户到localStorage
+            localStorage.setItem('currentUser', username);
 
-            // 打字机效果显示欢迎信息
             typeWriter(`欢迎回来，${username}！`, welcomeMessage);
         } else {
             alert('用户名或密码不正确');
         }
     };
 
-    // 退出登录事件
+    // --- 退出登录逻辑 (保持不变) ---
     logoutBtn.onclick = (e) => {
-        e.preventDefault();
+        e.preventDefault(); // 阻止链接默认行为
         localStorage.removeItem('currentUser');
         loginBtn.style.display = 'inline';
         registerBtn.style.display = 'inline';
         userWelcome.style.display = 'none';
         headerAvatar.src = '';
         welcomeMessage.textContent = '';
+        welcomeMessage.classList.remove('show'); // 确保移除show类
     };
 
+    // --- 加载用户头像函数 (保持不变) ---
     function loadUserAvatar(username) {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const user = users.find(u => u.username === username);
         headerAvatar.src = user?.avatar || 'default-avatar.png';
     }
 
+    // --- 打字机效果函数 (保持不变) ---
     function typeWriter(text, element, speed = 100) {
         element.textContent = '';
         let i = 0;
@@ -519,26 +554,34 @@
                 element.textContent += text.charAt(i++);
                 setTimeout(type, speed);
             } else {
+                // 保持显示一段时间后淡出
                 setTimeout(() => {
                     element.classList.remove('show');
+                    // 动画结束后清空内容，避免残留
                     setTimeout(() => element.textContent = '', 500);
-                }, 2000);
+                }, 2000); // 显示 2 秒
             }
         }
         type();
     }
 
+    // --- 音乐控制逻辑 (保持不变) ---
     musicBtn.onclick = () => {
         if (isPlaying) {
             backgroundMusic.pause();
             musicBtn.textContent = '播放音乐';
         } else {
-            backgroundMusic.play().catch(() => console.log('自动播放被阻止'));
+            backgroundMusic.play().catch(() => {
+                console.log('自动播放被阻止，请用户手动点击播放');
+                musicBtn.textContent = '播放音乐'; // 如果播放失败，确保按钮文本正确
+                isPlaying = false; // 确保状态正确
+            });
             musicBtn.textContent = '暂停音乐';
         }
-        isPlaying = !isPlaying;
+        isPlaying = !isPlaying; // 切换状态 (如果播放成功)
     };
 
+    // --- 页面加载逻辑 (保持不变) ---
     window.onload = () => {
         const currentUser = localStorage.getItem('currentUser');
         if (currentUser) {
@@ -547,12 +590,27 @@
             loginBtn.style.display = 'none';
             registerBtn.style.display = 'none';
             userWelcome.style.display = 'inline';
-            typeWriter(`欢迎回来，${currentUser}！`, welcomeMessage);
+            // 页面加载时的欢迎信息可以不使用打字机效果，直接显示或延迟显示
+            // typeWriter(`欢迎回来，${currentUser}！`, welcomeMessage);
+            // 或者直接简单显示
+            // welcomeMessage.textContent = `欢迎回来，${currentUser}！`;
+            // welcomeMessage.classList.add('show');
+            // setTimeout(() => {
+            //     welcomeMessage.classList.remove('show');
+            //     welcomeMessage.textContent = '';
+            // }, 2500); // 显示一段时间
         }
+
+        // 尝试自动播放音乐
         backgroundMusic.play().then(() => {
             isPlaying = true;
             musicBtn.textContent = '暂停音乐';
-        }).catch(() => musicBtn.textContent = '播放音乐');
+        }).catch(error => {
+            console.log('背景音乐自动播放失败:', error);
+            // 在许多现代浏览器中，用户需要先与页面交互才能播放音频
+            musicBtn.textContent = '播放音乐';
+            isPlaying = false;
+        });
     };
 </script>
 </body>
