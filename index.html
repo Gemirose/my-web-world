@@ -306,7 +306,7 @@
 </div>
 
 <audio id="backgroundMusic" loop>
-    <source src="ROSÉ%20(로제)-toxic%20till%20the%20end.mp3 " type="audio/mpeg">
+    <source src="ROSÉ%20(로제)-toxic%20till%20the%20end.mp3" type="audio/mpeg">
     你的浏览器不支持音频元素。
 </audio>
 
@@ -425,29 +425,52 @@
         window.location.href = 'local-video.html';
     }
 
+    // 注册表单提交事件
     registerForm.onsubmit = (e) => {
         e.preventDefault();
-        const username = document.getElementById('registerUsername').value;
-        const email = document.getElementById('registerEmail').value;
+        const username = document.getElementById('registerUsername').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
         const password = document.getElementById('registerPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
 
-        if (password !== confirmPassword) return alert('两次输入的密码不匹配');
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (users.some(user => user.username === username)) return alert('用户名已被使用');
+        // 验证表单字段
+        if (!username || !email || !password || !confirmPassword) {
+            return alert('请填写所有字段');
+        }
 
-        users.push({ username, email, password });
+        if (password !== confirmPassword) {
+            return alert('两次输入的密码不匹配');
+        }
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+        // 检查用户名是否已存在
+        if (users.some(user => user.username === username)) {
+            return alert('用户名已被使用');
+        }
+
+        // 添加新用户到localStorage
+        const newUser = { username, email, password, avatar: 'default-avatar.png' };  // 默认头像
+        users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
+
         alert('注册成功！请登录');
         registerForm.reset();
         registerModal.style.display = 'none';
-        loginModal.style.display = 'flex';
+        loginModal.style.display = 'flex';  // 注册后显示登录框
     };
 
+    // 登录表单提交事件
     loginForm.onsubmit = (e) => {
         e.preventDefault();
-        const username = document.getElementById('loginUsername').value;
+        const username = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value;
+
+        // 验证表单字段
+        if (!username || !password) {
+            return alert('请填写用户名和密码');
+        }
+
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const user = users.find(u => u.username === username && u.password === password);
 
@@ -457,16 +480,20 @@
             loginModal.style.display = 'none';
             usernameSpan.textContent = username;
             loadUserAvatar(username);
+
             loginBtn.style.display = 'none';
             registerBtn.style.display = 'none';
             userWelcome.style.display = 'inline';
-            localStorage.setItem('currentUser', username);
+            localStorage.setItem('currentUser', username);  // 保存当前登录用户到localStorage
+
+            // 打字机效果显示欢迎信息
             typeWriter(`欢迎回来，${username}！`, welcomeMessage);
         } else {
             alert('用户名或密码不正确');
         }
     };
 
+    // 退出登录事件
     logoutBtn.onclick = (e) => {
         e.preventDefault();
         localStorage.removeItem('currentUser');

@@ -9,105 +9,141 @@
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #f8f9fa;
+            line-height: 1.6;
         }
 
         .header {
-            background-color: #444;
-            color: darkred;
-            padding: 10px 0;
-            text-align: center;
+            background: linear-gradient(135deg, #333, #555);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .header a {
-            color: lightblue;
-            margin: 0 15px;
+            color: #ffffff;
+            margin: 0 20px;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .header a:hover {
+            color: white;
         }
 
         .main-content {
-            padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 1100px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         h2 {
             text-align: center;
-            color: #444;
-            margin-bottom: 20px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
         }
 
         .order-list {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
         }
 
         .order-list th, .order-list td {
-            padding: 15px;
+            padding: 15px 20px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eef1f5;
         }
 
         .order-list th {
-            background-color: #f9f9f9;
-            color: #444;
+            background-color: #f8f9fa;
+            color: #34495e;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .order-list tr {
+            transition: background-color 0.2s ease;
         }
 
         .order-list tr:hover {
-            background-color: #f5f5f5;
+            background-color: #f9fbfc;
         }
 
         .order-details {
             font-size: 14px;
-            color: #666;
+            color: #7f8c8d;
+            line-height: 1.8;
         }
 
         .price {
-            color: #ff6700;
-            font-weight: bold;
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 16px;
         }
 
         .btn-container {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eef1f5;
         }
 
         .cta-btn, .back-btn {
             display: inline-block;
-            padding: 12px 25px;
+            padding: 12px 30px;
             font-size: 16px;
             text-decoration: none;
-            border-radius: 5px;
-            margin: 0 10px;
+            border-radius: 25px;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
 
         .cta-btn {
-            background-color: #ff6700;
+            background-color: #e74c3c;
             color: white;
+            box-shadow: 0 3px 10px rgba(231,76,60,0.3);
         }
 
         .cta-btn:hover {
-            background-color: #f25600;
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231,76,60,0.4);
         }
 
         .back-btn {
-            background-color: #444;
+            background-color: #34495e;
             color: white;
+            box-shadow: 0 3px 10px rgba(52,73,94,0.3);
         }
 
         .back-btn:hover {
-            background-color: #555;
+            background-color: #2c3e50;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52,73,94,0.4);
         }
 
         .empty-message {
             text-align: center;
-            color: #666;
+            color: #95a5a6;
             font-size: 18px;
-            margin: 50px 0;
+            margin: 60px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -151,13 +187,9 @@
         window.location.href = "index.html";
     }
 
-    // 商品数据（与商品详情页共享）
     const products = JSON.parse(localStorage.getItem("products")) || [];
-
-    // 获取订单数据
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-    // 渲染订单列表
     function renderOrders() {
         const orderBody = document.getElementById("order-body");
         const emptyMessage = document.getElementById("empty-message");
@@ -194,7 +226,6 @@
         });
     }
 
-    // 页面加载时渲染订单
     window.onload = function() {
         renderOrders();
     };
