@@ -5,71 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>射击游戏 - 没米商城</title>
     <style>
+        /* 样式保持不变 */
         body {
             margin: 0;
             padding: 0;
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
         }
 
         .header {
-            background-color: #444;
-            color: darkred;
-            padding: 10px 0;
+            background: linear-gradient(to right, #333, #555);
+            color: white;
+            padding: 15px 0;
             text-align: center;
             width: 100%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             position: fixed;
             top: 0;
-            z-index: 2;
+            z-index: 10;
         }
 
         .header a {
-            color: lightblue;
-            margin: 0 15px;
+            color: #a61111;
+            margin: 0 20px;
             text-decoration: none;
             font-size: 18px;
+            transition: color 0.3s;
         }
 
-        #gameContainer {
-            margin-top: 60px;
-            text-align: center;
+        .header a:hover {
+            color: #ffffff;
+        }
+
+        .game-wrapper {
+            margin-top: 80px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         #gameCanvas {
-            border: 2px solid #444;
-            background-color: #000;
+            border: 3px solid #333;
+            background: #1a1a1a;
+            border-radius: 5px;
         }
 
-        #score {
-            font-size: 24px;
-            color: #444;
-            margin: 10px 0;
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            max-width: 800px;
+            margin: 15px 0;
         }
 
-        #highScores {
-            font-size: 18px;
-            color: #444;
-            margin: 10px 0;
+        .stats div {
+            font-size: 20px;
+            color: #333;
+            padding: 5px 15px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         #startButton {
-            background-color: #ff6700;
+            background: linear-gradient(to right, #a61111, #e50f0f);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 30px;
+            border-radius: 25px;
             font-size: 18px;
             cursor: pointer;
-            margin-top: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         #startButton:hover {
-            background-color: #f25600;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 103, 0, 0.3);
         }
     </style>
 </head>
@@ -79,10 +94,12 @@
     <a href="account.html">账号管理</a>
 </div>
 
-<div id="gameContainer">
+<div class="game-wrapper">
     <canvas id="gameCanvas" width="800" height="600"></canvas>
-    <div id="score">得分: 0</div>
-    <div id="highScores">最高分: </div>
+    <div class="stats">
+        <div id="score">得分: 0</div>
+        <div id="highScores">最高分: </div>
+    </div>
     <button id="startButton">开始游戏</button>
 </div>
 
@@ -93,236 +110,250 @@
     const highScoresDisplay = document.getElementById('highScores');
     const startButton = document.getElementById('startButton');
 
-    let score = 0;
-    let gameRunning = false;
-    let enemySpawnInterval = 1000; // 初始敌人生成间隔（毫秒）
-    let spawnIntervalId = null;
+    // Game state
+    const gameState = {
+        score: 0,
+        isRunning: false,
+        enemySpawnInterval: 1000,
+        spawnIntervalId: null,
+        lastTime: 0,
+        difficultyTimer: 0,
+        lastShotTime: 0,
+        shootCooldown: 200 // 添加射击冷却时间（毫秒）
+    };
 
-    // 音效
-    const shootSound = new Audio('https://www.soundjay.com/buttons/sounds/button-1.mp3'); // 示例射击音效
-    const hitSound = new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3');   // 示例击中音效
+    // Audio
+    const audio = {
+        shoot: new Audio('https://www.soundjay.com/buttons/sounds/button-1.mp3'),
+        hit: new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3')
+    };
 
-    // 玩家对象
+    // Player
     const player = {
-        x: canvas.width / 2,
+        x: canvas.width / 2 - 20,
         y: canvas.height - 50,
         width: 40,
         height: 40,
-        speed: 5,
+        speed: 6,
         dx: 0,
         dy: 0,
-        image: null // 用于存储头像
+        image: null
     };
 
     const bullets = [];
     const enemies = [];
     let highScores = JSON.parse(localStorage.getItem('highScores')) || [];
 
-    // 控制玩家移动
-    const keys = { w: false, a: false, s: false, d: false };
-    document.addEventListener('keydown', (e) => { if (e.key in keys) keys[e.key] = true; });
-    document.addEventListener('keyup', (e) => { if (e.key in keys) keys[e.key] = false; });
-
-    // 射击事件
-    canvas.addEventListener('click', (e) => {
-        if (gameRunning) {
-            const rect = canvas.getBoundingClientRect();
-            const bullet = {
-                x: player.x + player.width / 2,
-                y: player.y,
-                radius: 5,
-                speed: 7,
-                dx: (e.clientX - rect.left - player.x) / 50,
-                dy: -7
-            };
-            bullets.push(bullet);
-            shootSound.play(); // 播放射击音效
+    // Input handling
+    const input = {
+        keys: { w: false, a: false, s: false, d: false },
+        handleKey: (e, state) => {
+            if (e.key in input.keys) {
+                e.preventDefault();
+                input.keys[e.key] = state;
+            }
         }
+    };
+
+    document.addEventListener('keydown', e => input.handleKey(e, true));
+    document.addEventListener('keyup', e => input.handleKey(e, false));
+
+    // Shooting with cooldown
+    canvas.addEventListener('click', (e) => {
+        if (!gameState.isRunning) return;
+        const currentTime = performance.now();
+        if (currentTime - gameState.lastShotTime < gameState.shootCooldown) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const bullet = {
+            x: player.x + player.width / 2,
+            y: player.y,
+            radius: 5,
+            speed: 8,
+            dx: (e.clientX - rect.left - (player.x + player.width / 2)) / 30,
+            dy: -8
+        };
+        bullets.push(bullet);
+        gameState.lastShotTime = currentTime;
+        audio.shoot.cloneNode().play();
     });
 
-    // 生成敌人
+    // Enemy spawning
     function spawnEnemy() {
-        const enemy = {
+        enemies.push({
             x: Math.random() * (canvas.width - 40),
             y: -40,
             width: 40,
             height: 40,
-            speed: 3 + Math.random() * 2
-        };
-        enemies.push(enemy);
+            speed: 3 + Math.random() * 3
+        });
     }
 
-    // 难度递增
-    function increaseDifficulty() {
-        if (enemySpawnInterval > 200) { // 最小间隔200ms
-            enemySpawnInterval -= 50; // 每10秒减少50ms
-            clearInterval(spawnIntervalId);
-            spawnIntervalId = setInterval(() => {
-                if (gameRunning) spawnEnemy();
-            }, enemySpawnInterval);
+    function updateDifficulty(deltaTime) {
+        gameState.difficultyTimer += deltaTime;
+        if (gameState.difficultyTimer >= 10000 && gameState.enemySpawnInterval > 200) {
+            gameState.enemySpawnInterval = Math.max(200, gameState.enemySpawnInterval - 50);
+            clearInterval(gameState.spawnIntervalId);
+            gameState.spawnIntervalId = setInterval(spawnEnemy, gameState.enemySpawnInterval);
+            gameState.difficultyTimer = 0;
         }
     }
 
-    // 更新玩家位置
+    // Updates
     function updatePlayer() {
-        if (keys.w && player.y > 0) player.dy = -player.speed;
-        else if (keys.s && player.y < canvas.height - player.height) player.dy = player.speed;
-        else player.dy = 0;
+        player.dx = (input.keys.d - input.keys.a) * player.speed;
+        player.dy = (input.keys.s - input.keys.w) * player.speed;
 
-        if (keys.a && player.x > 0) player.dx = -player.speed;
-        else if (keys.d && player.x < canvas.width - player.width) player.dx = player.speed;
-        else player.dx = 0;
-
-        player.x += player.dx;
-        player.y += player.dy;
+        player.x = Math.max(0, Math.min(canvas.width - player.width, player.x + player.dx));
+        player.y = Math.max(0, Math.min(canvas.height - player.height, player.y + player.dy));
     }
 
-    // 更新子弹
     function updateBullets() {
-        bullets.forEach((bullet, index) => {
-            bullet.x += bullet.dx;
-            bullet.y += bullet.dy;
-
-            if (bullet.y < 0 || bullet.x < 0 || bullet.x > canvas.width) {
-                bullets.splice(index, 1);
+        for (let i = bullets.length - 1; i >= 0; i--) {
+            const b = bullets[i];
+            b.x += b.dx;
+            b.y += b.dy;
+            if (b.y < -b.radius || b.x < -b.radius || b.x > canvas.width + b.radius) {
+                bullets.splice(i, 1);
             }
-        });
-    }
-
-    // 更新敌人
-    function updateEnemies() {
-        enemies.forEach((enemy, index) => {
-            enemy.y += enemy.speed;
-
-            bullets.forEach((bullet, bIndex) => {
-                if (bullet.x > enemy.x && bullet.x < enemy.x + enemy.width &&
-                    bullet.y > enemy.y && bullet.y < enemy.y + enemy.height) {
-                    enemies.splice(index, 1);
-                    bullets.splice(bIndex, 1);
-                    score += 10;
-                    scoreDisplay.textContent = `得分: ${score}`;
-                    hitSound.play(); // 播放击中音效
-                }
-            });
-
-            if (enemy.y > canvas.height ||
-                (enemy.x < player.x + player.width &&
-                    enemy.x + enemy.width > player.x &&
-                    enemy.y < player.y + player.height &&
-                    enemy.y + enemy.height > player.y)) {
-                enemies.splice(index, 1);
-                if (enemy.y > canvas.height) return;
-                gameRunning = false;
-                updateHighScores();
-                alert(`游戏结束！你的得分: ${score}`);
-                resetGame();
-            }
-        });
-    }
-
-    // 加载玩家头像
-    function loadPlayerAvatar() {
-        const currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            const user = users.find(u => u.username === currentUser);
-            if (user && user.avatar) {
-                player.image = new Image();
-                player.image.src = user.avatar;
-            } else {
-                player.image = new Image();
-                player.image.src = 'default-avatar.png'; // 默认头像
-            }
-        } else {
-            player.image = new Image();
-            player.image.src = 'default-avatar.png';
         }
     }
 
-    // 绘制游戏
+    function updateEnemies() {
+        for (let i = enemies.length - 1; i >= 0; i--) {
+            const e = enemies[i];
+            e.y += e.speed;
+
+            // Bullet collision
+            for (let j = bullets.length - 1; j >= 0; j--) {
+                const b = bullets[j];
+                const dx = b.x - (e.x + e.width / 2);
+                const dy = b.y - (e.y + e.height / 2);
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < b.radius + e.width / 2) {
+                    enemies.splice(i, 1);
+                    bullets.splice(j, 1);
+                    gameState.score += 10;
+                    scoreDisplay.textContent = `得分: ${gameState.score}`;
+                    audio.hit.cloneNode().play();
+                    break; // 跳出子弹循环，因为敌人已被销毁
+                }
+            }
+
+            // Player collision
+            if (e.y + e.height >= player.y &&
+                e.y <= player.y + player.height &&
+                e.x + e.width >= player.x &&
+                e.x <= player.x + player.width) {
+                endGame();
+                return;
+            }
+
+            // Out of bounds
+            if (e.y > canvas.height) {
+                enemies.splice(i, 1);
+            }
+        }
+    }
+
+    // Rendering
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 绘制玩家（使用头像）
-        if (player.image && player.image.complete) {
+        // Player
+        ctx.fillStyle = player.image?.complete ? '' : 'blue';
+        if (player.image?.complete) {
             ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
         } else {
-            ctx.fillStyle = 'blue';
             ctx.fillRect(player.x, player.y, player.width, player.height);
         }
 
-        // 绘制子弹
+        // Bullets
         ctx.fillStyle = 'red';
-        bullets.forEach(bullet => {
+        bullets.forEach(b => {
             ctx.beginPath();
-            ctx.arc(bullet.x, bullet.y, bullet.radius, 0, Math.PI * 2);
+            ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
             ctx.fill();
         });
 
-        // 绘制敌人
+        // Enemies
         ctx.fillStyle = 'green';
-        enemies.forEach(enemy => {
-            ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-        });
+        enemies.forEach(e => ctx.fillRect(e.x, e.y, e.width, e.height));
     }
 
-    // 游戏循环
-    function gameLoop() {
-        if (!gameRunning) return;
+    // Game loop
+    function gameLoop(timestamp) {
+        if (!gameState.isRunning) return;
+
+        const deltaTime = timestamp - gameState.lastTime;
+        gameState.lastTime = timestamp;
 
         updatePlayer();
         updateBullets();
         updateEnemies();
+        updateDifficulty(deltaTime);
         draw();
 
         requestAnimationFrame(gameLoop);
     }
 
-    // 更新排行榜
-    function updateHighScores() {
-        highScores.push(score);
-        highScores.sort((a, b) => b - a); // 降序排序
-        highScores = highScores.slice(0, 5); // 保留前5名
-        localStorage.setItem('highScores', JSON.stringify(highScores));
-        displayHighScores();
+    // Game management
+    function endGame() {
+        gameState.isRunning = false;
+        clearInterval(gameState.spawnIntervalId);
+        updateHighScores();
+        alert(`游戏结束！你的得分: ${gameState.score}`);
+        resetGame();
     }
 
-    // 显示排行榜
-    function displayHighScores() {
+    function updateHighScores() {
+        highScores.push(gameState.score);
+        highScores.sort((a, b) => b - a);
+        highScores = highScores.slice(0, 5);
+        localStorage.setItem('highScores', JSON.stringify(highScores));
         highScoresDisplay.textContent = `最高分: ${highScores.join(', ')}`;
     }
 
-    // 重置游戏
     function resetGame() {
-        score = 0;
-        scoreDisplay.textContent = `得分: ${score}`;
+        gameState.score = 0;
+        gameState.enemySpawnInterval = 1000;
+        gameState.difficultyTimer = 0;
+        gameState.lastShotTime = 0;
+        scoreDisplay.textContent = `得分: 0`;
         bullets.length = 0;
         enemies.length = 0;
-        player.x = canvas.width / 2;
+        player.x = canvas.width / 2 - 20;
         player.y = canvas.height - 50;
-        enemySpawnInterval = 1000; // 重置难度
-        clearInterval(spawnIntervalId);
         startButton.style.display = 'block';
-        loadPlayerAvatar(); // 重新加载头像
+        loadPlayerAvatar();
     }
 
-    // 开始游戏
-    startButton.onclick = () => {
-        if (!gameRunning) {
-            gameRunning = true;
-            startButton.style.display = 'none';
-            gameLoop();
-            spawnIntervalId = setInterval(() => {
-                if (gameRunning) spawnEnemy();
-            }, enemySpawnInterval);
-            setInterval(increaseDifficulty, 10000); // 每10秒增加难度
-        }
-    };
+    function startGame() {
+        if (gameState.isRunning) return;
+        gameState.isRunning = true;
+        gameState.lastTime = performance.now();
+        startButton.style.display = 'none';
+        gameState.spawnIntervalId = setInterval(spawnEnemy, gameState.enemySpawnInterval);
+        requestAnimationFrame(gameLoop);
+    }
 
-    // 初始化
+    // Player avatar
+    function loadPlayerAvatar() {
+        const currentUser = localStorage.getItem('currentUser');
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = currentUser && users.find(u => u.username === currentUser);
+
+        player.image = new Image();
+        player.image.src = user?.avatar || 'default-avatar.png';
+        player.image.onerror = () => player.image.src = 'default-avatar.png';
+    }
+
+    // Initialization
     loadPlayerAvatar();
-    displayHighScores();
+    updateHighScores();
     resetGame();
+    startButton.onclick = startGame;
 </script>
 </body>
 </html>
