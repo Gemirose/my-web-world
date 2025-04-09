@@ -3,211 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>本地视频 - ROSÉ NUMBER ONE</title>
+    <title>本地视频 - ROSÉ NUMBER ONE</title>
     <style>
+        /* 定义全局变量 */
+        :root {
+            --primary-color: #ac1010; /* 主色调改为更柔和的粉红 */
+            --secondary-color: #1a1a1a; /* 深色背景 */
+            --text-color: #333;
+            --light-bg: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
         body {
             margin: 0;
             font-family: "Roboto", "Arial", sans-serif;
-            background-color: #f2f2f2;
-            color: #a61111;
+            background: linear-gradient(135deg, #f9f9f9, #e8ecef); /* 渐变背景 */
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
+        /* 导航栏优化 */
         .navbar {
-            background-color: #202020;
-            padding: 10px 20px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            background: var(--secondary-color);
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .navbar a {
-            color: #ffffff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 16px;
-        }
-
-        .navbar a:hover {
-            color: #ccc;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
         }
 
         .navbar .logo {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 25px;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        .navbar a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 视频容器 */
         .video-container {
-            display: flex;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 20px auto;
-            justify-content: space-between;
+            max-width: 1300px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 40px;
         }
 
         .video-player {
-            flex: 2;
-            padding-right: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            background: var(--light-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .video-player:hover {
+            transform: translateY(-5px);
         }
 
         .video-player video {
             width: 100%;
-            border-radius: 8px;
+            border-radius: 12px;
+            background: #000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .video-title {
-            font-size: 22px;
-            margin: 10px 0;
-            color: #202020;
-            font-weight: bold;
+            font-size: 26px;
+            margin: 20px 0 15px;
+            font-weight: 700;
+            color: var(--secondary-color);
         }
 
         .video-actions {
             display: flex;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 20px;
+            margin-bottom: 15px;
         }
 
         .action-btn {
-            background-color: #e5e5e5;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
             border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
+            padding: 12px 25px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 14px;
-            transition: background-color 0.3s;
+            font-weight: 500;
+            transition: var(--transition);
         }
 
         .action-btn:hover {
-            background-color: #ccc;
+            background: var(--primary-color);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
+        /* 视频列表 */
         .video-list {
-            flex: 1;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
         .video-item {
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            background-color: #fff;
-            border-radius: 8px;
+            background: var(--light-bg);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .video-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
         .video-item img {
             width: 100%;
-            height: 150px;
+            height: 170px;
             object-fit: cover;
-            border-bottom: 1px solid #ddd;
+            transition: var(--transition);
+        }
+
+        .video-item:hover img {
+            filter: brightness(1.1);
         }
 
         .video-item-content {
-            padding: 10px;
+            padding: 15px 20px;
         }
 
         .video-item-title {
-            font-size: 16px;
-            color: #202020;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
         }
 
         .video-item-info {
-            font-size: 12px;
-            color: #ac1010;
+            font-size: 13px;
+            color: #777;
+            font-weight: 400;
         }
 
-        .home-btn {
-            background-color: #ff0000;
-            color: white;
-            padding: 10px 15px;
-            font-size: 14px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-
-        .home-btn:hover {
-            background-color: #cc0000;
-        }
-
-        /* 评论区样式 */
+        /* 评论区 */
         .comments-section {
-            display: none; /* 初始时隐藏评论区 */
-            margin-top: 30px;
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin-top: 40px;
+            background: var(--light-bg);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
         }
 
         .comments-section h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: #202020;
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--secondary-color);
         }
 
         .comment-box {
             display: flex;
             flex-direction: column;
+            gap: 15px;
         }
 
         .comment-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 8px;
             font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            transition: var(--transition);
+        }
+
+        .comment-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 51, 102, 0.3);
         }
 
         .submit-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 15px;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 12px 25px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            align-self: flex-end;
+            font-weight: 500;
+            transition: var(--transition);
         }
 
         .submit-btn:hover {
-            background-color: #45a049;
+            background: #ff1a4d;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         .comment-list {
-            margin-top: 20px;
+            margin-top: 25px;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .comment-item {
-            margin-bottom: 10px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .comment-item span {
-            font-weight: bold;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 15px;
         }
 
         .comment-item p {
-            font-size: 14px;
+            margin: 8px 0 0;
             color: #555;
+            font-size: 14px;
         }
 
+        /* 滚动条美化 */
+        .comment-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .comment-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 900px) {
+            .video-container {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                padding: 15px 20px;
+            }
+            .navbar a {
+                margin: 0 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .video-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-
 <div class="navbar">
-    <div class="logo">ROSÉ NUMBER ONE</div>
+    <div class="logo">ROSÉ NUMBER ONE</div>
     <div>
         <a href="index.html">首页</a>
         <a href="#">本地视频</a>
@@ -218,10 +310,10 @@
 <div class="video-container">
     <div class="video-player">
         <video controls>
-            <source src="toxic%20till%20the%20end.mp4 " type="video/mp4">
+            <source src="toxic%20till%20the%20end.mp4" type="video/mp4">
             你的浏览器不支持视频播放。
         </video>
-        <div class="video-title">ROSÉ 本地视频示例</div>
+        <div class="video-title">ROSÉ toxic till the end MV</div>
         <div class="video-actions">
             <button class="action-btn" onclick="likeVideo()">点赞100000000+</button>
             <button class="action-btn">分享200300540+</button>
@@ -230,77 +322,84 @@
     </div>
 
     <div class="video-list">
-        <div class="video-item" onclick="playVideo('toxic%20till%20the%20end.mp4', 'ROSÉ 本地视频示例')">
-            <img src="石头嘟嘴肉.png  " alt="缩略图">
+        <div class="video-item" onclick="playVideo('toxic till the end.mp4', 'ROSÉ Toxic till the end MV')">
+            <img src="ROLO.jpg" alt="缩略图">
             <div class="video-item-content">
-                <div class="video-item-title">ROSÉ本地视频示例</div>
-                <div class="video-item-info">ROSÉ • 1亿次观看 • 1天前</div>
+                <div class="video-item-title">ROSÉ Toxic till the end MV</div>
+                <div class="video-item-info">ROSÉ • 4000亿次观看 • 1天前</div>
             </div>
         </div>
-        <div class="video-item" onclick="playVideo('toxic%20till%20the%20end.mp4', 'Pingu冒险之旅')">
-            <img src="石头歪头肉.png" alt="缩略图">
+        <div class="video-item" onclick="playVideo('apt.mp4', 'ROSÉ APT. MV')">
+            <img src="APT.jpg" alt="缩略图">
             <div class="video-item-content">
-                <div class="video-item-title">ROSÉ冒险之旅</div>
-                <div class="video-item-info">ROSÉ • 5亿次观看 • 3天前</div>
+                <div class="video-item-title">ROSÉ APT. MV</div>
+                <div class="video-item-info">ROSÉ • 6000亿次观看 • 3天前</div>
+            </div>
+        </div>
+        <div class="video-item" onclick="playVideo('number%20one%20girl.mp4', 'ROSÉ number one girl MV')">
+            <img src="NOG.jpg" alt="缩略图">
+            <div class="video-item-content">
+                <div class="video-item-title">ROSÉ number one girl MV</div>
+                <div class="video-item-info">ROSÉ • 5000亿次观看 • 5天前</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 评论区 -->
 <div class="comments-section">
     <h3>评论区</h3>
     <div class="comment-box">
         <textarea class="comment-input" placeholder="添加评论..."></textarea>
         <button class="submit-btn" onclick="submitComment()">提交评论</button>
     </div>
-
-    <div class="comment-list">
-        <!-- 评论项将通过 JavaScript 动态添加 -->
-    </div>
+    <div class="comment-list"></div>
 </div>
 
 <script>
-    // 视频播放功能
+    const videoPlayer = document.querySelector('video');
+    const videoTitle = document.querySelector('.video-title');
+    const commentsSection = document.querySelector('.comments-section');
+    const commentInput = document.querySelector('.comment-input');
+    const commentList = document.querySelector('.comment-list');
+    let likeCount = 100000000;
+
     function playVideo(src, title) {
-        const video = document.querySelector('video');
-        const videoTitle = document.querySelector('.video-title');
-        video.src = src;
+        videoPlayer.src = src;
         videoTitle.textContent = title;
-        video.play();
+        videoPlayer.play().catch(error => console.error('播放错误:', error));
     }
 
-    // 点赞按钮功能
-    let likeCount = 100000000;
     function likeVideo() {
         likeCount++;
-        const likeButton = document.querySelector('.action-btn');
-        likeButton.textContent = `点赞${likeCount.toLocaleString()}+`;
+        document.querySelector('.action-btn').textContent = `点赞${likeCount.toLocaleString()}+`;
     }
 
-    // 打开/关闭评论区
     function toggleComments() {
-        const commentsSection = document.querySelector('.comments-section');
-        commentsSection.style.display = commentsSection.style.display === 'none' || commentsSection.style.display === '' ? 'block' : 'none';
+        commentsSection.style.display =
+            commentsSection.style.display === 'block' ? 'none' : 'block';
     }
 
-    // 提交评论功能
     function submitComment() {
-        const commentInput = document.querySelector('.comment-input');
         const commentText = commentInput.value.trim();
+        if (!commentText) return;
 
-        if (commentText) {
-            const commentList = document.querySelector('.comment-list');
-            const newComment = document.createElement('div');
-            newComment.classList.add('comment-item');
-            newComment.innerHTML = `<span>用户</span><p>${commentText}</p>`;
-            commentList.appendChild(newComment);
-
-            // 清空评论输入框
-            commentInput.value = '';
-        }
+        const comment = document.createElement('div');
+        comment.className = 'comment-item';
+        comment.innerHTML = `
+                <span>用户</span>
+                <p>${commentText}</p>
+            `;
+        commentList.appendChild(comment);
+        commentInput.value = '';
+        commentList.scrollTop = commentList.scrollHeight;
     }
-</script>
 
+    commentInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            submitComment();
+        }
+    });
+</script>
 </body>
 </html>
