@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUPER Ultra</title>
+    <title>SUPER ROSIE</title>
     <style>
         body {
             margin: 0;
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #a61111;
             color: #333;
         }
 
         .header {
             background-color: #444;
-            color: #ffffff;
+            color: #a61111;
             padding: 10px 0;
             text-align: center;
             position: relative;
@@ -22,7 +22,7 @@
         }
 
         .header a {
-            color: #fff;
+            color: #ffffff;
             margin: 0 15px;
             text-decoration: none;
             font-size: 16px;
@@ -30,7 +30,7 @@
         }
 
         .header a:hover {
-            color: #ff6700;
+            color: #a61111;
         }
 
         .main-content {
@@ -69,7 +69,7 @@
         }
 
         .cta-link {
-            background-color: #ff6700;
+            background-color: #a61111;
             color: #fff;
             padding: 12px 30px;
             font-size: 18px;
@@ -79,7 +79,7 @@
         }
 
         .cta-link:hover {
-            background-color: #f25600;
+            background-color: #cf4747;
         }
 
         .modal {
@@ -134,7 +134,7 @@
         }
 
         .btn {
-            background-color: #ff6700;
+            background-color: #a61111;
             color: white;
             padding: 12px;
             border: none;
@@ -145,7 +145,7 @@
         }
 
         .btn:hover {
-            background-color: #f25600;
+            background-color: #a61111;
         }
 
         .switch-form {
@@ -155,7 +155,7 @@
         }
 
         .switch-form a {
-            color: #ff6700;
+            color: #a61111;
             text-decoration: none;
         }
 
@@ -199,7 +199,7 @@
         }
 
         .music-btn {
-            background-color: #ff6700;
+            background-color: #a61111;
             color: white;
             border: none;
             padding: 12px 18px;
@@ -210,10 +210,10 @@
         }
 
         .music-btn:hover {
-            background-color: #f25600;
+            background-color: #cf4747;
         }
 
-        /* 新增 ToT 弹窗样式 */
+        /* 新增 mv 弹窗样式 */
         .tot-modal {
             display: none;
             position: fixed;
@@ -248,7 +248,7 @@
         }
 
         .tot-btn {
-            background-color: #007bff;
+            background-color: #a61111;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -258,7 +258,7 @@
         }
 
         .tot-btn:hover {
-            background-color: #0056b3;
+            background-color: #a61111;
         }
 
         .close-tot {
@@ -275,16 +275,16 @@
 </head>
 <body>
 <div class="header">
-    <a href="#">没米官网</a>
-    <a href="#">没米商城</a>
-    <a href="#">机米汽车</a>
-    <a href="racing.html">赛车游戏</a>
-    <a href="#" id="totBtn">ToT</a>
-    <a href="image-gallery.html">没品</a>
+    <a href="https://www.rosesarerosie.com">ROSIE官网</a>
+    <a href="product-detail.html">ROSIE商城</a>
+    <a href="#">机米STUIDO</a>
+    <a href="racing.html">PUMA赛车游戏</a>
+    <a href="#" id="totBtn">MV</a>
+    <a href="image-gallery.html">有品</a>
     <a href="orders.html">我的订单</a>
-    <a href="#">0个人爱开放平台</a>
-    <a href="dressup.html">换装游戏</a>
-    <a href="game.html">射击游戏</a>
+    <a href="#">万人迷开放平台</a>
+    <a href="dressup.html">自嘲熊换装游戏</a>
+    <a href="game.html">biubiubiu打黑粉游戏</a>
     <a href="account.html">账号管理</a>
     <a href="#" id="loginBtn">登录</a>
     <a href="#" id="registerBtn">注册</a>
@@ -296,10 +296,10 @@
 </div>
 
 <div class="main-content">
-    <img src="zhaopian.jpg" alt="pingu" class="car-image">
+    <img src="石头歪头肉.png" alt="rosie" class="car-image">
     <div class="hero-text">
-        <h1>SUPER pingu🐧</h1>
-        <p>遥遥领先的强大</p>
+        <h1>SUPER ROSIE</h1>
+        <p>rosie的强大</p>
         <a href="product-detail.html" class="cta-link">了解详情</a>
     </div>
     <div id="welcomeMessage" class="welcome-message"></div>
@@ -364,7 +364,7 @@
     </div>
 </div>
 
-<!-- ToT 弹窗 -->
+<!-- MV 弹窗 -->
 <div id="totModal" class="tot-modal">
     <div class="tot-modal-content">
         <span class="close-tot" id="closeTot">×</span>
@@ -443,10 +443,10 @@
     }
     // --- 登录/注册弹窗控制结束 ---
 
-    // --- ToT 弹窗逻辑 (保持不变) ---
+    // --- MV 弹窗逻辑 (保持不变) ---
     totBtn.onclick = function(e) {
         e.preventDefault();
-        totModal.style.display = 'block'; // ToT 弹窗使用 block 即可
+        totModal.style.display = 'block'; // TMV 弹窗使用 block 即可
     }
 
     closeTot.onclick = function() {
@@ -460,7 +460,7 @@
     localVideoBtn.onclick = function() {
         window.location.href = 'local-video.html';
     }
-    // --- ToT 弹窗逻辑结束 ---
+    // --- MV 弹窗逻辑结束 ---
 
     // --- 注册表单提交逻辑 (保持不变) ---
     registerForm.onsubmit = (e) => {

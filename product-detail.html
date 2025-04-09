@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SN7 Ultra 详情</title>
+    <title>ROSIE 详情</title>
     <style>
         body {
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
@@ -28,7 +28,7 @@
         }
 
         .header a {
-            color: #ff6700;
+            color: #ac1010;
             text-decoration: none;
             margin: 0 15px;
             font-size: 16px;
@@ -77,9 +77,9 @@
         }
 
         .car-display button:hover {
-            background-color: #ff6700;
+            background-color: #ac1010;
             color: #fff;
-            border-color: #ff6700;
+            border-color: #ac1010;
         }
 
         .product-options {
@@ -130,12 +130,12 @@
         }
 
         .color-selection img:hover, .wheels-selection img:hover, .interior-selection img:hover {
-            border-color: #ff6700;
+            border-color: #ac1010;
         }
 
         .selected {
-            border-color: #ff6700;
-            box-shadow: 0 0 8px rgba(255, 103, 0, 0.3);
+            border-color: #cf4747;
+            box-shadow: 0 0 8px rgb(172, 16, 16);
         }
 
         .color-selection p, .wheels-selection p, .interior-selection p {
@@ -146,7 +146,7 @@
 
         .price {
             font-size: 26px;
-            color: #ff6700;
+            color: #ac1010;
             margin: 30px 0;
             text-align: center;
             font-weight: bold;
@@ -162,7 +162,7 @@
             display: block;
             width: 100%;
             padding: 14px;
-            background-color: #ff6700;
+            background-color: #ac1010;
             color: #fff;
             font-size: 18px;
             text-align: center;
@@ -172,7 +172,7 @@
         }
 
         .cta-btn:hover {
-            background-color: #e65c00;
+            background-color: #ac1010;
             transform: translateY(-2px);
         }
 
@@ -197,71 +197,67 @@
 <body>
 
 <div class="header">
-    <h1>SUPER Ultra 详情</h1>
+    <h1>ROSIE详情</h1>
     <a href="index.html">返回首页</a>
     <a href="orders.html">我的订单</a>
     <a href="account.html">账号管理</a>
 </div>
 
 <div class="main-content">
-    <!-- 左侧车身展示 -->
+    <!--专辑展示 -->
     <div class="car-display">
-        <img src="前.png" alt="前视角" id="car-display">
+        <img src="配置1.jpg" alt="配置01" id="Rosie-display">
         <div>
-            <button onclick="changeView('front')">前视角</button>
-            <button onclick="changeView('side')">侧视角</button>
-            <button onclick="changeView('rear')">后视角</button>
+            <button onclick="changeView('front')">配置01</button>
+            <button onclick="changeView('side')">配置02</button>
+            <button onclick="changeView('rear')">配置03</button>
         </div>
     </div>
 
-    <!-- 右侧选项展示 -->
+    <!-- 配置展示 -->
     <div class="product-options">
         <h2>选择你的配置</h2>
 
-        <!-- 车身颜色选择 -->
+        <!-- 专辑选择 -->
         <div class="color-selection">
-            <div class="option-title">车身颜色</div>
+            <div class="option-title">专辑选择</div>
             <div>
-                <img src="黄.png" alt="雷电黄" onclick="selectColor('yellow', this)">
-                <p>雷电黄</p>
+                <img src="版本1.png " alt="APT." onclick="selectColor('yellow', this)">
+                <p>APT.</p>
             </div>
             <div>
-                <img src="白.png" alt="贝母白" onclick="selectColor('white', this)">
-                <p>贝母白</p>
+                <img src="版本2.jpg " alt="透胶rosie" onclick="selectColor('white', this)">
+                <p>透胶rosie</p>
             </div>
             <div>
-                <img src="银.png" alt="陨石银" onclick="selectColor('gray', this)">
-                <p>陨石银</p>
-            </div>
-            <div>
-                <img src="绿.png" alt="苍林绿" onclick="selectColor('green', this)">
-                <p>苍林绿</p>
+                <img src="版本3.png " alt="白胶APT." onclick="selectColor('green', this)">
+                <p>白胶APT.</p>
             </div>
         </div>
 
-        <!-- 车轮选择 -->
+        <!-- 选择 -->
         <div class="wheels-selection">
             <div class="option-title">车轮类型</div>
             <div>
-                <img src="轮毂1.png" alt="黑色锻造轮毂" onclick="selectWheels('wheel1', this)">
-                <p>黑色锻造轮毂</p>
+                <img src="特典01.jpg " alt="特典01" onclick="selectWheels('wheel1', this)">
+                <p>特典01</p>
             </div>
             <div>
-                <img src="轮毂2.png" alt="金边锻造轮毂" onclick="selectWheels('wheel2', this)">
-                <p>金边锻造轮毂</p>
+                <img src="特典02.jpg " alt="特典02" onclick="selectWheels('wheel2', this)">
+                <p>特典02</p>
             </div>
         </div>
 
-        <!-- 内饰选择 -->
+        <!-- 特典选择 -->
         <div class="interior-selection">
-            <div class="option-title">内饰类型</div>
+            <div class="option-title">特典选择</div>
             <div>
-                <img src="内饰1.png" alt="黄中带黑" onclick="selectInterior('interior1', this)">
-                <p>黄中带黑</p>
+                <img src="特典01.jpg " alt="特典01" onclick="selectInterior('interior1', this)">
+                <p>特典01</p>
             </div>
             <div>
-                <img src="内饰2.png" alt="黑中带黄" onclick="selectInterior('interior2', this)">
-                <p>黑中带黄</p>
+                <img src="特典02.jpg " alt="特典02" onclick="selectInterior('interior2', this)">
+                <p>特典02</p>
             </div>
         </div>
 
@@ -280,31 +276,37 @@
 
 <script>
     // 原有的 JavaScript 代码保持不变
+    function changeView(view) {
+        // 获取图片展示区域
+        const carDisplay = document.getElementById("Rosie-display");
+
+        // 使用 productData.images 对象来获取正确的图片路径
+        carDisplay.src = productData.images[view];
+    }
     const productData = {
         id: 1,
-        name: "SUPER Ultra",
+        name: "ROSIE",
         basePrice: 538900,
         originalPrice: 596900,
         stock: 100,
         images: {
-            front: "前.png",
-            side: "侧.png",
-            rear: "后.png"
+            front: "配置1.jpg",
+            side: "配置2.jpg",
+            rear: "配置3.png",
         },
         options: {
             colors: [
-                { id: "yellow", name: "雷电黄", image: "黄.png", additionalPrice: 0 },
-                { id: "white", name: "贝母白", image: "白.png", additionalPrice: 0 },
-                { id: "gray", name: "陨石银", image: "银.png", additionalPrice: 0 },
-                { id: "green", name: "苍林绿", image: "绿.png", additionalPrice: 0 }
+                { id: "yellow", name: "APT.", image: "版本1.png", additionalPrice: 0 },
+                { id: "white", name: "透胶rosie", image: "版本2.jpg", additionalPrice: 0 },
+                { id: "green", name: "白胶APT", image: "版本3.png", additionalPrice: 0 },
             ],
             wheels: [
-                { id: "wheel1", name: "黑色锻造轮毂", image: "轮毂1.png", additionalPrice: 0 },
-                { id: "wheel2", name: "金边锻造轮毂", image: "轮毂2.png", additionalPrice: 5000 }
+                { id: "wheel1", name: "特典01", image: "特典01.jpg", additionalPrice: 0 },
+                { id: "wheel2", name: "特典02", image: "特典02.jpg", additionalPrice: 5000 }
             ],
             interiors: [
-                { id: "interior1", name: "黄中带黑", image: "内饰1.png", additionalPrice: 0 },
-                { id: "interior2", name: "黑中带黄", image: "内饰2.png", additionalPrice: 3000 }
+                { id: "interior1", name: "特典01", image: "特典01.jpg", additionalPrice: 0 },
+                { id: "interior2", name: "特典02", image: "特典02.jpg", additionalPrice: 3000 }
             ]
         }
     };
@@ -323,82 +325,6 @@
         wheel: null,
         interior: null
     };
-
-    function changeView(view) {
-        const carDisplay = document.getElementById("car-display");
-        carDisplay.src = productData.images[view];
-    }
-
-    function selectColor(colorId, element) {
-        selectedConfig.color = colorId;
-        updateSelection(".color-selection img", element);
-        updatePrice();
-    }
-
-    function selectWheels(wheelId, element) {
-        selectedConfig.wheel = wheelId;
-        updateSelection(".wheels-selection img", element);
-        updatePrice();
-    }
-
-    function selectInterior(interiorId, element) {
-        selectedConfig.interior = interiorId;
-        updateSelection(".interior-selection img", element);
-        updatePrice();
-    }
-
-    function updateSelection(selector, selectedElement) {
-        document.querySelectorAll(selector).forEach(img => img.classList.remove("selected"));
-        selectedElement.classList.add("selected");
-    }
-
-    function updatePrice() {
-        let totalPrice = productData.basePrice;
-        const colors = productData.options.colors;
-        const wheels = productData.options.wheels;
-        const interiors = productData.options.interiors;
-
-        if (selectedConfig.color) {
-            totalPrice += colors.find(c => c.id === selectedConfig.color).additionalPrice;
-        }
-        if (selectedConfig.wheel) {
-            totalPrice += wheels.find(w => w.id === selectedConfig.wheel).additionalPrice;
-        }
-        if (selectedConfig.interior) {
-            totalPrice += interiors.find(i => i.id === selectedConfig.interior).additionalPrice;
-        }
-
-        document.getElementById("price-display").innerHTML =
-            `¥${totalPrice.toLocaleString()} <span>¥${productData.originalPrice.toLocaleString()}</span>`;
-    }
-
-    function saveOrder(event) {
-        event.preventDefault();
-        if (!localStorage.getItem("currentUser")) {
-            alert("请先登录！");
-            window.location.href = "index.html";
-            return;
-        }
-
-        if (!selectedConfig.color || !selectedConfig.wheel || !selectedConfig.interior) {
-            alert("请完成所有配置选择！");
-            return;
-        }
-
-        const order = {
-            productId: productData.id,
-            config: { ...selectedConfig },
-            totalPrice: parseInt(document.getElementById("price-display").textContent.split(" ")[0].replace("¥", "").replace(",", "")),
-            timestamp: new Date().toISOString()
-        };
-
-        const orders = JSON.parse(localStorage.getItem("orders"));
-        orders.push(order);
-        localStorage.setItem("orders", JSON.stringify(orders));
-
-        alert("订单已保存！即将跳转到订单页面。");
-        window.location.href = "orders.html";
-    }
 
     window.onload = function() {
         initDatabase();
