@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本地视频 - ROSÉ NUMBER ONE</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Roboto", "Arial", sans-serif;
+            background-color: #f2f2f2;
+            color: #a61111;
+        }
+
+        .navbar {
+            background-color: #202020;
+            padding: 10px 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            color: #ccc;
+        }
+
+        .navbar .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .video-container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 20px auto;
+            justify-content: space-between;
+        }
+
+        .video-player {
+            flex: 2;
+            padding-right: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-player video {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .video-title {
+            font-size: 22px;
+            margin: 10px 0;
+            color: #202020;
+            font-weight: bold;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            background-color: #e5e5e5;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .action-btn:hover {
+            background-color: #ccc;
+        }
+
+        .video-list {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .video-item {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .video-item-content {
+            padding: 10px;
+        }
+
+        .video-item-title {
+            font-size: 16px;
+            color: #202020;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .video-item-info {
+            font-size: 12px;
+            color: #ac1010;
+        }
+
+        .home-btn {
+            background-color: #ff0000;
+            color: white;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .home-btn:hover {
+            background-color: #cc0000;
+        }
+
+        /* 评论区样式 */
+        .comments-section {
+            display: none; /* 初始时隐藏评论区 */
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .comments-section h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #202020;
+        }
+
+        .comment-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .comment-list {
+            margin-top: 20px;
+        }
+
+        .comment-item {
+            margin-bottom: 10px;
+        }
+
+        .comment-item span {
+            font-weight: bold;
+        }
+
+        .comment-item p {
+            font-size: 14px;
+            color: #555;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">ROSÉ NUMBER ONE</div>
+    <div>
+        <a href="index.html">首页</a>
+        <a href="#">本地视频</a>
+        <a href="#">收藏夹</a>
+    </div>
+</div>
+
+<div class="video-container">
+    <div class="video-player">
+        <video controls>
+            <source src="know%20about%20me.mp4 " type="video/mp4">
+            你的浏览器不支持视频播放。
+        </video>
+        <div class="video-title">ROSÉ 本地视频示例</div>
+        <div class="video-actions">
+            <button class="action-btn" onclick="likeVideo()">点赞100000000+</button>
+            <button class="action-btn">分享200300540+</button>
+            <button class="action-btn" onclick="toggleComments()">评论211000000+</button>
+        </div>
+    </div>
+
+    <div class="video-list">
+        <div class="video-item" onclick="playVideo('know%20about%20me.mp4', 'ROSÉ 本地视频示例')">
+            <img src="对镜肉.png " alt="缩略图">
+            <div class="video-item-content">
+                <div class="video-item-title">ROSÉ本地视频示例</div>
+                <div class="video-item-info">ROSÉ • 1亿次观看 • 1天前</div>
+            </div>
+        </div>
+        <div class="video-item" onclick="playVideo('know%20about%20me', 'Pingu冒险之旅')">
+            <img src="石头歪头肉.png" alt="缩略图">
+            <div class="video-item-content">
+                <div class="video-item-title">ROSÉ冒险之旅</div>
+                <div class="video-item-info">ROSÉ • 5亿次观看 • 3天前</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 评论区 -->
+<div class="comments-section">
+    <h3>评论区</h3>
+    <div class="comment-box">
+        <textarea class="comment-input" placeholder="添加评论..."></textarea>
+        <button class="submit-btn" onclick="submitComment()">提交评论</button>
+    </div>
+
+    <div class="comment-list">
+        <!-- 评论项将通过 JavaScript 动态添加 -->
+    </div>
+</div>
+
+<script>
+    // 视频播放功能
+    function playVideo(src, title) {
+        const video = document.querySelector('video');
+        const videoTitle = document.querySelector('.video-title');
+        video.src = src;
+        videoTitle.textContent = title;
+        video.play();
+    }
+
+    // 点赞按钮功能
+    let likeCount = 100000000;
+    function likeVideo() {
+        likeCount++;
+        const likeButton = document.querySelector('.action-btn');
+        likeButton.textContent = `点赞${likeCount.toLocaleString()}+`;
+    }
+
+    // 打开/关闭评论区
+    function toggleComments() {
+        const commentsSection = document.querySelector('.comments-section');
+        commentsSection.style.display = commentsSection.style.display === 'none' || commentsSection.style.display === '' ? 'block' : 'none';
+    }
+
+    // 提交评论功能
+    function submitComment() {
+        const commentInput = document.querySelector('.comment-input');
+        const commentText = commentInput.value.trim();
+
+        if (commentText) {
+            const commentList = document.querySelector('.comment-list');
+            const newComment = document.createElement('div');
+            newComment.classList.add('comment-item');
+            newComment.innerHTML = `<span>用户</span><p>${commentText}</p>`;
+            commentList.appendChild(newComment);
+
+            // 清空评论输入框
+            commentInput.value = '';
+        }
+    }
+</script>
+
+</body>
+</html>
