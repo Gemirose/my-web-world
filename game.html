@@ -7,7 +7,8 @@
     <style>
         body {
             margin: 0;
-            padding:font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+            padding: 0;
+            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
             background-color: #ffffff; /* 默认浅色背景 */
             color: #000000; /* 默认浅色文本 */
             min-height: 100vh;
@@ -35,34 +36,50 @@
 
         @media (prefers-color-scheme: dark) {
             body {
-                background-color: #121212; /* 深色背景 */
-                color: #ffffff; /* 深色文本 */
+                background-color: #121212 !important;
+                background-image: none !important;
+                color: #ffffff !important;
             }
 
             .header {
-                border-color: rgba(255, 255, 255, 0.1) !important;
+                background: rgba(28, 28, 28, 0.7) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .header a {
+                color: #ffffff !important;
+            }
+
+            .header a:hover {
+                color: rgba(255, 255, 255, 0.8) !important;
             }
 
             .game-wrapper {
-                background: rgba(30, 30, 30, 0.5) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
+                background: rgba(30, 30, 30, 0.75) !important;
+                border: 1px solid rgba(255, 255, 255, 0.2) !important;
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
             }
 
             #gameCanvas {
-                border-color: rgba(255, 255, 255, 0.15) !important;
-                background: rgba(0, 0, 0, 0.7) !important;
+                border: 3px solid rgba(255, 255, 255, 0.2) !important;
+                background: rgba(0, 0, 0, 0.9) !important;
             }
 
             .stats div {
-                background: rgba(255, 255, 255, 0.1) !important;
-                border-color: rgba(255, 255, 255, 0.2) !important;
+                background: rgba(45, 45, 45, 0.8) !important;
+                border: 1px solid rgba(255, 255, 255, 0.2) !important;
                 color: #ffffff !important;
                 text-shadow: none !important;
             }
 
             #startButton {
-                color: #ffffff !important;
                 background: rgba(166, 17, 17, 0.8) !important;
+                color: #ffffff !important;
+                border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            }
+
+            #startButton:hover {
+                background: rgba(166, 17, 17, 1) !important;
             }
         }
 

@@ -134,28 +134,49 @@
         /* Dark Mode Styles */
         @media (prefers-color-scheme: dark) {
             body {
-                background-color: #121212 !important; /* 深色模式背景 */
-                background-image: none !important; /* 深色模式下移除渐变 */
-                color: #e0e0e0 !important; /* 深色模式文字颜色 */
+                background-color: #121212 !important;
+                background-image: none !important;
+                color: #e0e0e0 !important;
+            }
+
+            .header {
+                background: rgba(28, 28, 28, 0.7) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
             }
 
             .header a {
-                color: #ff6b6b !important; /* 深色模式下更亮的红色链接 */
+                color: #ff6b6b !important;
                 font-weight: normal !important;
             }
 
             #canvasContainer, #controls {
-                background: rgba(30, 30, 30, 0.5) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
+                background: rgba(30, 30, 30, 0.75) !important;
+                border-color: rgba(255, 255, 255, 0.2) !important;
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
             }
 
             .category h3, #savedOutfits h3 {
-                color: #e0e0e0 !important; /* 深色模式下浅色标题 */
+                color: #ffffff !important;
             }
 
             #gameCanvas {
                 background-color: rgba(40, 40, 40, 0.8) !important;
                 border-color: rgba(255, 255, 255, 0.15) !important;
+            }
+
+            .option-btn, #randomButton, #saveButton {
+                background: rgba(45, 45, 45, 0.8) !important;
+                color: #ffffff !important;
+                border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            }
+
+            .option-btn:hover, #randomButton:hover, #saveButton:hover {
+                background: rgba(65, 65, 65, 1) !important;
+            }
+
+            .saved-outfit {
+                background: rgba(45, 45, 45, 0.5) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
             }
         }
     </style>
