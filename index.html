@@ -8,29 +8,61 @@
         body {
             margin: 0;
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-            background-color: #a61111;
+            background-image: url('石头歪头肉.png ');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: #333;
+            min-height: 100vh;
+            padding-top: 80px; /* 为固定的 header 预留空间，根据 header 实际高度调整 */
+        }
+
+        /* 液态玻璃效果的 SVG 滤镜定义 */
+        .hidden-svg {
+            display: none;
         }
 
         .header {
-            background-color: #444;
-            color: #a61111;
-            padding: 10px 0;
+            /* background-color: #444; */
+            color: #ffffff; /* 将文字颜色改为白色以获得更好的对比度 */
+            padding: 15px 20px; /* 增加内边距 */
             text-align: center;
-            position: relative;
-            z-index: 2;
+            /* position: relative; */ /* 移除 relative，改为 fixed */
+            z-index: 1000; /* 确保 header 在最上层 */
+
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(15px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3),
+                        inset 0px 1px 1px rgba(255, 255, 255, 0.3),
+                        inset 0px -3px 4px rgba(0, 0, 0, 0.25);
+            /* margin: 20px; */ /* 固定定位时，外边距通常由 left/right/top/bottom 控制，或者不需要 */
+            text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+
+            /* 新增固定定位样式 */
+            position: fixed;
+            top: 10px; /* 距离顶部10px，可以调整 */
+            left: 10px; /* 距离左侧10px，可以调整 */
+            right: 10px; /* 距离右侧10px，可以调整 */
+            /* width: 100%; */ /* 如果希望撑满宽度，则使用 width: calc(100% - 20px); 配合左右的间距 */
+            /* 或者移除 left 和 right，设置 width: auto; margin: 10px auto; 来居中固定宽度的导航栏 */
+            border-radius: 12px; /* 如果希望两边有空隙，则保留这个，如果希望撑满则可能需要调整或移除下方左右圆角 */
         }
 
         .header a {
-            color: #ffffff;
+            color: #ffffff; /* 确保链接颜色也是高对比度的 */
             margin: 0 15px;
             text-decoration: none;
             font-size: 16px;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3); /* 为链接文字也添加阴影 */
         }
 
         .header a:hover {
-            color: #a61111;
+            color: #f0f0f0; /* 鼠标悬停时略微变亮的颜色 */
+            text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5); /* 悬停时高亮文本阴影 */
         }
 
         .main-content {
@@ -44,6 +76,7 @@
             height: 100%;
             object-fit: cover;
             filter: brightness(0.8);
+            display: none; /* 隐藏原有的img元素，因为我们现在用它做背景 */
         }
 
         .hero-text {
@@ -69,17 +102,31 @@
         }
 
         .cta-link {
-            background-color: #a61111;
+            /* background-color: #a61111; */ /* 移除原背景色 */
             color: #fff;
             padding: 12px 30px;
             font-size: 18px;
-            border-radius: 5px;
+            border-radius: 8px; /* 调整圆角以适应玻璃效果 */
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease; /* 更新 transition */
+            display: inline-block; /* 确保 transform 生效 */
+
+            /* 液态玻璃效果 for cta-link - 淡蓝色调 */
+            background: rgba(173, 216, 230, 0.15); /* 淡蓝色 (lightblue) 配合透明度 */
+            backdrop-filter: blur(5px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                        inset 0px 1px 1px rgba(255, 255, 255, 0.4),
+                        inset 0px -2px 3px rgba(0, 0, 0, 0.2);
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .cta-link:hover {
-            background-color: #cf4747;
+            background: rgba(173, 216, 230, 0.25); /* 悬停时蓝色更明显一些 */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3),
+                        inset 0px 1px 1px rgba(255, 255, 255, 0.5),
+                        inset 0px -2px 3px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px); /* 轻微上浮效果 */
         }
 
         .modal {
@@ -134,18 +181,32 @@
         }
 
         .btn {
-            background-color: #a61111;
+            /* background-color: #a61111; */ /* 移除原背景色 */
             color: white;
             padding: 12px;
-            border: none;
-            border-radius: 5px;
+            border: none; /* 移除原有边框，使用玻璃效果的边框 */
+            border-radius: 8px; /* 调整圆角 */
             cursor: pointer;
             width: 100%;
             font-size: 18px;
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease; /* 更新 transition */
+
+            /* 液态玻璃效果 for btn - 淡蓝色调 */
+            background: rgba(70, 130, 180, 0.2); /* 钢蓝色 (steelblue) 配合透明度，比 cta-link 略深 */
+            backdrop-filter: blur(5px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                        inset 0px 1px 1px rgba(255, 255, 255, 0.3),
+                        inset 0px -2px 3px rgba(0, 0, 0, 0.2);
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .btn:hover {
-            background-color: #a61111;
+            background: rgba(70, 130, 180, 0.3); /* 悬停时蓝色更明显一些 */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3),
+                        inset 0px 1px 1px rgba(255, 255, 255, 0.4),
+                        inset 0px -2px 3px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
         }
 
         .switch-form {
@@ -199,18 +260,31 @@
         }
 
         .music-btn {
-            background-color: #a61111;
+            /* background-color: #a61111; */ /* 移除原背景色 */
             color: white;
-            border: none;
+            border: none; /* 移除原有边框，使用玻璃效果的边框 */
             padding: 12px 18px;
-            border-radius: 30px;
+            border-radius: 30px; /* 保留较大的圆角，或者根据喜好调整 */
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s ease;
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+
+            /* 液态玻璃效果 for music-btn - 淡蓝色调 */
+            background: rgba(100, 149, 237, 0.25); /* 矢车菊蓝 (cornflowerblue) 配合透明度 */
+            backdrop-filter: blur(6px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25),
+                        inset 0px 1px 1px rgba(255, 255, 255, 0.3),
+                        inset 0px -2px 3px rgba(0, 0, 0, 0.2);
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .music-btn:hover {
-            background-color: #cf4747;
+            background: rgba(100, 149, 237, 0.35); /* 悬停时蓝色更明显一些 */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+                        inset 0px 1px 1px rgba(255, 255, 255, 0.4),
+                        inset 0px -2px 3px rgba(0, 0, 0, 0.25);
+            transform: translateY(-1px); /* 轻微上浮效果 */
         }
 
         /* 新增 mv 弹窗样式 */
@@ -274,7 +348,22 @@
     </style>
 </head>
 <body>
-<div class="header">
+    <!-- SVG 滤镜定义，可以放在 body 的任何地方，但通常放在开头或结尾 -->
+    <svg class="hidden-svg">
+      <filter id="liquid-glass-distortion" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+        <feGaussianBlur in="noise" stdDeviation="2" result="blurredNoise" />
+        <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="30" xChannelSelector="R" yChannelSelector="G" result="distorted"/>
+         <!-- 可选：添加高光效果 -->
+        <feSpecularLighting surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#white" in="distorted" result="specular">
+            <fePointLight x="-5000" y="-10000" z="20000"/>
+        </feSpecularLighting>
+        <feComposite in="specular" in2="distorted" operator="in" result="specular_clip"/>
+        <feComposite in="SourceGraphic" in2="specular_clip" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+      </filter>
+    </svg>
+
+    <div class="header">
     <a href="https://www.rosesarerosie.com">ROSIE官网</a>
     <a href="product-detail.html">Number One商城</a>
     <a href="https://github.com/Gemirose">机米STUIDO</a>
@@ -282,10 +371,9 @@
     <a href="#" id="totBtn">MV</a>
     <a href="image-gallery.html">有品</a>
     <a href="orders.html">我的订单</a>
-    <a href="https://github.com/Gemirose">GEMIROSE平台</a>
+    <a href="https://gemirose.github.io/my-music-world/">机米的Music World</a>
     <a href="dressup.html">自嘲熊换装游戏</a>
     <a href="game.html">BiuBiuBiu打黑粉游戏</a>
-    <a href="https://gemirose.github.io/my-music-world/">机米的Music World</a>
     <a href="account.html">账号管理</a>
     <a href="#" id="loginBtn">登录</a>
     <a href="#" id="registerBtn">注册</a>

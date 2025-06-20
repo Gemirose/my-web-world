@@ -9,71 +9,129 @@
             margin: 0;
             padding: 0;
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-            background: linear-gradient(135deg, #ffa1a1, #4682B4);
+            background-color: #f0f2f5; /* Light mode background */
+            background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .header {
-            background-color: #333;
-            color: white;
+            background: rgba(255, 255, 255, 0.1); /* Frosted glass effect */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: #333;
             padding: 10px 0;
             text-align: center;
             width: 100%;
             position: fixed;
             top: 0;
             z-index: 2;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header a {
-            color: #ffa1a1;
+            color: #333;
             margin: 0 15px;
             text-decoration: none;
             font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .header a:hover {
+            color: #cf4747;
         }
 
         #gameContainer {
-            margin-top: 70px;
+            margin-top: 80px; /* Increased margin */
             text-align: center;
             position: relative;
             max-width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
         #gameCanvas {
-            border: 3px solid #333;
+            border: 1px solid rgba(0,0,0,0.1);
             background-color: #228B22;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         #score, #highScores {
             font-size: 24px;
-            color: #fff;
+            color: #333;
             margin: 10px 0;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: none;
         }
 
         #startButton {
-            background-color: #f6a5a5;
-            color: white;
-            border: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #cf4747;
+            border: 1px solid #cf4747;
             padding: 15px 25px;
             border-radius: 25px;
             font-size: 20px;
             cursor: pointer;
             margin-top: 20px;
-            transition: background-color 0.3s, transform 0.2s;
+            transition: all 0.3s ease;
         }
 
         #startButton:hover {
-            background-color: #a61111;
+            background-color: #cf4747;
+            color: white;
             transform: scale(1.05);
+        }
+
+        /* Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212 !important;
+                background-image: none !important;
+                color: #e0e0e0 !important;
+            }
+            .header {
+                background: rgba(28, 28, 28, 0.7) !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            }
+            .header a {
+                color: #e0e0e0 !important;
+            }
+            .header a:hover {
+                color: #ff8a80 !important;
+            }
+            #gameContainer {
+                background: rgba(28, 28, 28, 0.7) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+            }
+            #gameCanvas {
+                border-color: rgba(255,255,255,0.2) !important;
+            }
+            #score, #highScores {
+                color: #e0e0e0 !important;
+            }
+            #startButton {
+                background-color: rgba(44, 44, 44, 0.5) !important;
+                color: #ff8a80 !important;
+                border-color: #ff8a80 !important;
+            }
+            #startButton:hover {
+                background-color: #ff8a80 !important;
+                color: #121212 !important;
+            }
         }
 
         @media (max-width: 800px) {
@@ -134,9 +192,11 @@
         speed: 5,
         dx: 0,
         dy: 0,
-        image: new Image()
+        image: new Image(),
+        imageLoaded: false
     };
-    car.image.src = 'PUMA.PNG'; // 玩家赛车图像（可选）
+    car.image.src = 'PUMA.PNG'; // 玩家赛车图像
+    car.image.onload = () => { car.imageLoaded = true; };
 
     // 障碍物
     const obstacles = [];
@@ -169,9 +229,11 @@
             width: 50,
             height: 80,
             speed: obstacleSpeed,
-            image: new Image()
+            image: new Image(),
+            imageLoaded: false
         };
-        obstacle.image.src = 'ROLO.JPG'; // 障碍物图像（可选）
+        obstacle.image.src = 'ROLO.JPG'; // 障碍物图像
+        obstacle.image.onload = () => { obstacle.imageLoaded = true; };
         obstacles.push(obstacle);
     }
 
@@ -257,22 +319,28 @@
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawRoad();
+        drawCar();
+        drawObstacles();
+    }
 
-        // 绘制玩家赛车
-        if (car.image.complete && car.image.naturalWidth !== 0) {
+    // 绘制赛车
+    function drawCar() {
+        if (car.imageLoaded) {
             ctx.drawImage(car.image, car.x, car.y, car.width, car.height);
         } else {
-            ctx.fillStyle = 'red';
-            ctx.fillRect(car.x, car.y, car.width, car.height); // 默认红色矩形
+            ctx.fillStyle = '#ff0000'; // Fallback color
+            ctx.fillRect(car.x, car.y, car.width, car.height);
         }
+    }
 
-        // 绘制障碍物
+    // 绘制障碍物
+    function drawObstacles() {
         obstacles.forEach(obstacle => {
-            if (obstacle.image.complete && obstacle.image.naturalWidth !== 0) {
+            if (obstacle.imageLoaded) {
                 ctx.drawImage(obstacle.image, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             } else {
-                ctx.fillStyle = 'blue';
-                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height); // 默认蓝色矩形
+                ctx.fillStyle = '#0000ff'; // Fallback color
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             }
         });
     }

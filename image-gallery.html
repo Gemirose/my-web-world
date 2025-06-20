@@ -8,23 +8,40 @@
         body {
             margin: 0;
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #f0f2f5; /* 浅色模式下的背景色 */
+            background-image: linear-gradient(135deg, #f9f9f9, #e8ecef); /* 浅色模式下的渐变背景 */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+            color: #333;
         }
 
         .gallery-container {
             position: relative;
-            width: 80%;
-            max-width: 800px;
+            width: 60%; /* 减小宽度 */
+            max-width: 600px; /* 减小最大宽度 */
+            max-height: 90vh; /* 限制最大高度 */
+            display: flex; /* 使用flex布局 */
+            flex-direction: column; /* 垂直排列 */
+            justify-content: center; /* 垂直居中 */
+            align-items: center; /* 水平居中 */
             text-align: center;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px; /* 减小内边距 */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .gallery-image {
-            width: 100%;
-            height: auto;
+            max-width: 100%; /* 图片最大宽度为容器宽度 */
+            max-height: calc(90vh - 100px); /* 相应调整图片最大高度 */
+            width: auto; /* 保持宽高比 */
+            height: auto; /* 保持宽高比 */
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: none; /* 默认隐藏所有图片 */
@@ -39,18 +56,23 @@
         }
 
         .nav-btn {
-            background-color: #a61111;
-            color: white;
-            border: none;
+            background: rgba(255, 255, 255, 0.3);
+            color: #a61111;
+            font-weight: bold;
+            border: 1px solid rgba(0, 0, 0, 0.1);
             padding: 10px 20px;
             margin: 0 10px;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 16px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .nav-btn:hover {
-            background-color: #ffa1a1;
+            background-color: #a61111;
+            color: white;
         }
 
         .back-btn {
@@ -60,6 +82,40 @@
             color: #a61111;
             text-decoration: none;
             font-size: 18px;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        /* 深色模式 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212 !important;
+                background-image: none !important;
+                color: #e0e0e0 !important;
+            }
+            .gallery-container {
+                background: rgba(26, 26, 26, 0.5) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+            .nav-btn {
+                background: rgba(44, 44, 44, 0.7) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #e0e0e0 !important;
+            }
+            .nav-btn:hover {
+                background-color: #a61111 !important;
+                color: #fff !important;
+            }
+            .back-btn {
+                color: #e0e0e0 !important;
+                background: rgba(44, 44, 44, 0.7) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
         }
     </style>
 </head>

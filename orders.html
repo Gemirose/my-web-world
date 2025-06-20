@@ -9,22 +9,29 @@
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
+            background-color: #f0f2f5; /* Light mode background */
+            background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
             line-height: 1.6;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .header {
-            background: linear-gradient(135deg, #333, #555);
-            color: white;
+            background: rgba(255, 255, 255, 0.1); /* Frosted glass effect */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: #333;
             padding: 15px 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            text-align: center;
         }
 
         .header a {
-            color: #ffffff;
+            color: #333;
             margin: 0 20px;
             text-decoration: none;
             font-size: 16px;
@@ -32,16 +39,19 @@
         }
 
         .header a:hover {
-            color: white;
+            color: #cf4747;
         }
 
         .main-content {
             padding: 30px;
             max-width: 1100px;
-            margin: 20px auto;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.2); /* Frosted glass effect */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
         h2 {
@@ -56,16 +66,19 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .order-list th, .order-list td {
             padding: 15px 20px;
             text-align: left;
-            border-bottom: 1px solid #eef1f5;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .order-list th {
-            background-color: #f8f9fa;
+            background-color: rgba(255, 255, 255, 0.3);
             color: #34495e;
             font-weight: 600;
             text-transform: uppercase;
@@ -78,12 +91,12 @@
         }
 
         .order-list tr:hover {
-            background-color: #f9fbfc;
+            background-color: rgba(255, 255, 255, 0.7);
         }
 
         .order-details {
             font-size: 14px;
-            color: #7f8c8d;
+            color: #555;
             line-height: 1.8;
         }
 
@@ -97,7 +110,7 @@
             text-align: center;
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid #eef1f5;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .cta-btn, .back-btn {
@@ -108,32 +121,27 @@
             border-radius: 25px;
             margin: 0 15px;
             transition: all 0.3s ease;
-            border: none;
+            border: 1px solid transparent;
             cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cta-btn:hover, .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
         .cta-btn {
-            background-color: #cf4747;
-            color: white;
-            box-shadow: 0 3px 10px rgb(172, 16, 16);
-        }
-
-        .cta-btn:hover {
-            background-color: #cf4747;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgb(172, 16, 16);
+            border-color: #cf4747;
+            color: #cf4747;
         }
 
         .back-btn {
-            background-color: #ffa1a1;
-            color: white;
-            box-shadow: 0 3px 10px rgb(166, 17, 17);
-        }
-
-        .back-btn:hover {
-            background-color: #ffa1a1;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgb(166, 17, 17);
+            border-color: #aaa;
+            color: #555;
         }
 
         .empty-message {
@@ -142,8 +150,69 @@
             font-size: 18px;
             margin: 60px 0;
             padding: 20px;
-            background-color: #a61111;
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
+        }
+
+        /* Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212 !important;
+                background-image: none !important;
+                color: #e0e0e0 !important;
+            }
+            .header {
+                background: rgba(28, 28, 28, 0.7) !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+                color: #e0e0e0 !important;
+            }
+            .header a {
+                color: #e0e0e0 !important;
+            }
+            .header a:hover {
+                color: #ff8a80 !important;
+            }
+            .main-content {
+                background: rgba(28, 28, 28, 0.7) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+            }
+            h2, .order-list th, .order-details, .price, .empty-message {
+                color: #e0e0e0 !important;
+            }
+            .order-list {
+                background: rgba(44, 44, 44, 0.5) !important;
+            }
+            .order-list th {
+                background-color: rgba(44, 44, 44, 0.3) !important;
+                border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+            }
+            .order-list td {
+                border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+            }
+            .order-list tr:hover {
+                background-color: rgba(66, 66, 66, 0.7) !important;
+            }
+            .btn-container {
+                border-top-color: rgba(255, 255, 255, 0.1) !important;
+            }
+            .cta-btn, .back-btn {
+                background-color: rgba(44, 44, 44, 0.5) !important;
+                color: #e0e0e0 !important;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+            }
+            .cta-btn {
+                border-color: #ff8a80 !important;
+                color: #ff8a80 !important;
+            }
+            .back-btn {
+                border-color: #888 !important;
+                color: #ccc !important;
+            }
+            .cta-btn:hover, .back-btn:hover {
+                background-color: rgba(66, 66, 66, 0.7) !important;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
+            }
         }
     </style>
 </head>

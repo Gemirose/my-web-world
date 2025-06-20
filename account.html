@@ -6,39 +6,146 @@
     <title>账号管理 - number one 官网</title>
     <style>
         body {
-            font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 100vh;
+                    background-color: #f8f9fa; /* 替换纯白，使用一个非常浅的灰色 */
+                    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* 添加柔和的渐变 */
+                    color: #333;
+                    transition: background-color 0.3s, color 0.3s;
+                    padding-top: 80px;
+                }
+
+            .header a {
+                color: #a61111; /* 在浅色模式下使用更深的颜色 */
+                margin: 0 15px;
+                text-decoration: none;
+                font-size: 18px;
+                transition: all 0.3s ease;
+                font-weight: bold; /* 加粗字体 */
+            }
+
+            .header a:hover {
+                color: #e50f0f; /* 悬停时使用更亮的红色 */
+                transform: translateY(-1px);
+            }
+
+            @media (prefers-color-scheme: dark) {
+                body {
+                    background-color: #121212 !important;
+                    background-image: none !important; /* 深色模式下移除渐变 */
+                    color: #e0e0e0 !important;
+                }
+
+            .header {
+                color: white !important;
+                font-weight: normal !important;
+            }
+
+            .header a:hover {
+                color: rgba(255, 255, 255, 0.8) !important;
+            }
+
+            .header {
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .main-content {
+                background: rgba(30, 30, 30, 0.5) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            h2, .form-group label, .back-btn {
+                color: #ffffff !important;
+                text-shadow: none !important;
+            }
+
+            .form-group input {
+                background: rgba(255, 255, 255, 0.1) !important;
+                border-color: rgba(255, 255, 255, 0.2) !important;
+                color: #ffffff !important;
+            }
+
+            .form-group input:disabled {
+                background-color: rgba(0, 0, 0, 0.3) !important;
+                color: #888 !important;
+            }
+
+            .avatar-preview {
+                border-color: rgba(255, 255, 255, 0.2) !important;
+                background-color: rgba(0, 0, 0, 0.3) !important;
+            }
+
+            .avatar-upload, .btn, .logout-btn {
+                color: #ffffff !important;
+            }
         }
 
         .header {
-            background-color: #444;
-            color: darkred;
-            padding: 10px 0;
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 浅色模式下更清晰的边框 */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            color: white;
+            padding: 15px 0;
             text-align: center;
+            width: calc(100% - 20px);
+            margin: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 15px;
         }
 
         .header a {
-            color: #a61111;
+            color: white;
             margin: 0 15px;
             text-decoration: none;
             font-size: 18px;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header a:hover {
+            color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-1px);
         }
 
         .main-content {
             max-width: 500px;
             margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 浅色模式下更清晰的边框 */
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         h2 {
             text-align: center;
-            color: #444;
+            color: #333; /* 更改为深色文本 */
             margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .form-group {
@@ -48,22 +155,25 @@
         .form-group label {
             display: block;
             font-weight: bold;
-            margin-bottom: 5px;
-            color: #444;
+            margin-bottom: 8px;
+            color: #333; /* 更改为深色文本 */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .form-group input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 浅色模式下更清晰的边框 */
+            background: rgba(255, 255, 255, 0.5);
+            color: #333; /* 更改为深色文本 */
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
         }
 
         .form-group input:disabled {
-            background-color: #f5f5f5;
-            color: #666;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: #aaa;
         }
 
         .avatar-container {
@@ -77,55 +187,69 @@
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 10px;
-            background-color: #f0f0f0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         .avatar-upload {
-            display: block;
+            display: inline-block;
             margin: 0 auto;
-            padding: 8px 15px;
-            background-color: #a61111;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: none;
-            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .avatar-upload:hover {
-            background-color: #cf4747;
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
         .btn {
             display: block;
             width: 100%;
             padding: 12px;
-            background-color: #a61111;
+            background: rgba(166, 17, 17, 0.8);
             color: white;
-            border: none;
-            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
             margin-bottom: 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .btn:hover {
-            background-color: #cf4747;
+            background-color: rgba(166, 17, 17, 0.9);
+            box-shadow: 0 4px 15px rgba(166, 17, 17, 0.3);
+            transform: translateY(-1px);
         }
 
         .logout-btn {
-            background-color: #444;
+            background-color: rgba(68, 68, 68, 0.8);
         }
 
         .logout-btn:hover {
-            background-color: #555;
+            background-color: rgba(85, 85, 85, 0.9);
+            box-shadow: 0 4px 15px rgba(85, 85, 85, 0.3);
         }
 
         .back-btn {
             display: block;
             text-align: center;
-            color: #a61111;
+            color: #a61111; /* 更改为深红色 */
             text-decoration: none;
             font-size: 14px;
+            margin-top: 20px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .back-btn:hover {

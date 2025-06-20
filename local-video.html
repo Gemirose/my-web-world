@@ -18,14 +18,19 @@
         body {
             margin: 0;
             font-family: "Roboto", "Arial", sans-serif;
-            background: linear-gradient(135deg, #f9f9f9, #e8ecef); /* 渐变背景 */
+            background-color: #f0f2f5; /* 浅色模式下的背景色 */
+            background-image: linear-gradient(135deg, #f9f9f9, #e8ecef); /* 浅色模式下的渐变背景 */
             color: var(--text-color);
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* 导航栏优化 */
         .navbar {
-            background: var(--secondary-color);
+            background: rgba(255, 255, 255, 0.25); /* 液态玻璃效果 */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             padding: 20px 40px;
             display: flex;
             justify-content: space-between;
@@ -45,11 +50,11 @@
         }
 
         .navbar a {
-            color: #fff;
+            color: #333;
+            font-weight: bold;
             text-decoration: none;
             margin: 0 25px;
             font-size: 16px;
-            font-weight: 500;
             position: relative;
             transition: var(--transition);
         }
@@ -83,16 +88,20 @@
             gap: 40px;
         }
 
-        .video-player {
-            background: var(--light-bg);
+        .video-player, .video-item, .comments-section {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 16px;
             padding: 25px;
             box-shadow: var(--shadow);
             transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .video-player:hover {
+        .video-player:hover, .video-item:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
         .video-player video {
@@ -106,7 +115,7 @@
             font-size: 26px;
             margin: 20px 0 15px;
             font-weight: 700;
-            color: var(--secondary-color);
+            color: #333;
         }
 
         .video-actions {
@@ -115,18 +124,21 @@
             margin-bottom: 15px;
         }
 
-        .action-btn {
-            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
-            border: none;
+        .action-btn, .submit-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             padding: 12px 25px;
             border-radius: 30px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
             transition: var(--transition);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: #333;
         }
 
-        .action-btn:hover {
+        .action-btn:hover, .submit-btn:hover {
             background: var(--primary-color);
             color: #fff;
             transform: translateY(-2px);
@@ -141,17 +153,9 @@
         }
 
         .video-item {
-            background: var(--light-bg);
-            border-radius: 16px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
             cursor: pointer;
-        }
-
-        .video-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            padding: 0;
         }
 
         .video-item img {
@@ -159,6 +163,8 @@
             height: 170px;
             object-fit: cover;
             transition: var(--transition);
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
         }
 
         .video-item:hover img {
@@ -173,30 +179,26 @@
             font-size: 17px;
             font-weight: 600;
             margin-bottom: 8px;
-            color: var(--secondary-color);
+            color: #333;
         }
 
         .video-item-info {
             font-size: 13px;
-            color: #777;
+            color: #555;
             font-weight: 400;
         }
 
         /* 评论区 */
         .comments-section {
-            display: none;
+            /* display: none; */ /* 移除此行，交由JS控制 */
             margin-top: 40px;
-            background: var(--light-bg);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
         }
 
         .comments-section h3 {
             font-size: 22px;
             margin-bottom: 20px;
             font-weight: 600;
-            color: var(--secondary-color);
+            color: #333;
         }
 
         .comment-box {
@@ -207,36 +209,25 @@
 
         .comment-input {
             padding: 15px;
-            border: 2px solid #eee;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             font-size: 14px;
             resize: vertical;
             min-height: 100px;
             transition: var(--transition);
+            color: #333;
         }
 
         .comment-input:focus {
             border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 5px rgba(255, 51, 102, 0.3);
+            box-shadow: 0 0 5px rgba(172, 16, 16, 0.3);
         }
 
         .submit-btn {
-            background: var(--primary-color);
-            color: #fff;
-            padding: 12px 25px;
-            border: none;
             border-radius: 8px;
-            cursor: pointer;
             align-self: flex-end;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .submit-btn:hover {
-            background: #ff1a4d;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
         }
 
         .comment-list {
@@ -247,7 +238,7 @@
 
         .comment-item {
             padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .comment-item span {
@@ -270,6 +261,53 @@
         .comment-list::-webkit-scrollbar-thumb {
             background: var(--primary-color);
             border-radius: 4px;
+        }
+
+        /* 深色模式 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212 !important;
+                background-image: none !important;
+                color: #e0e0e0 !important;
+            }
+            .navbar {
+                background: rgba(26, 26, 26, 0.5) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+            .navbar a {
+                color: #e0e0e0 !important;
+            }
+            .video-player, .video-item, .comments-section {
+                background: rgba(26, 26, 26, 0.5) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+            .video-title, .video-item-title, .comments-section h3 {
+                color: #e0e0e0 !important;
+            }
+            .video-item-info, .comment-item p {
+                color: #aaa !important;
+            }
+            .action-btn, .submit-btn {
+                background: rgba(44, 44, 44, 0.7) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #e0e0e0 !important;
+            }
+            .action-btn:hover, .submit-btn:hover {
+                background: var(--primary-color) !important;
+                color: #fff !important;
+            }
+            .comment-input {
+                background: rgba(44, 44, 44, 0.7) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #e0e0e0 !important;
+            }
+            .comment-input:focus {
+                border-color: var(--primary-color) !important;
+                box-shadow: 0 0 5px rgba(172, 16, 16, 0.5) !important;
+            }
+            .comment-item {
+                border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+            }
         }
 
         /* 响应式设计 */
@@ -319,6 +357,14 @@
             <button class="action-btn">分享200300540+</button>
             <button class="action-btn" onclick="toggleComments()">评论211000000+</button>
         </div>
+        <div class="comments-section" style="display: none;">
+            <h3>评论区</h3>
+            <div class="comment-box">
+                <textarea class="comment-input" placeholder="添加评论..."></textarea>
+                <button class="submit-btn" onclick="submitComment()">提交评论</button>
+            </div>
+            <div class="comment-list"></div>
+        </div>
     </div>
 
     <div class="video-list">
@@ -346,14 +392,14 @@
     </div>
 </div>
 
-<div class="comments-section">
-    <h3>评论区</h3>
-    <div class="comment-box">
-        <textarea class="comment-input" placeholder="添加评论..."></textarea>
-        <button class="submit-btn" onclick="submitComment()">提交评论</button>
-    </div>
-    <div class="comment-list"></div>
-</div>
+<!-- <div class="comments-section">  --><!-- 移动到 video-player 内部 -->
+<!--    <h3>评论区</h3> -->
+<!--    <div class="comment-box"> -->
+<!--        <textarea class="comment-input" placeholder="添加评论..."></textarea> -->
+<!--        <button class="submit-btn" onclick="submitComment()">提交评论</button> -->
+<!--    </div> -->
+<!--    <div class="comment-list"></div> -->
+<!-- </div> -->
 
 <script>
     const videoPlayer = document.querySelector('video');

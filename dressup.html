@@ -9,34 +9,45 @@
             margin: 0;
             padding: 0;
             font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* 渐变背景 */
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            background-color: #f8f9fa; /* 替换纯白，使用一个非常浅的灰色 */
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* 添加柔和的渐变 */
+            color: #333; /* 浅色模式文字颜色 */
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .header {
-            background-color: #444;
-            color: darkred;
+            background: rgba(0, 0, 0, 0.25); /* 深色半透明背景 */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            color: white;
             padding: 10px 0;
             text-align: center;
-            width: 100%;
+            width: calc(100% - 20px);
             position: fixed;
-            top: 0;
+            top: 10px;
+            left: 10px;
+            right: 10px;
             z-index: 2;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
         }
 
         .header a {
-            color: #a61111;
+            color: #a61111; /* 浅色模式下更深的红色 */
+            font-weight: bold;
             margin: 0 15px;
             text-decoration: none;
             font-size: 18px;
+            transition: color 0.3s;
         }
 
         #gameContainer {
-            margin-top: 70px;
+            margin-top: 80px; /* 增加边距以避免被头部遮挡 */
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -45,79 +56,69 @@
             padding: 20px;
         }
 
-        #canvasContainer {
-            background-color: #fff;
+        #canvasContainer, #controls {
+            background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 浅色模式下更清晰的边框 */
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         #gameCanvas {
-            border: 2px solid #ddd;
-            background-color: #f9f9f9;
+            border: 2px solid rgba(0, 0, 0, 0.15); /* 浅色模式下更清晰的边框 */
+            background-color: rgba(249, 249, 249, 0.8); /* 半透明背景 */
+            border-radius: 10px;
         }
 
         #controls {
             margin-left: 20px;
-            background-color: #fff;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             width: 300px;
-        }
-
-        .category {
-            margin-bottom: 20px;
         }
 
         .category h3 {
             margin: 0 0 10px;
-            color: #444;
+            color: #333; /* 浅色模式下深灰色标题 */
             font-size: 18px;
+            transition: color 0.3s;
         }
 
-        .option-btn {
-            background-color: #ac1010;
+        .option-btn, #randomButton, #saveButton {
+            background: rgba(172, 16, 16, 0.6); /* 半透明红色背景 */
             color: white;
-            border: none;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 浅色模式下更清晰的边框 */
             padding: 8px 15px;
             margin: 5px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 14px;
-            transition: transform 0.2s, background-color 0.2s;
+            transition: background-color 0.2s, transform 0.2s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
-        .option-btn:hover {
-            background-color: #cf4747;
+        .option-btn:hover, #randomButton:hover, #saveButton:hover {
+            background-color: rgba(207, 71, 71, 0.8); /* 悬停时更亮的红色 */
             transform: scale(1.05);
         }
 
         #randomButton, #saveButton {
-            background-color: #6b7280;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
+            background: rgba(107, 114, 128, 0.6); /* 半透明灰色背景 */
             font-size: 16px;
             margin-top: 10px;
             width: 100%;
-            transition: background-color 0.2s;
         }
 
         #randomButton:hover, #saveButton:hover {
-            background-color: #4b5563;
-        }
-
-        #savedOutfits {
-            margin-top: 20px;
-            text-align: center;
+            background-color: rgba(75, 85, 99, 0.8);
         }
 
         #savedOutfits h3 {
-            color: #444;
+            color: #333; /* 浅色模式下深灰色标题 */
             font-size: 18px;
+            transition: color 0.3s;
         }
 
         .saved-outfit {
@@ -126,6 +127,36 @@
             margin: 10px;
             border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.1); /* 浅色模式下更清晰的边框 */
+        }
+
+        /* Dark Mode Styles */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212 !important; /* 深色模式背景 */
+                background-image: none !important; /* 深色模式下移除渐变 */
+                color: #e0e0e0 !important; /* 深色模式文字颜色 */
+            }
+
+            .header a {
+                color: #ff6b6b !important; /* 深色模式下更亮的红色链接 */
+                font-weight: normal !important;
+            }
+
+            #canvasContainer, #controls {
+                background: rgba(30, 30, 30, 0.5) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .category h3, #savedOutfits h3 {
+                color: #e0e0e0 !important; /* 深色模式下浅色标题 */
+            }
+
+            #gameCanvas {
+                background-color: rgba(40, 40, 40, 0.8) !important;
+                border-color: rgba(255, 255, 255, 0.15) !important;
+            }
         }
     </style>
 </head>
