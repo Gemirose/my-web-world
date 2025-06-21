@@ -443,176 +443,113 @@
     updateHighScores();
     resetGame();
     startButton.onclick = startGame;
-    </script>
-</body>
-</html>
-        /* 移动端适配 */
+    // 在现有 JavaScript 代码的 startButton.onclick = startGame; 后添加
+
+    // 移动端触摸优化
+    function initMobileOptimizations() {
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // 触摸射击控制
+        let touchStartTime = 0;
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            touchStartTime = Date.now();
+        });
+
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (!gameState.isRunning) return;
+            
+            const touchDuration = Date.now() - touchStartTime;
+            if (touchDuration < 500) { // 短触摸视为射击
+                const currentTime = performance.now();
+                if (currentTime - gameState.lastShotTime < gameState.shootCooldown) return;
+
+                const touch = e.changedTouches[0];
+                const rect = canvas.getBoundingClientRect();
+                const bullet = {
+                    x: player.x + player.width / 2,
+                    y: player.y,
+                    radius: 5,
+                    speed: 8,
+                    dx: (touch.clientX - rect.left - (player.x + player.width / 2)) / 30,
+                    dy: -8
+                };
+                bullets.push(bullet);
+                gameState.lastShotTime = currentTime;
+                audio.shoot.cloneNode().play();
+            }
+        });
+
+        // 触摸移动控制
+        let touchX = null;
+        let touchY = null;
         
-        /* 平板设备适配 */
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 0 10px;
-                min-height: 100vh;
-            }
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!gameState.isRunning) return;
             
-            .header {
-                width: calc(100% - 20px);
-                margin: 5px 10px;
-                padding: 12px 0;
-                position: fixed;
-                top: 0;
-                z-index: 100;
-            }
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const canvasX = touch.clientX - rect.left;
+            const canvasY = touch.clientY - rect.top;
             
-            .header a {
-                margin: 0 15px;
-                font-size: 16px;
+            if (touchX !== null && touchY !== null) {
+                const deltaX = canvasX - touchX;
+                const deltaY = canvasY - touchY;
+
+                player.x = Math.max(0, Math.min(canvas.width - player.width, player.x + deltaX));
+                player.y = Math.max(0, Math.min(canvas.height - player.height, player.y + deltaY));
             }
+
+            touchX = canvasX;
+            touchY = canvasY;
+        });
+
+        canvas.addEventListener('touchend', () => {
+            touchX = null;
+            touchY = null;
+        });
+
+        // 优化画布尺寸
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const containerWidth = container.clientWidth - 40; // 减去padding
+            const aspectRatio = 800 / 600;
             
-            .game-wrapper {
-                margin-top: 80px;
-                padding: 15px;
-                width: calc(100% - 30px);
-                max-width: none;
-            }
-            
-            #gameCanvas {
-                width: 100%;
-                height: auto;
-                max-width: 100%;
-                border-radius: 8px;
-            }
-            
-            .stats {
-                flex-direction: column;
-                gap: 10px;
-                margin: 10px 0;
-            }
-            
-            .stats div {
-                font-size: 18px;
-                padding: 8px 15px;
-                text-align: center;
-            }
-            
-            #startButton {
-                padding: 15px 40px;
-                font-size: 20px;
-                width: 100%;
-                max-width: 300px;
-                margin: 15px auto;
-                display: block;
+            if (window.innerWidth <= 768) {
+                canvas.style.width = containerWidth + 'px';
+                canvas.style.height = (containerWidth / aspectRatio) + 'px';
             }
         }
         
-        /* 手机设备适配 */
-        @media screen and (max-width: 480px) {
-            .header {
-                padding: 10px 0;
-            }
-            
-            .header a {
-                margin: 0 10px;
-                font-size: 14px;
-            }
-            
-            .game-wrapper {
-                margin-top: 70px;
-                padding: 10px;
-            }
-            
-            #gameCanvas {
-                width: 100%;
-                height: 300px;
-                border-radius: 6px;
-            }
-            
-            .stats div {
-                font-size: 16px;
-                padding: 6px 12px;
-            }
-            
-            #startButton {
-                padding: 12px 30px;
-                font-size: 18px;
-            }
-        }
-        
-        /* 横屏模式适配 */
-        @media screen and (max-height: 600px) and (orientation: landscape) {
-            .game-wrapper {
-                margin-top: 60px;
-                padding: 8px;
-            }
-            
-            #gameCanvas {
-                height: calc(100vh - 180px);
-                max-height: 400px;
-            }
-            
-            .stats {
-                flex-direction: row;
-                justify-content: space-around;
-                margin: 8px 0;
-            }
-            
-            .stats div {
-                font-size: 14px;
-                padding: 5px 10px;
-            }
-        }
-        
-        /* 触摸设备优化 */
-        @media (hover: none) and (pointer: coarse) {
-            .header a:hover {
-                transform: none;
-            }
-            
-            #startButton:hover {
-                transform: none;
-            }
-            
-            /* 添加触摸反馈 */
-            .header a:active {
-                opacity: 0.7;
-                transform: scale(0.95);
-            }
-            
-            #startButton:active {
-                transform: scale(0.98);
-                opacity: 0.9;
-            }
-        }
-        
-        /* 高分辨率屏幕优化 */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            body {
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-            }
-            
-            #gameCanvas {
-                image-rendering: -webkit-optimize-contrast;
-                image-rendering: crisp-edges;
-            }
-        }
-        
-        /* 防止移动端缩放 */
-        @media screen and (max-width: 768px) {
-            html {
-                -webkit-text-size-adjust: 100%;
-                -ms-text-size-adjust: 100%;
-            }
-            
-            body {
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -khtml-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
-        }
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(resizeCanvas, 100);
+        });
+
+        resizeCanvas();
+    }
+
+    // 检测移动设备
+    function isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               ('ontouchstart' in window) ||
+               (navigator.maxTouchPoints > 0);
+    }
+
+    // 初始化移动端优化
+    if (isMobileDevice()) {
+        initMobileOptimizations();
+    }
 </script>
 </body>
 </html>
