@@ -179,6 +179,276 @@
                 border-color: rgba(255, 255, 255, 0.1) !important;
             }
         }
+        /* 平板设备适配 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 0 10px;
+                min-height: 100vh;
+            }
+            
+            .header {
+                width: calc(100% - 20px);
+                margin: 5px 10px;
+                padding: 12px 0;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+            }
+            
+            .header a {
+                margin: 0 10px;
+                font-size: 16px;
+            }
+            
+            #gameContainer {
+                margin-top: 70px;
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+                width: 100%;
+                max-width: none;
+            }
+            
+            #canvasContainer {
+                width: 100%;
+                max-width: 350px;
+                margin-bottom: 20px;
+                padding: 15px;
+            }
+            
+            #gameCanvas {
+                width: 100%;
+                height: auto;
+                max-width: 320px;
+                border-radius: 8px;
+            }
+            
+            #controls {
+                width: 100%;
+                max-width: 350px;
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .category {
+                margin-bottom: 20px;
+            }
+            
+            .category h3 {
+                font-size: 18px;
+                margin-bottom: 12px;
+                text-align: center;
+            }
+            
+            .option-btn {
+                padding: 10px 15px;
+                margin: 5px;
+                font-size: 15px;
+                border-radius: 25px;
+                min-width: 80px;
+            }
+            
+            #randomButton, #saveButton {
+                padding: 12px 20px;
+                font-size: 16px;
+                margin: 8px 0;
+                border-radius: 25px;
+            }
+            
+            #savedOutfits {
+                width: 100%;
+                max-width: 350px;
+                margin: 20px auto;
+                padding: 15px;
+                text-align: center;
+            }
+            
+            #savedOutfitsList {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .saved-outfit {
+                width: 80px;
+                height: 120px;
+                margin: 5px;
+            }
+        }
+        
+        /* 手机设备适配 */
+        @media screen and (max-width: 480px) {
+            .header {
+                padding: 10px 0;
+            }
+            
+            .header a {
+                margin: 0 8px;
+                font-size: 14px;
+            }
+            
+            #gameContainer {
+                margin-top: 60px;
+                padding: 5px;
+            }
+            
+            #canvasContainer, #controls {
+                padding: 10px;
+                border-radius: 12px;
+            }
+            
+            #gameCanvas {
+                max-width: 280px;
+                border-radius: 6px;
+            }
+            
+            .category h3 {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+            
+            .option-btn {
+                padding: 8px 12px;
+                margin: 3px;
+                font-size: 14px;
+                min-width: 70px;
+            }
+            
+            #randomButton, #saveButton {
+                padding: 10px 15px;
+                font-size: 15px;
+                margin: 6px 0;
+            }
+            
+            #savedOutfits {
+                padding: 10px;
+            }
+            
+            .saved-outfit {
+                width: 70px;
+                height: 105px;
+                margin: 3px;
+            }
+        }
+        
+        /* 横屏模式适配 */
+        @media screen and (max-height: 600px) and (orientation: landscape) {
+            #gameContainer {
+                flex-direction: row;
+                margin-top: 60px;
+                padding: 10px;
+                align-items: flex-start;
+            }
+            
+            #canvasContainer {
+                flex: 1;
+                max-width: 50%;
+                margin-bottom: 0;
+                margin-right: 15px;
+            }
+            
+            #gameCanvas {
+                width: 100%;
+                height: calc(100vh - 120px);
+                max-height: 400px;
+            }
+            
+            #controls {
+                flex: 1;
+                max-width: 50%;
+                height: calc(100vh - 120px);
+                overflow-y: auto;
+            }
+            
+            .category {
+                margin-bottom: 15px;
+            }
+            
+            .category h3 {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+            
+            .option-btn {
+                padding: 6px 10px;
+                margin: 2px;
+                font-size: 13px;
+            }
+            
+            #randomButton, #saveButton {
+                padding: 8px 15px;
+                font-size: 14px;
+                margin: 5px 0;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .header a:hover {
+                transform: none;
+            }
+            
+            .option-btn:hover, #randomButton:hover, #saveButton:hover {
+                transform: none;
+            }
+            
+            /* 添加触摸反馈 */
+            .header a:active {
+                opacity: 0.7;
+                transform: scale(0.95);
+            }
+            
+            .option-btn:active, #randomButton:active, #saveButton:active {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+            
+            .saved-outfit:active {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+        }
+        
+        /* 高分辨率屏幕优化 */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            body {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            
+            #gameCanvas {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+        
+        /* 防止移动端缩放和选择 */
+        @media screen and (max-width: 768px) {
+            html {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            
+            body {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            /* 允许按钮文字选择 */
+            .option-btn, #randomButton, #saveButton {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -335,9 +605,7 @@
     }
 
     // 初始化
-    character.base.onload = () => {
-        updateCharacter();
-    };
+    loadImages();
     displaySavedOutfits();
 </script>
 </body>

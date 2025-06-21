@@ -117,6 +117,204 @@
                 border-color: rgba(255, 255, 255, 0.1) !important;
             }
         }
+        /* 移动端适配 - 在现有 </style> 标签前添加 */
+        
+        /* 平板设备适配 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+                height: 100vh;
+                overflow: hidden;
+            }
+            
+            .gallery-container {
+                width: 95%;
+                max-width: none;
+                height: 90vh;
+                max-height: none;
+                padding: 15px;
+                border-radius: 12px;
+                position: relative;
+            }
+            
+            .gallery-image {
+                max-width: 100%;
+                max-height: calc(90vh - 120px);
+                object-fit: contain;
+                border-radius: 8px;
+            }
+            
+            .nav-buttons {
+                margin-top: 15px;
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                padding: 12px 20px;
+                font-size: 16px;
+                border-radius: 25px;
+                min-width: 100px;
+                touch-action: manipulation;
+            }
+            
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 10px 15px;
+                font-size: 16px;
+                border-radius: 20px;
+                touch-action: manipulation;
+            }
+        }
+        
+        /* 手机设备适配 */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .gallery-container {
+                width: 98%;
+                height: 95vh;
+                padding: 10px;
+                border-radius: 10px;
+            }
+            
+            .gallery-image {
+                max-height: calc(95vh - 100px);
+                border-radius: 6px;
+            }
+            
+            .nav-buttons {
+                margin-top: 10px;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+                min-width: 80px;
+                border-radius: 20px;
+            }
+            
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                font-size: 14px;
+                border-radius: 15px;
+            }
+        }
+        
+        /* 横屏模式适配 */
+        @media screen and (max-height: 600px) and (orientation: landscape) {
+            .gallery-container {
+                width: 90%;
+                height: 85vh;
+                padding: 10px;
+            }
+            
+            .gallery-image {
+                max-height: calc(85vh - 80px);
+                max-width: 90%;
+            }
+            
+            .nav-buttons {
+                margin-top: 8px;
+            }
+            
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+            
+            .back-btn {
+                top: 8px;
+                left: 8px;
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .nav-btn:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+                color: #a61111;
+                transform: none;
+            }
+            
+            .back-btn:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: #a61111;
+            }
+            
+            /* 添加触摸反馈 */
+            .nav-btn:active {
+                background-color: #a61111 !important;
+                color: white !important;
+                transform: scale(0.95);
+            }
+            
+            .back-btn:active {
+                opacity: 0.7;
+                transform: scale(0.95);
+            }
+            
+            .gallery-image:active {
+                transform: scale(0.98);
+            }
+        }
+        
+        /* 高分辨率屏幕优化 */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            body {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            
+            .gallery-image {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+        
+        /* 防止移动端缩放和选择 */
+        @media screen and (max-width: 768px) {
+            html {
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+            }
+            
+            body {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            .gallery-image {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                pointer-events: none;
+            }
+        }
+
+        // 检测移动设备
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   ('ontouchstart' in window) || 
+                   (navigator.maxTouchPoints > 0);
+        }
+        
+        // 初始化移动端优化
+        if (isMobileDevice()) {
+            initMobileOptimizations();
+        }
     </style>
 </head>
 <body>
@@ -178,9 +376,183 @@
             setInterval(nextImage, 60000); // 每60秒切换一次
         }
 
-        // 初始化
-        showImage(currentIndex);
-        startAutoPlay(); // 启动自动播放
+        // 在现有 JavaScript 代码的最后添加（在 startAutoPlay(); 后）
+        
+        // 移动端触摸优化
+        function initMobileOptimizations() {
+            // 防止双击缩放
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+            
+            // 触摸滑动控制
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+            
+            const galleryContainer = document.querySelector('.gallery-container');
+            
+            galleryContainer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            });
+            
+            galleryContainer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const deltaX = touchEndX - touchStartX;
+                const deltaY = touchEndY - touchStartY;
+                const minSwipeDistance = 50;
+                
+                // 检测水平滑动
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+                    if (deltaX > 0) {
+                        // 向右滑动 - 上一张
+                        prevImage();
+                    } else {
+                        // 向左滑动 - 下一张
+                        nextImage();
+                    }
+                }
+            }
+            
+            // 双击切换图片
+            let lastTap = 0;
+            galleryContainer.addEventListener('touchend', (e) => {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                if (tapLength < 500 && tapLength > 0) {
+                    // 双击事件 - 下一张图片
+                    nextImage();
+                }
+                lastTap = currentTime;
+            });
+            
+            // 长按显示图片信息
+            let pressTimer;
+            galleryContainer.addEventListener('touchstart', (e) => {
+                pressTimer = setTimeout(() => {
+                    showImageInfo();
+                }, 800);
+            });
+            
+            galleryContainer.addEventListener('touchend', () => {
+                clearTimeout(pressTimer);
+            });
+            
+            galleryContainer.addEventListener('touchmove', () => {
+                clearTimeout(pressTimer);
+            });
+            
+            function showImageInfo() {
+                const currentImage = images[currentIndex];
+                const imageInfo = `图片 ${currentIndex + 1} / ${images.length}`;
+                
+                // 创建信息提示
+                const infoDiv = document.createElement('div');
+                infoDiv.innerHTML = imageInfo;
+                infoDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(0, 0, 0, 0.8);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    font-size: 16px;
+                    z-index: 1000;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(infoDiv);
+                
+                // 2秒后移除
+                setTimeout(() => {
+                    document.body.removeChild(infoDiv);
+                }, 2000);
+            }
+            
+            // 键盘控制（外接键盘）
+            document.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        prevImage();
+                        break;
+                    case 'ArrowRight':
+                        nextImage();
+                        break;
+                    case ' ': // 空格键暂停/继续自动播放
+                        e.preventDefault();
+                        toggleAutoPlay();
+                        break;
+                }
+            });
+            
+            // 自动播放控制
+            let autoPlayInterval;
+            let isAutoPlaying = true;
+            
+            function toggleAutoPlay() {
+                if (isAutoPlaying) {
+                    clearInterval(autoPlayInterval);
+                    isAutoPlaying = false;
+                } else {
+                    autoPlayInterval = setInterval(nextImage, 60000);
+                    isAutoPlaying = true;
+                }
+            }
+            
+            // 重新定义自动播放
+            autoPlayInterval = setInterval(nextImage, 60000);
+            
+            // 添加触摸提示
+            const touchHint = document.createElement('div');
+            touchHint.innerHTML = '💡 提示：左右滑动切换图片，双击快速切换，长按查看信息';
+            touchHint.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 8px 15px;
+                border-radius: 20px;
+                font-size: 12px;
+                z-index: 1000;
+                display: none;
+            `;
+            document.body.appendChild(touchHint);
+            
+            // 显示提示3秒后隐藏
+            if (window.innerWidth <= 768) {
+                touchHint.style.display = 'block';
+                setTimeout(() => {
+                    touchHint.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // 检测移动设备
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   ('ontouchstart' in window) || 
+                   (navigator.maxTouchPoints > 0);
+        }
+        
+        // 初始化移动端优化
+        if (isMobileDevice()) {
+            initMobileOptimizations();
+        }
     </script>
 </body>
 </html>

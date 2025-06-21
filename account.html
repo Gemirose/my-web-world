@@ -454,3 +454,222 @@
 
 </body>
 </html>
+        /* 移动端适配 - 媒体查询 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding-top: 60px;
+                padding: 60px 10px 20px 10px;
+                font-size: 14px;
+            }
+
+            /* 导航栏移动端优化 */
+            .header {
+                padding: 12px 0;
+                margin: 5px;
+                border-radius: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: calc(100% - 10px);
+            }
+
+            .header a {
+                margin: 5px 8px;
+                font-size: 14px;
+                padding: 8px 12px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                display: inline-block;
+                min-width: 60px;
+                text-align: center;
+            }
+
+            /* 主要内容区域移动端优化 */
+            .main-content {
+                max-width: none;
+                margin: 10px;
+                padding: 25px 20px;
+                width: calc(100% - 20px);
+                border-radius: 20px;
+            }
+
+            /* 标题优化 */
+            h2 {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+
+            /* 表单组优化 */
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+
+            .form-group input {
+                padding: 12px 15px;
+                font-size: 16px; /* 防止iOS缩放 */
+                border-radius: 12px;
+            }
+
+            /* 头像容器优化 */
+            .avatar-container {
+                margin-bottom: 25px;
+            }
+
+            .avatar-preview {
+                width: 100px;
+                height: 100px;
+                border-width: 2px;
+            }
+
+            .avatar-upload {
+                padding: 10px 20px;
+                font-size: 14px;
+                border-radius: 20px;
+            }
+
+            /* 按钮优化 */
+            .btn {
+                padding: 14px;
+                font-size: 16px;
+                border-radius: 12px;
+                margin-bottom: 12px;
+            }
+
+            /* 返回按钮优化 */
+            .back-btn {
+                font-size: 13px;
+                margin-top: 20px;
+            }
+        }
+
+        /* 小屏幕手机适配 */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 50px 5px 15px 5px;
+            }
+
+            .header {
+                padding: 10px 0;
+                margin: 3px;
+            }
+
+            .header a {
+                margin: 3px 5px;
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .main-content {
+                margin: 5px;
+                padding: 20px 15px;
+                width: calc(100% - 10px);
+            }
+
+            h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .form-group input {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .avatar-preview {
+                width: 80px;
+                height: 80px;
+            }
+
+            .avatar-upload {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 12px;
+                font-size: 15px;
+            }
+        }
+
+        /* 横屏适配 */
+        @media screen and (max-height: 600px) and (orientation: landscape) {
+            body {
+                padding-top: 40px;
+            }
+
+            .header {
+                padding: 8px 0;
+            }
+
+            .main-content {
+                padding: 20px;
+                margin: 5px auto;
+                max-width: 600px;
+            }
+
+            h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .avatar-container {
+                margin-bottom: 20px;
+            }
+
+            .avatar-preview {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .header a:hover,
+            .btn:hover,
+            .avatar-upload:hover,
+            .back-btn:hover,
+            .main-content:hover,
+            .avatar-preview:hover {
+                transform: none;
+            }
+
+            .header a:active,
+            .btn:active,
+            .avatar-upload:active {
+                transform: scale(0.95);
+                transition: transform 0.1s ease;
+            }
+
+            .main-content:active {
+                transform: translateY(-2px);
+            }
+        }
+
+        /* 高分辨率屏幕优化 */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .form-group input,
+            .btn,
+            .avatar-upload {
+                text-rendering: optimizeLegibility;
+            }
+        }
+
+        /* 防止移动端输入框缩放 */
+        @media screen and (max-width: 768px) {
+            .form-group input {
+                font-size: 16px !important;
+                transform-origin: left top;
+            }
+        }

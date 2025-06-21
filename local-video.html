@@ -2,7 +2,10 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>本地视频 - ROSÉ NUMBER ONE HQ</title>
     <style>
         /* 定义全局变量 */
@@ -333,119 +336,262 @@
                 gap: 10px;
             }
         }
-    </style>
-</head>
-<body>
-<div class="navbar">
-    <div class="logo">ROSÉ NUMBER ONE HQ</div>
-    <div>
-        <a href="index.html">首页</a>
-        <a href="https://www.youtube.com/@roses_are_rosie">官方视频</a>
-        <a href="https://github.com/Gemirose">机米STUIDO</a>
-    </div>
-</div>
-
-<div class="video-container">
-    <div class="video-player">
-        <video controls>
-            <source src="toxic%20till%20the%20end.mp4" type="video/mp4">
-            你的浏览器不支持视频播放。
-        </video>
-        <div class="video-title">ROSÉ toxic till the end MV</div>
-        <div class="video-actions">
-            <button class="action-btn" onclick="likeVideo()">点赞100000000+</button>
-            <button class="action-btn">分享200300540+</button>
-            <button class="action-btn" onclick="toggleComments()">评论211000000+</button>
-        </div>
-        <div class="comments-section" style="display: none;">
-            <h3>评论区</h3>
-            <div class="comment-box">
-                <textarea class="comment-input" placeholder="添加评论..."></textarea>
-                <button class="submit-btn" onclick="submitComment()">提交评论</button>
-            </div>
-            <div class="comment-list"></div>
-        </div>
-    </div>
-
-    <div class="video-list">
-        <div class="video-item" onclick="playVideo('toxic till the end.mp4', 'ROSÉ Toxic till the end MV')">
-            <img src="ROLO.jpg" alt="缩略图">
-            <div class="video-item-content">
-                <div class="video-item-title">ROSÉ Toxic till the end MV</div>
-                <div class="video-item-info">ROSÉ • 4000亿次观看 • 1天前</div>
-            </div>
-        </div>
-        <div class="video-item" onclick="playVideo('apt.mp4', 'ROSÉ APT. MV')">
-            <img src="APT.jpg" alt="缩略图">
-            <div class="video-item-content">
-                <div class="video-item-title">ROSÉ APT. MV</div>
-                <div class="video-item-info">ROSÉ • 6000亿次观看 • 3天前</div>
-            </div>
-        </div>
-        <div class="video-item" onclick="playVideo('number%20one%20girl.mp4', 'ROSÉ number one girl MV')">
-            <img src="NOG.jpg" alt="缩略图">
-            <div class="video-item-content">
-                <div class="video-item-title">ROSÉ number one girl MV</div>
-                <div class="video-item-info">ROSÉ • 5000亿次观看 • 5天前</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- <div class="comments-section">  --><!-- 移动到 video-player 内部 -->
-<!--    <h3>评论区</h3> -->
-<!--    <div class="comment-box"> -->
-<!--        <textarea class="comment-input" placeholder="添加评论..."></textarea> -->
-<!--        <button class="submit-btn" onclick="submitComment()">提交评论</button> -->
-<!--    </div> -->
-<!--    <div class="comment-list"></div> -->
-<!-- </div> -->
-
-<script>
-    const videoPlayer = document.querySelector('video');
-    const videoTitle = document.querySelector('.video-title');
-    const commentsSection = document.querySelector('.comments-section');
-    const commentInput = document.querySelector('.comment-input');
-    const commentList = document.querySelector('.comment-list');
-    let likeCount = 100000000;
-
-    function playVideo(src, title) {
-        videoPlayer.src = src;
-        videoTitle.textContent = title;
-        videoPlayer.play().catch(error => console.error('播放错误:', error));
-    }
-
-    function likeVideo() {
-        likeCount++;
-        document.querySelector('.action-btn').textContent = `点赞${likeCount.toLocaleString()}+`;
-    }
-
-    function toggleComments() {
-        commentsSection.style.display =
-            commentsSection.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function submitComment() {
-        const commentText = commentInput.value.trim();
-        if (!commentText) return;
-
-        const comment = document.createElement('div');
-        comment.className = 'comment-item';
-        comment.innerHTML = `
-                <span>用户</span>
-                <p>${commentText}</p>
-            `;
-        commentList.appendChild(comment);
-        commentInput.value = '';
-        commentList.scrollTop = commentList.scrollHeight;
-    }
-
-    commentInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            submitComment();
+        /* 移动端适配优化 */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            
+            .navbar {
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 15px;
+                position: relative;
+            }
+            
+            .navbar .logo {
+                font-size: 20px;
+                text-align: center;
+            }
+            
+            .navbar a {
+                margin: 0 10px;
+                font-size: 14px;
+            }
+            
+            .video-container {
+                margin: 20px auto;
+                padding: 0 15px;
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .video-player {
+                padding: 20px;
+            }
+            
+            .video-title {
+                font-size: 20px;
+                margin: 15px 0 10px;
+            }
+            
+            .video-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .action-btn, .submit-btn {
+                padding: 14px 20px;
+                font-size: 16px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .video-list {
+                gap: 20px;
+            }
+            
+            .video-item {
+                padding: 0;
+            }
+            
+            .video-item img {
+                height: 200px;
+            }
+            
+            .video-item-content {
+                padding: 15px;
+            }
+            
+            .video-item-title {
+                font-size: 16px;
+                line-height: 1.4;
+            }
+            
+            .video-item-info {
+                font-size: 12px;
+            }
+            
+            .comments-section {
+                padding: 20px;
+                margin-top: 25px;
+            }
+            
+            .comments-section h3 {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            
+            .comment-input {
+                padding: 12px;
+                font-size: 16px;
+                min-height: 80px;
+            }
+            
+            .comment-list {
+                max-height: 250px;
+            }
+            
+            .comment-item {
+                padding: 12px 0;
+            }
         }
-    });
-</script>
-</body>
-</html>
+        
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px 12px;
+            }
+            
+            .navbar .logo {
+                font-size: 18px;
+            }
+            
+            .navbar a {
+                margin: 0 8px;
+                font-size: 13px;
+            }
+            
+            .video-container {
+                margin: 15px auto;
+                padding: 0 12px;
+                gap: 20px;
+            }
+            
+            .video-player {
+                padding: 15px;
+            }
+            
+            .video-title {
+                font-size: 18px;
+                margin: 12px 0 8px;
+            }
+            
+            .action-btn, .submit-btn {
+                padding: 12px 16px;
+                font-size: 15px;
+            }
+            
+            .video-item img {
+                height: 180px;
+            }
+            
+            .video-item-content {
+                padding: 12px;
+            }
+            
+            .video-item-title {
+                font-size: 15px;
+            }
+            
+            .comments-section {
+                padding: 15px;
+            }
+            
+            .comments-section h3 {
+                font-size: 16px;
+            }
+        }
+        
+        /* 横屏模式优化 */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .navbar {
+                padding: 8px 15px;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .navbar .logo {
+                font-size: 16px;
+            }
+            
+            .navbar a {
+                margin: 0 8px;
+                font-size: 12px;
+            }
+            
+            .video-container {
+                margin: 15px auto;
+                grid-template-columns: 1.5fr 1fr;
+                gap: 20px;
+            }
+            
+            .video-player {
+                padding: 15px;
+            }
+            
+            .video-title {
+                font-size: 16px;
+                margin: 10px 0 8px;
+            }
+            
+            .video-actions {
+                flex-direction: row;
+                gap: 8px;
+            }
+            
+            .action-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .video-item img {
+                height: 120px;
+            }
+            
+            .comments-section {
+                padding: 12px;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .action-btn:hover, .submit-btn:hover {
+                transform: none;
+            }
+            
+            .video-player:hover, .video-item:hover {
+                transform: none;
+            }
+            
+            .video-item:hover img {
+                filter: none;
+            }
+            
+            .action-btn:active, .submit-btn:active {
+                background: var(--primary-color);
+                color: #fff;
+                transform: scale(0.98);
+            }
+            
+            .video-item:active {
+                transform: scale(0.98);
+            }
+        }
+        
+        /* 高分辨率屏幕优化 */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .video-item img {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+        
+        /* 防止移动端缩放和选择 */
+        @media (max-width: 768px) {
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            input, textarea {
+                -webkit-user-select: text;
+                -moz-user-select: text;
+                -ms-user-select: text;
+                user-select: text;
+            }
+        }

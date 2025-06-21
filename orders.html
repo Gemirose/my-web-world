@@ -214,6 +214,244 @@
                 box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
             }
         }
+        /* 移动端适配 */
+        /* 平板设备适配 */
+        @media screen and (max-width: 768px) {
+            body {
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            
+            .header {
+                padding: 10px 0;
+                text-align: center;
+            }
+            
+            .header a {
+                display: inline-block;
+                margin: 5px 10px;
+                font-size: 14px;
+                padding: 5px 10px;
+                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+                margin: 20px 10px;
+                border-radius: 8px;
+            }
+            
+            h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .order-list {
+                font-size: 12px;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .order-list th, .order-list td {
+                padding: 10px 8px;
+                min-width: 100px;
+            }
+            
+            .order-details {
+                font-size: 11px;
+                line-height: 1.4;
+                min-width: 120px;
+            }
+            
+            .price {
+                font-size: 14px;
+                min-width: 80px;
+            }
+            
+            .btn-container {
+                margin-top: 30px;
+                padding-top: 15px;
+            }
+            
+            .cta-btn, .back-btn {
+                display: block;
+                width: 80%;
+                margin: 10px auto;
+                padding: 15px 20px;
+                font-size: 16px;
+                text-align: center;
+            }
+        }
+        
+        /* 手机设备适配 */
+        @media screen and (max-width: 480px) {
+            body {
+                font-size: 13px;
+            }
+            
+            .header {
+                padding: 8px 0;
+            }
+            
+            .header a {
+                display: block;
+                margin: 3px auto;
+                width: 90%;
+                font-size: 13px;
+                padding: 8px 15px;
+            }
+            
+            .main-content {
+                padding: 15px 10px;
+                margin: 10px 5px;
+            }
+            
+            h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+            
+            /* 移动端表格卡片化 */
+            .order-list {
+                display: block;
+                font-size: 14px;
+            }
+            
+            .order-list thead {
+                display: none;
+            }
+            
+            .order-list tbody {
+                display: block;
+            }
+            
+            .order-list tr {
+                display: block;
+                margin-bottom: 15px;
+                padding: 15px;
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                border: none;
+            }
+            
+            .order-list td {
+                display: block;
+                padding: 5px 0;
+                border: none;
+                text-align: left;
+            }
+            
+            .order-list td:before {
+                content: attr(data-label) ": ";
+                font-weight: bold;
+                color: #34495e;
+                display: inline-block;
+                width: 80px;
+            }
+            
+            .order-details {
+                font-size: 13px;
+                line-height: 1.6;
+                margin-top: 5px;
+            }
+            
+            .price {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            
+            .empty-message {
+                font-size: 16px;
+                margin: 40px 0;
+                padding: 30px 15px;
+            }
+        }
+        
+        /* 横屏模式适配 */
+        @media screen and (max-height: 600px) and (orientation: landscape) {
+            .header {
+                padding: 5px 0;
+            }
+            
+            .header a {
+                margin: 2px 8px;
+                font-size: 12px;
+                padding: 3px 8px;
+            }
+            
+            .main-content {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            h2 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            
+            .order-list th, .order-list td {
+                padding: 8px 6px;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .header a:hover,
+            .order-list tr:hover,
+            .cta-btn:hover,
+            .back-btn:hover {
+                background-color: initial;
+                transform: none;
+                box-shadow: initial;
+            }
+            
+            .header a:active {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0.95);
+            }
+            
+            .order-list tr:active {
+                background-color: rgba(255, 255, 255, 0.9);
+            }
+            
+            .cta-btn:active, .back-btn:active {
+                transform: scale(0.95);
+                background-color: rgba(255, 255, 255, 0.7);
+            }
+        }
+        
+        /* 高分辨率屏幕优化 */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .order-list {
+                border-radius: 10px;
+            }
+            
+            .cta-btn, .back-btn {
+                border-radius: 30px;
+            }
+        }
+        
+        /* 防止移动端缩放和选择 */
+        @media screen and (max-width: 768px) {
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            input, textarea {
+                -webkit-user-select: text;
+                -moz-user-select: text;
+                -ms-user-select: text;
+                user-select: text;
+            }
+        }
     </style>
 </head>
 <body>
@@ -259,6 +497,84 @@
     const products = JSON.parse(localStorage.getItem("products")) || [];
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
+    // 移动端优化功能
+    function initMobileOptimizations() {
+        // 检测是否为移动设备
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        
+        if (!isMobile) return;
+        
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // 为移动端表格添加数据标签
+        function addDataLabels() {
+            const headers = ['订单编号', '商品名称', '专辑配置详情', '总价', '下单时间'];
+            const rows = document.querySelectorAll('#order-body tr');
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                cells.forEach((cell, index) => {
+                    if (headers[index]) {
+                        cell.setAttribute('data-label', headers[index]);
+                    }
+                });
+            });
+        }
+        
+        // 触摸反馈
+        function addTouchFeedback() {
+            const touchElements = document.querySelectorAll('.header a, .cta-btn, .back-btn');
+            
+            touchElements.forEach(element => {
+                element.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.7';
+                }, { passive: true });
+                
+                element.addEventListener('touchend', function() {
+                    setTimeout(() => {
+                        this.style.opacity = '1';
+                    }, 150);
+                }, { passive: true });
+            });
+        }
+        
+        // 横竖屏切换处理
+        function handleOrientationChange() {
+            setTimeout(() => {
+                addDataLabels();
+                // 重新计算布局
+                window.dispatchEvent(new Event('resize'));
+            }, 100);
+        }
+        
+        // 监听屏幕方向变化
+        window.addEventListener('orientationchange', handleOrientationChange);
+        window.addEventListener('resize', handleOrientationChange);
+        
+        // 初始化移动端功能
+        addDataLabels();
+        addTouchFeedback();
+        
+        // 显示移动端提示（仅在首次访问时）
+        if (!localStorage.getItem('mobileOrdersTipShown')) {
+            setTimeout(() => {
+                if (window.innerWidth <= 480) {
+                    console.log('移动端订单页面已优化：支持卡片式显示、触摸操作');
+                }
+                localStorage.setItem('mobileOrdersTipShown', 'true');
+            }, 1000);
+        }
+    }
+    
+    // 重写renderOrders函数以支持移动端
     function renderOrders() {
         const orderBody = document.getElementById("order-body");
         const emptyMessage = document.getElementById("empty-message");
@@ -281,24 +597,29 @@
 
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${product.name}</td>
-                <td class="order-details">
+                <td data-label="订单编号">${index + 1}</td>
+                <td data-label="商品名称">${product.name}</td>
+                <td data-label="专辑配置详情" class="order-details">
                     颜色: ${color}<br>
                     轮毂: ${wheel}<br>
                     内饰: ${interior}
                 </td>
-                <td class="price">¥${order.totalPrice.toLocaleString()}</td>
-                <td>${new Date(order.timestamp).toLocaleString()}</td>
+                <td data-label="总价" class="price">¥${order.totalPrice.toLocaleString()}</td>
+                <td data-label="下单时间">${new Date(order.timestamp).toLocaleString()}</td>
             `;
             orderBody.appendChild(row);
         });
+        
+        // 移动端功能初始化
+        if (window.innerWidth <= 768) {
+            addDataLabels();
+            addTouchFeedback();
+        }
     }
 
     window.onload = function() {
         renderOrders();
     };
 </script>
-
 </body>
 </html>

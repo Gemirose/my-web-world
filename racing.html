@@ -151,6 +151,200 @@
                 padding: 10px 20px;
             }
         }
+        /* 移动端适配 */
+        /* 平板设备适配 */
+        @media screen and (max-width: 768px) {
+            body {
+                font-size: 14px;
+                padding: 0 10px;
+            }
+            
+            .header {
+                padding: 8px 0;
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+            }
+            
+            .header a {
+                display: inline-block;
+                margin: 5px 10px;
+                font-size: 14px;
+                padding: 5px 12px;
+                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            #gameContainer {
+                margin-top: 60px;
+                padding: 15px 10px;
+                width: 95%;
+                max-width: none;
+            }
+            
+            #gameCanvas {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+                aspect-ratio: 4/3;
+            }
+            
+            #score, #highScores {
+                font-size: 18px;
+                margin: 8px 0;
+            }
+            
+            #startButton {
+                font-size: 16px;
+                padding: 12px 20px;
+                margin-top: 15px;
+                width: 80%;
+                max-width: 200px;
+            }
+        }
+        
+        /* 手机设备适配 */
+        @media screen and (max-width: 480px) {
+            body {
+                font-size: 13px;
+                padding: 0 5px;
+            }
+            
+            .header {
+                padding: 6px 0;
+            }
+            
+            .header a {
+                display: block;
+                margin: 3px auto;
+                width: 90%;
+                font-size: 13px;
+                padding: 8px 15px;
+                text-align: center;
+            }
+            
+            #gameContainer {
+                margin-top: 80px;
+                padding: 10px 5px;
+                width: 98%;
+            }
+            
+            #gameCanvas {
+                width: 100%;
+                max-width: 350px;
+                height: auto;
+                aspect-ratio: 3/4;
+            }
+            
+            #score, #highScores {
+                font-size: 16px;
+                margin: 6px 0;
+                text-align: center;
+            }
+            
+            #startButton {
+                font-size: 16px;
+                padding: 15px 25px;
+                margin-top: 15px;
+                width: 90%;
+                max-width: 250px;
+                border-radius: 30px;
+            }
+        }
+        
+        /* 横屏模式适配 */
+        @media screen and (max-height: 600px) and (orientation: landscape) {
+            .header {
+                padding: 4px 0;
+            }
+            
+            .header a {
+                margin: 2px 8px;
+                font-size: 12px;
+                padding: 3px 10px;
+            }
+            
+            #gameContainer {
+                margin-top: 40px;
+                padding: 8px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            #gameCanvas {
+                width: 60%;
+                max-width: 400px;
+                height: auto;
+                aspect-ratio: 4/3;
+            }
+            
+            .game-info {
+                width: 35%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            #score, #highScores {
+                font-size: 14px;
+                margin: 5px 0;
+            }
+            
+            #startButton {
+                font-size: 14px;
+                padding: 10px 20px;
+                margin-top: 10px;
+                width: auto;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            .header a:hover,
+            #startButton:hover {
+                background-color: initial;
+                color: initial;
+                transform: none;
+            }
+            
+            .header a:active {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0.95);
+            }
+            
+            #startButton:active {
+                background-color: #cf4747;
+                color: white;
+                transform: scale(0.95);
+            }
+        }
+        
+        /* 高分辨率屏幕优化 */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            #gameCanvas {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+        
+        /* 防止移动端缩放和选择 */
+        @media screen and (max-width: 768px) {
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            canvas {
+                touch-action: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -161,9 +355,11 @@
 
 <div id="gameContainer">
     <canvas id="gameCanvas" width="800" height="600"></canvas>
-    <div id="score">得分: 0</div>
-    <div id="highScores">最高分: </div>
-    <button id="startButton">开始游戏</button>
+    <div class="game-info">
+        <div id="score">得分: 0</div>
+        <div id="highScores">最高分: </div>
+        <button id="startButton">开始游戏</button>
+    </div>
 </div>
 
 <script>
@@ -379,27 +575,49 @@
         highScoresDisplay.textContent = `最高分: ${highScores.join(', ')}`;
     }
 
-    // 重置游戏
+    // 移动端优化初始化
+    function initMobileOptimizations() {
+        if (window.innerWidth <= 768) {
+            // 添加触摸控制
+            addTouchControls();
+            
+            // 显示移动端提示（仅在首次访问时）
+            if (!localStorage.getItem('mobileRacingTipShown')) {
+                setTimeout(() => {
+                    if (window.innerWidth <= 480) {
+                        alert('移动端操作提示：\n1. 触摸画布并拖动控制赛车\n2. 使用屏幕底部的虚拟按钮\n3. 避开障碍物，获得高分！');
+                    }
+                    localStorage.setItem('mobileRacingTipShown', 'true');
+                }, 1000);
+            }
+        }
+    }
+
+    // 增强的重置游戏函数
     function resetGame() {
         score = 0;
         scoreDisplay.textContent = `得分: ${score}`;
         obstacles.length = 0;
         car.x = canvas.width / 2 - 25;
         car.y = canvas.height - 100;
-        car.dx = 0;  // Reset horizontal movement
-        car.dy = 0;  // Reset vertical movement
+        car.dx = 0;
+        car.dy = 0;
         obstacleSpeed = 3;
         gameRunning = false;
         startButton.style.display = 'block';
-        clearIntervals();  // Clear all intervals when game resets
-        initializeKeyListeners();  // Reinitialize key event listeners
-        draw(); // 确保重置后立即绘制初始画面
+        clearIntervals();
+        initializeKeyListeners();
+        
+        // 重置触摸控制状态
+        Object.keys(keys).forEach(key => keys[key] = false);
+        
+        draw();
     }
 
     // 清除游戏中的间隔
     function clearIntervals() {
-        clearInterval(spawnObstacleInterval);
-        clearInterval(increaseDifficultyInterval);
+        if (spawnObstacleInterval) clearInterval(spawnObstacleInterval);
+        if (increaseDifficultyInterval) clearInterval(increaseDifficultyInterval);
     }
 
     let spawnObstacleInterval, increaseDifficultyInterval;
@@ -417,8 +635,11 @@
     };
 
     // 初始化
-    displayHighScores();
-    resetGame(); // 初始化时绘制画面
+    window.addEventListener('load', function() {
+        displayHighScores();
+        resetGame();
+        initMobileOptimizations();
+    });
 </script>
 </body>
 </html>
