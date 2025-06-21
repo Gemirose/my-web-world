@@ -24,12 +24,10 @@
         }
 
         .header {
-            /* background-color: #444; */
-            color: #ffffff; /* 将文字颜色改为白色以获得更好的对比度 */
-            padding: 15px 20px; /* 增加内边距 */
+            color: #ffffff;
+            padding: 5px 20px;
             text-align: center;
-            /* position: relative; */ /* 移除 relative，改为 fixed */
-            z-index: 1000; /* 确保 header 在最上层 */
+            z-index: 999;
 
             background: transparent;
             backdrop-filter: blur(15px) saturate(150%);
@@ -38,26 +36,121 @@
             box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3),
                         inset 0px 1px 1px rgba(255, 255, 255, 0.3),
                         inset 0px -3px 4px rgba(0, 0, 0, 0.25);
-            /* margin: 20px; */ /* 固定定位时，外边距通常由 left/right/top/bottom 控制，或者不需要 */
             text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
 
-            /* 新增固定定位样式 */
             position: fixed;
-            top: 10px; /* 距离顶部10px，可以调整 */
-            left: 10px; /* 距离左侧10px，可以调整 */
-            right: 10px; /* 距离右侧10px，可以调整 */
-            /* width: 100%; */ /* 如果希望撑满宽度，则使用 width: calc(100% - 20px); 配合左右的间距 */
-            /* 或者移除 left 和 right，设置 width: auto; margin: 10px auto; 来居中固定宽度的导航栏 */
-            border-radius: 12px; /* 如果希望两边有空隙，则保留这个，如果希望撑满则可能需要调整或移除下方左右圆角 */
+            top: -100px;
+            left: 0px;
+            right: 0px;
+            /* 增强动画效果 */
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 使用贝塞尔曲线让动画更自然 */
+            transform: translateZ(0);
+            will-change: top, opacity, transform;
+        }
+
+        .header.show {
+            top: 0px;
+        }
+
+        /* 添加收回时的动画类 */
+        .header.hiding {
+            animation: slideUpAndFade 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* 定义向上收回的关键帧动画 */
+        @keyframes slideUpAndFade {
+            0% {
+                top: 0px;
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateY(-20px) scale(0.98);
+            }
+            100% {
+                top: -100px;
+                opacity: 0;
+                transform: translateY(-50px) scale(0.95);
+            }
+        }
+
+        .header.show {
+            top: 0px; /* 显示时固定在顶部 */
+        }
+
+        /* 导航栏提示按钮样式 */
+        .nav-toggle-btn {
+            position: fixed;
+            top: 30px; /* 从50px调整为30px，让按钮显示得更高 */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999; /* 从1000改为999，与按钮同级 */
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-50%) translateY(-2px);
+        }
+
+        .nav-toggle-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 菜单图标样式 */
+        .menu-icon {
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        /* 修复：合并.main-content的样式 */
+        .main-content {
+            margin-top: 20px;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 修复：将header相关样式正确归类 */
+        .header {
+            color: #ffffff;
+            padding: 15px 20px;
+            text-align: center;
+            z-index: 1000;
+            background: transparent;
+            backdrop-filter: blur(15px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3),
+                        inset 0px 1px 1px rgba(255, 255, 255, 0.3),
+                        inset 0px -3px 4px rgba(0, 0, 0, 0.25);
+            margin: 20px;
+            text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+            position: relative;
         }
 
         .header a {
-            color: #ffffff; /* 确保链接颜色也是高对比度的 */
+            color: #ffffff;
             margin: 0 15px;
             text-decoration: none;
             font-size: 16px;
             transition: color 0.3s ease, text-shadow 0.3s ease;
-            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3); /* 为链接文字也添加阴影 */
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .header a:hover {
@@ -361,344 +454,437 @@
       </filter>
     </svg>
 
-    <div class="header">
-    <a href="https://www.rosesarerosie.com">ROSIE官网</a>
-    <a href="product-detail.html">Number One商城</a>
-    <a href="https://github.com/Gemirose">机米STUIDO</a>
-    <a href="racing.html">PUMA赛车游戏</a>
-    <a href="#" id="totBtn">MV</a>
-    <a href="image-gallery.html">有品</a>
-    <a href="orders.html">我的订单</a>
-    <a href="https://gemirose.github.io/my-music-world/">机米的Music World</a>
-    <a href="dressup.html">自嘲熊换装游戏</a>
-    <a href="game.html">BiuBiuBiu打黑粉游戏</a>
-    <a href="account.html">账号管理</a>
-    <a href="#" id="loginBtn">登录</a>
-    <a href="#" id="registerBtn">注册</a>
-    <span id="userWelcome" class="user-welcome">
-            欢迎，<a href="account.html" id="username"></a>！
-            <img id="headerAvatar" class="avatar-header" src="" alt="用户头像">
-            <a href="#" id="logoutBtn">退出</a>
-        </span>
-</div>
+    <!-- 导航栏提示按钮 -->
+    <button id="navToggleBtn" class="nav-toggle-btn">
+        <span class="menu-icon">☰</span> 点击显示导航栏
+    </button>
 
-<div class="main-content">
-    <img src="石头歪头肉.png" alt="rosie" class="car-image">
-    <div class="hero-text">
-        <h1>SUPER ROSIE</h1>
-        <p>rosie的强大</p>
-        <a href="product-detail.html" class="cta-link">了解详情</a>
+    <div class="header" id="navbar">
+        <a href="https://www.rosesarerosie.com">ROSIE官网</a>
+        <a href="product-detail.html">Number One商城</a>
+        <a href="https://github.com/Gemirose">机米STUIDO</a>
+        <a href="racing.html">PUMA赛车游戏</a>
+        <a href="#" id="totBtn">MV</a>
+        <a href="image-gallery.html">有品</a>
+        <a href="orders.html">我的订单</a>
+        <a href="https://gemirose.github.io/my-music-world/">机米的Music World</a>
+        <a href="dressup.html">自嘲熊换装游戏</a>
+        <a href="game.html">BiuBiuBiu打黑粉游戏</a>
+        <a href="account.html">账号管理</a>
+        <a href="#" id="loginBtn">登录</a>
+        <a href="#" id="registerBtn">注册</a>
+        <span id="userWelcome" class="user-welcome">
+                欢迎，<a href="account.html" id="username"></a>！
+                <img id="headerAvatar" class="avatar-header" src="" alt="用户头像">
+                <a href="#" id="logoutBtn">退出</a>
+            </span>
     </div>
-    <div id="welcomeMessage" class="welcome-message"></div>
-</div>
 
-<audio id="backgroundMusic" loop>
-    <source src="ROSÉ%20(로제)-toxic%20till%20the%20end.mp3" type="audio/mpeg">
-    你的浏览器不支持音频元素。
-</audio>
+    <div class="main-content">
+        <img src="石头歪头肉.png" alt="rosie" class="car-image">
+        <div class="hero-text">
+            <h1>SUPER ROSIE</h1>
+            <p>rosie的强大</p>
+            <a href="product-detail.html" class="cta-link">了解详情</a>
+        </div>
+        <div id="welcomeMessage" class="welcome-message"></div>
+    </div>
 
-<div class="music-control">
-    <button id="musicBtn" class="music-btn">暂停音乐</button>
-</div>
+    <audio id="backgroundMusic" loop>
+        <source src="ROSÉ%20(로제)-toxic%20till%20the%20end.mp3" type="audio/mpeg">
+        你的浏览器不支持音频元素。
+    </audio>
 
-<div id="loginModal" class="modal">
-    <div class="modal-content">
-        <span class="close" id="closeLogin">×</span>
-        <h2>登录</h2>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="loginUsername">用户名</label>
-                <input type="text" id="loginUsername" required>
+    <div class="music-control">
+        <button id="musicBtn" class="music-btn">暂停音乐</button>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLogin">×</span>
+            <h2>登录</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">用户名</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">密码</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn">登录</button>
+            </form>
+            <div class="switch-form">
+                还没有账号？<a href="#" id="switchToRegister">立即注册</a>
             </div>
-            <div class="form-group">
-                <label for="loginPassword">密码</label>
-                <input type="password" id="loginPassword" required>
-            </div>
-            <button type="submit" class="btn">登录</button>
-        </form>
-        <div class="switch-form">
-            还没有账号？<a href="#" id="switchToRegister">立即注册</a>
         </div>
     </div>
-</div>
 
-<div id="registerModal" class="modal">
-    <div class="modal-content">
-        <span class="close" id="closeRegister">×</span>
-        <h2>注册</h2>
-        <form id="registerForm">
-            <div class="form-group">
-                <label for="registerUsername">用户名</label>
-                <input type="text" id="registerUsername" required>
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeRegister">×</span>
+            <h2>注册</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerUsername">用户名</label>
+                    <input type="text" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">电子邮箱</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">密码</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">确认密码</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn">注册</button>
+            </form>
+            <div class="switch-form">
+                已有账号？<a href="#" id="switchToLogin">立即登录</a>
             </div>
-            <div class="form-group">
-                <label for="registerEmail">电子邮箱</label>
-                <input type="email" id="registerEmail" required>
-            </div>
-            <div class="form-group">
-                <label for="registerPassword">密码</label>
-                <input type="password" id="registerPassword" required>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">确认密码</label>
-                <input type="password" id="confirmPassword" required>
-            </div>
-            <button type="submit" class="btn">注册</button>
-        </form>
-        <div class="switch-form">
-            已有账号？<a href="#" id="switchToLogin">立即登录</a>
         </div>
     </div>
-</div>
 
-<!-- MV 弹窗 -->
-<div id="totModal" class="tot-modal">
-    <div class="tot-modal-content">
-        <span class="close-tot" id="closeTot">×</span>
-        <div class="tot-section">
-            <img src="rosie.svg" alt="YouTube Logo">
-            <button class="tot-btn" id="youtubeBtn">跳转油管</button>
-        </div>
-        <div class="tot-section">
-            <img src="rosie.svg" alt="Baidu Logo">
-            <button class="tot-btn" id="localVideoBtn">本地视频</button>
+    <!-- MV 弹窗 -->
+    <div id="totModal" class="tot-modal">
+        <div class="tot-modal-content">
+            <span class="close-tot" id="closeTot">×</span>
+            <div class="tot-section">
+                <img src="rosie.svg" alt="YouTube Logo">
+                <button class="tot-btn" id="youtubeBtn">跳转油管</button>
+            </div>
+            <div class="tot-section">
+                <img src="rosie.svg" alt="Baidu Logo">
+                <button class="tot-btn" id="localVideoBtn">本地视频</button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    // 获取 DOM 元素
-    const loginModal = document.getElementById('loginModal');
-    const registerModal = document.getElementById('registerModal');
-    const totModal = document.getElementById('totModal');
-    const loginBtn = document.getElementById('loginBtn');
-    const registerBtn = document.getElementById('registerBtn');
-    const totBtn = document.getElementById('totBtn');
-    const closeLogin = document.getElementById('closeLogin');
-    const closeRegister = document.getElementById('closeRegister');
-    const closeTot = document.getElementById('closeTot');
-    const switchToRegister = document.getElementById('switchToRegister');
-    const switchToLogin = document.getElementById('switchToLogin');
-    const youtubeBtn = document.getElementById('youtubeBtn');
-    const localVideoBtn = document.getElementById('localVideoBtn');
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-    const userWelcome = document.getElementById('userWelcome');
-    const usernameSpan = document.getElementById('username');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const headerAvatar = document.getElementById('headerAvatar');
-    const welcomeMessage = document.getElementById('welcomeMessage');
-    const backgroundMusic = document.getElementById('backgroundMusic');
-    const musicBtn = document.getElementById('musicBtn');
-    let isPlaying = false;
+    <script>
+        // 获取 DOM 元素
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const totModal = document.getElementById('totModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const totBtn = document.getElementById('totBtn');
+        const closeLogin = document.getElementById('closeLogin');
+        const closeRegister = document.getElementById('closeRegister');
+        const closeTot = document.getElementById('closeTot');
+        const switchToRegister = document.getElementById('switchToRegister');
+        const switchToLogin = document.getElementById('switchToLogin');
+        const youtubeBtn = document.getElementById('youtubeBtn');
+        const localVideoBtn = document.getElementById('localVideoBtn');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const userWelcome = document.getElementById('userWelcome');
+        const usernameSpan = document.getElementById('username');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const headerAvatar = document.getElementById('headerAvatar');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let isPlaying = false;
 
-    // --- 新增：登录/注册弹窗控制 ---
-    // 点击“登录”按钮显示登录弹窗
-    loginBtn.onclick = function(e) {
-        e.preventDefault(); // 阻止链接默认行为
-        loginModal.style.display = 'flex'; // 使用 flex 以便垂直居中
-    }
-
-    // 点击“注册”按钮显示注册弹窗
-    registerBtn.onclick = function(e) {
-        e.preventDefault(); // 阻止链接默认行为
-        registerModal.style.display = 'flex'; // 使用 flex 以便垂直居中
-    }
-
-    // 点击登录弹窗的关闭按钮
-    closeLogin.onclick = function() {
-        loginModal.style.display = 'none';
-    }
-
-    // 点击注册弹窗的关闭按钮
-    closeRegister.onclick = function() {
-        registerModal.style.display = 'none';
-    }
-
-    // 点击登录弹窗中的“立即注册”链接
-    switchToRegister.onclick = function(e) {
-        e.preventDefault(); // 阻止链接默认行为
-        loginModal.style.display = 'none';
-        registerModal.style.display = 'flex';
-    }
-
-    // 点击注册弹窗中的“立即登录”链接
-    switchToLogin.onclick = function(e) {
-        e.preventDefault(); // 阻止链接默认行为
-        registerModal.style.display = 'none';
-        loginModal.style.display = 'flex';
-    }
-    // --- 登录/注册弹窗控制结束 ---
-
-    // --- MV 弹窗逻辑 (保持不变) ---
-    totBtn.onclick = function(e) {
-        e.preventDefault();
-        totModal.style.display = 'block'; // TMV 弹窗使用 block 即可
-    }
-
-    closeTot.onclick = function() {
-        totModal.style.display = 'none';
-    }
-
-    youtubeBtn.onclick = function() {
-        window.location.href = 'https://www.youtube.com/@roses_are_rosie';
-    }
-
-    localVideoBtn.onclick = function() {
-        window.location.href = 'local-video.html';
-    }
-    // --- MV 弹窗逻辑结束 ---
-
-    // --- 注册表单提交逻辑 (保持不变) ---
-    registerForm.onsubmit = (e) => {
-        e.preventDefault();
-        const username = document.getElementById('registerUsername').value.trim();
-        const email = document.getElementById('registerEmail').value.trim();
-        const password = document.getElementById('registerPassword').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        if (!username || !email || !password || !confirmPassword) {
-            return alert('请填写所有字段');
+        // --- 新增：登录/注册弹窗控制 ---
+        // 点击“登录”按钮显示登录弹窗
+        loginBtn.onclick = function(e) {
+            e.preventDefault(); // 阻止链接默认行为
+            loginModal.style.display = 'flex'; // 使用 flex 以便垂直居中
         }
 
-        if (password !== confirmPassword) {
-            return alert('两次输入的密码不匹配');
+        // 点击“注册”按钮显示注册弹窗
+        registerBtn.onclick = function(e) {
+            e.preventDefault(); // 阻止链接默认行为
+            registerModal.style.display = 'flex'; // 使用 flex 以便垂直居中
         }
 
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-        if (users.some(user => user.username === username)) {
-            return alert('用户名已被使用');
+        // 点击登录弹窗的关闭按钮
+        closeLogin.onclick = function() {
+            loginModal.style.display = 'none';
         }
 
-        const newUser = { username, email, password, avatar: 'default-avatar.png' };
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-
-        alert('注册成功！请登录');
-        registerForm.reset();
-        registerModal.style.display = 'none';
-        loginModal.style.display = 'flex'; // 注册成功后显示登录框
-    };
-
-    // --- 登录表单提交逻辑 (保持不变) ---
-    loginForm.onsubmit = (e) => {
-        e.preventDefault();
-        const username = document.getElementById('loginUsername').value.trim();
-        const password = document.getElementById('loginPassword').value;
-
-        if (!username || !password) {
-            return alert('请填写用户名和密码');
+        // 点击注册弹窗的关闭按钮
+        closeRegister.onclick = function() {
+            registerModal.style.display = 'none';
         }
 
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.username === username && u.password === password);
-
-        if (user) {
-            alert('登录成功！');
-            loginForm.reset();
-            loginModal.style.display = 'none'; // 登录成功后关闭弹窗
-            usernameSpan.textContent = username;
-            loadUserAvatar(username);
-
-            loginBtn.style.display = 'none';
-            registerBtn.style.display = 'none';
-            userWelcome.style.display = 'inline';
-            localStorage.setItem('currentUser', username);
-
-            typeWriter(`欢迎回来，${username}！`, welcomeMessage);
-        } else {
-            alert('用户名或密码不正确');
+        // 点击登录弹窗中的“立即注册”链接
+        switchToRegister.onclick = function(e) {
+            e.preventDefault(); // 阻止链接默认行为
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
         }
-    };
 
-    // --- 退出登录逻辑 (保持不变) ---
-    logoutBtn.onclick = (e) => {
-        e.preventDefault(); // 阻止链接默认行为
-        localStorage.removeItem('currentUser');
-        loginBtn.style.display = 'inline';
-        registerBtn.style.display = 'inline';
-        userWelcome.style.display = 'none';
-        headerAvatar.src = '';
-        welcomeMessage.textContent = '';
-        welcomeMessage.classList.remove('show'); // 确保移除show类
-    };
+        // 点击注册弹窗中的“立即登录”链接
+        switchToLogin.onclick = function(e) {
+            e.preventDefault(); // 阻止链接默认行为
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        }
+        // --- 登录/注册弹窗控制结束 ---
 
-    // --- 加载用户头像函数 (保持不变) ---
-    function loadUserAvatar(username) {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.username === username);
-        headerAvatar.src = user?.avatar || 'default-avatar.png';
-    }
+        // --- MV 弹窗逻辑 (保持不变) ---
+        totBtn.onclick = function(e) {
+            e.preventDefault();
+            totModal.style.display = 'block'; // TMV 弹窗使用 block 即可
+        }
 
-    // --- 打字机效果函数 (保持不变) ---
-    function typeWriter(text, element, speed = 100) {
-        element.textContent = '';
-        let i = 0;
-        element.classList.add('show');
-        function type() {
-            if (i < text.length) {
-                element.textContent += text.charAt(i++);
-                setTimeout(type, speed);
-            } else {
-                // 保持显示一段时间后淡出
-                setTimeout(() => {
-                    element.classList.remove('show');
-                    // 动画结束后清空内容，避免残留
-                    setTimeout(() => element.textContent = '', 500);
-                }, 2000); // 显示 2 秒
+        closeTot.onclick = function() {
+            totModal.style.display = 'none';
+        }
+
+        youtubeBtn.onclick = function() {
+            window.location.href = 'https://www.youtube.com/@roses_are_rosie';
+        }
+
+        localVideoBtn.onclick = function() {
+            window.location.href = 'local-video.html';
+        }
+        // --- MV 弹窗逻辑结束 ---
+
+        // --- 注册表单提交逻辑 (保持不变) ---
+        registerForm.onsubmit = (e) => {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!username || !email || !password || !confirmPassword) {
+                return alert('请填写所有字段');
             }
-        }
-        type();
-    }
 
-    // --- 音乐控制逻辑 (保持不变) ---
-    musicBtn.onclick = () => {
-        if (isPlaying) {
-            backgroundMusic.pause();
-            musicBtn.textContent = '播放音乐';
-        } else {
-            backgroundMusic.play().catch(() => {
-                console.log('自动播放被阻止，请用户手动点击播放');
-                musicBtn.textContent = '播放音乐'; // 如果播放失败，确保按钮文本正确
-                isPlaying = false; // 确保状态正确
+            if (password !== confirmPassword) {
+                return alert('两次输入的密码不匹配');
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+            if (users.some(user => user.username === username)) {
+                return alert('用户名已被使用');
+            }
+
+            const newUser = { username, email, password, avatar: 'default-avatar.png' };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert('注册成功！请登录');
+            registerForm.reset();
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex'; // 注册成功后显示登录框
+        };
+
+        // --- 登录表单提交逻辑 (保持不变) ---
+        loginForm.onsubmit = (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                return alert('请填写用户名和密码');
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                alert('登录成功！');
+                loginForm.reset();
+                loginModal.style.display = 'none'; // 登录成功后关闭弹窗
+                usernameSpan.textContent = username;
+                loadUserAvatar(username);
+
+                loginBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                userWelcome.style.display = 'inline';
+                localStorage.setItem('currentUser', username);
+
+                typeWriter(`欢迎回来，${username}！`, welcomeMessage);
+            } else {
+                alert('用户名或密码不正确');
+            }
+        };
+
+        // --- 退出登录逻辑 (保持不变) ---
+        logoutBtn.onclick = (e) => {
+            e.preventDefault(); // 阻止链接默认行为
+            localStorage.removeItem('currentUser');
+            loginBtn.style.display = 'inline';
+            registerBtn.style.display = 'inline';
+            userWelcome.style.display = 'none';
+            headerAvatar.src = '';
+            welcomeMessage.textContent = '';
+            welcomeMessage.classList.remove('show'); // 确保移除show类
+        };
+
+        // --- 加载用户头像函数 (保持不变) ---
+        function loadUserAvatar(username) {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.username === username);
+            headerAvatar.src = user?.avatar || 'default-avatar.png';
+        }
+
+        // --- 打字机效果函数 (保持不变) ---
+        function typeWriter(text, element, speed = 100) {
+            element.textContent = '';
+            let i = 0;
+            element.classList.add('show');
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i++);
+                    setTimeout(type, speed);
+                } else {
+                    // 保持显示一段时间后淡出
+                    setTimeout(() => {
+                        element.classList.remove('show');
+                        // 动画结束后清空内容，避免残留
+                        setTimeout(() => element.textContent = '', 500);
+                    }, 2000); // 显示 2 秒
+                }
+            }
+            type();
+        }
+
+        // --- 音乐控制逻辑 (保持不变) ---
+        musicBtn.onclick = () => {
+            if (isPlaying) {
+                backgroundMusic.pause();
+                musicBtn.textContent = '播放音乐';
+            } else {
+                backgroundMusic.play().catch(() => {
+                    console.log('自动播放被阻止，请用户手动点击播放');
+                    musicBtn.textContent = '播放音乐'; // 如果播放失败，确保按钮文本正确
+                    isPlaying = false; // 确保状态正确
+                });
+                musicBtn.textContent = '暂停音乐';
+            }
+            isPlaying = !isPlaying; // 切换状态 (如果播放成功)
+        };
+
+        // --- 页面加载逻辑 (保持不变) ---
+        window.onload = () => {
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                usernameSpan.textContent = currentUser;
+                loadUserAvatar(currentUser);
+                loginBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                userWelcome.style.display = 'inline';
+                // 页面加载时的欢迎信息可以不使用打字机效果，直接显示或延迟显示
+                // typeWriter(`欢迎回来，${currentUser}！`, welcomeMessage);
+                // 或者直接简单显示
+                // welcomeMessage.textContent = `欢迎回来，${currentUser}！`;
+                // welcomeMessage.classList.add('show');
+                // setTimeout(() => {
+                //     welcomeMessage.classList.remove('show');
+                //     welcomeMessage.textContent = '';
+                // }, 2500); // 显示一段时间
+            }
+
+            // 尝试自动播放音乐
+            backgroundMusic.play().then(() => {
+                isPlaying = true;
+                musicBtn.textContent = '暂停音乐';
+            }).catch(error => {
+                console.log('背景音乐自动播放失败:', error);
+                // 在许多现代浏览器中，用户需要先与页面交互才能播放音频
+                musicBtn.textContent = '播放音乐';
+                isPlaying = false;
             });
-            musicBtn.textContent = '暂停音乐';
-        }
-        isPlaying = !isPlaying; // 切换状态 (如果播放成功)
-    };
-
-    // --- 页面加载逻辑 (保持不变) ---
-    window.onload = () => {
-        const currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            usernameSpan.textContent = currentUser;
-            loadUserAvatar(currentUser);
-            loginBtn.style.display = 'none';
-            registerBtn.style.display = 'none';
-            userWelcome.style.display = 'inline';
-            // 页面加载时的欢迎信息可以不使用打字机效果，直接显示或延迟显示
-            // typeWriter(`欢迎回来，${currentUser}！`, welcomeMessage);
-            // 或者直接简单显示
-            // welcomeMessage.textContent = `欢迎回来，${currentUser}！`;
-            // welcomeMessage.classList.add('show');
-            // setTimeout(() => {
-            //     welcomeMessage.classList.remove('show');
-            //     welcomeMessage.textContent = '';
-            // }, 2500); // 显示一段时间
-        }
-
-        // 尝试自动播放音乐
-        backgroundMusic.play().then(() => {
-            isPlaying = true;
-            musicBtn.textContent = '暂停音乐';
-        }).catch(error => {
-            console.log('背景音乐自动播放失败:', error);
-            // 在许多现代浏览器中，用户需要先与页面交互才能播放音频
-            musicBtn.textContent = '播放音乐';
-            isPlaying = false;
-        });
-    };
-</script>
+        };
+    </script>
 </body>
 </html>
+
+<script>
+// 导航栏控制功能
+const navbar = document.getElementById('navbar');
+const navToggleBtn = document.getElementById('navToggleBtn');
+let isNavbarVisible = false;
+let lastScrollY = window.scrollY;
+
+// 确保页面加载时导航栏隐藏
+document.addEventListener('DOMContentLoaded', function() {
+    // 强制初始化隐藏状态
+    navbar.classList.remove('show');
+    navToggleBtn.classList.remove('hidden');
+    isNavbarVisible = false;
+    
+    // 双重保险：直接设置样式
+    navbar.style.top = '-120px';
+    navbar.style.opacity = '0';
+    navbar.style.visibility = 'hidden';
+});
+
+// 显示导航栏
+function showNavbar() {
+    navbar.classList.add('show');
+    navToggleBtn.classList.add('hidden');
+    isNavbarVisible = true;
+    
+    // 确保显示样式正确应用 - 使用固定位置
+    setTimeout(() => {
+        navbar.style.top = '0px'; /* 固定在顶部 */
+        navbar.style.opacity = '1';
+        navbar.style.visibility = 'visible';
+        navbar.style.position = 'fixed'; /* 确保是固定定位 */
+    }, 10);
+}
+
+// 隐藏导航栏 - 添加动态效果
+function hideNavbar() {
+    // 添加隐藏动画类
+    navbar.classList.add('hiding');
+    
+    // 延迟移除show类和添加按钮，让动画完成
+    setTimeout(() => {
+        navbar.classList.remove('show');
+        navbar.classList.remove('hiding');
+        navToggleBtn.classList.remove('hidden');
+        isNavbarVisible = false;
+        
+        // 确保最终状态正确
+        navbar.style.top = '-100px';
+        navbar.style.opacity = '0';
+        navbar.style.visibility = 'hidden';
+    }, 400); // 与CSS动画时间匹配
+}
+
+// 点击按钮显示导航栏
+navToggleBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    showNavbar();
+});
+
+// 滚动检测 - 向下滚动时隐藏导航栏
+window.addEventListener('scroll', function() {
+    const currentScrollY = window.scrollY;
+    
+    // 如果导航栏可见且向下滚动超过50px，则隐藏导航栏
+    if (isNavbarVisible && currentScrollY > lastScrollY && currentScrollY > 50) {
+        hideNavbar();
+    }
+    
+    lastScrollY = currentScrollY;
+});
+
+// 点击页面其他地方时隐藏导航栏
+document.addEventListener('click', function(e) {
+    if (isNavbarVisible && 
+        !navbar.contains(e.target) && 
+        !navToggleBtn.contains(e.target)) {
+        hideNavbar();
+    }
+});
+
+// 防止导航栏内部点击事件冒泡
+navbar.addEventListener('click', function(e) {
+    e.stopPropagation();
+});
+</script>
